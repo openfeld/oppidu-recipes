@@ -1332,9 +1332,18 @@
      ================================================================= */
   const SUPABASE_URL = "https://piobcmerhbdhgtyuaxgf.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpb2JjbWVyaGJkaGd0eXVheGdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MDc3OTgsImV4cCI6MjEwNDk4Mzc5OH0.q1Pk0fruTrKxtQf3JvyNDpqR_vIBph9U-4M95yVwACQ";
-  const supa = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
+  const SUPABASE_CONFIGURED = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
+  const supa = (SUPABASE_CONFIGURED && window.supabase)
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;
+  // Credentials are set, but the CDN script that defines window.supabase
+  // never ran — a network filter or ad/tracker blocker rejecting a
+  // "supabase" script name is a real, seen-in-the-wild cause. Without
+  // this flag, renderAuthWidget() couldn't tell that case apart from
+  // "not configured" and rendered nothing either way — a broken sign-in
+  // button is diagnosable; an invisible one just looks like a bug report
+  // with no lead.
+  const SUPABASE_LIBRARY_FAILED = SUPABASE_CONFIGURED && !window.supabase;
 
   let currentUser = null;    // Supabase auth user, or null when signed out / in local-only mode
   let currentProfile = null; // { id, email, role, kitchen_name } row from public.profiles
@@ -1477,6 +1486,15 @@
       authSignInFailed: "Couldn't sign in: {message}",
       authSignUpFailed: "Couldn't sign up: {message}",
       authNeedBoth: "Enter both an email and a password.",
+      authNeedEmailOnly: "Enter your email first.",
+      authLibraryLoadFailed: "Couldn't load sign-in. Try reloading, or check for an ad-blocker/extension blocking cdn.jsdelivr.net.",
+      authForgotPassword: "Forgot password?",
+      authResetSent: "Check your email for a password reset link.",
+      authResetFailed: "Couldn't send reset email: {message}",
+      authNewPasswordHeading: "Set a new password",
+      authNewPasswordBtn: "Update password",
+      authNewPasswordSuccess: "Password updated — you're signed in.",
+      authNewPasswordFailed: "Couldn't update password: {message}",
       s0Heading: "Sign in to submit a recipe",
       s0Help: "Recipes are shared with everyone once you're signed in — create a free account or sign in to continue.",
       actionDeleteRecipe: "Delete recipe",
@@ -1600,6 +1618,15 @@
       authSignInFailed: "Anmeldung fehlgeschlagen: {message}",
       authSignUpFailed: "Registrierung fehlgeschlagen: {message}",
       authNeedBoth: "Geben Sie E-Mail und Passwort ein.",
+      authNeedEmailOnly: "Geben Sie zuerst Ihre E-Mail-Adresse ein.",
+      authLibraryLoadFailed: "Anmeldung konnte nicht geladen werden. Laden Sie die Seite neu, oder prüfen Sie, ob ein Ad-Blocker/eine Erweiterung cdn.jsdelivr.net blockiert.",
+      authForgotPassword: "Passwort vergessen?",
+      authResetSent: "Prüfen Sie Ihr E-Mail-Postfach auf einen Link zum Zurücksetzen des Passworts.",
+      authResetFailed: "E-Mail zum Zurücksetzen konnte nicht gesendet werden: {message}",
+      authNewPasswordHeading: "Neues Passwort festlegen",
+      authNewPasswordBtn: "Passwort aktualisieren",
+      authNewPasswordSuccess: "Passwort aktualisiert — Sie sind angemeldet.",
+      authNewPasswordFailed: "Passwort konnte nicht aktualisiert werden: {message}",
       s0Heading: "Zum Einreichen anmelden",
       s0Help: "Rezepte werden mit allen geteilt, sobald Sie angemeldet sind — erstellen Sie ein kostenloses Konto oder melden Sie sich an, um fortzufahren.",
       actionDeleteRecipe: "Rezept löschen",
@@ -2428,10 +2455,23 @@
 
   async function initAccountsAndRecipes() {
     if (supa) {
-      const { data: { session } } = await supa.auth.getSession();
-      currentUser = session ? session.user : null;
-      await loadProfile();
-      supa.auth.onAuthStateChange(async (_event, newSession) => {
+      // If getSession()/loadProfile() ever throw (a flaky network request,
+      // a corrupted persisted session — anything), this whole function
+      // would otherwise abort right here and the unconditional
+      // renderAuthWidget() below would never run, leaving the sign-in
+      // button permanently missing with no visible error at all. Catch
+      // and degrade to "signed out" instead of disappearing.
+      try {
+        const { data: { session } } = await supa.auth.getSession();
+        currentUser = session ? session.user : null;
+        await loadProfile();
+      } catch (err) {
+        console.error("Supabase auth init failed:", err);
+        currentUser = null;
+        currentProfile = null;
+      }
+      supa.auth.onAuthStateChange(async (event, newSession) => {
+        if (event === "PASSWORD_RECOVERY") { renderPasswordRecoveryWidget(); return; }
         currentUser = newSession ? newSession.user : null;
         await loadProfile();
         renderAuthWidget();
@@ -2508,7 +2548,12 @@
   // at all when Supabase isn't configured — no accounts to speak of yet.
   function renderAuthWidget() {
     const el = document.getElementById("auth-widget");
-    if (!supa) { el.innerHTML = ""; return; }
+    if (!supa) {
+      el.innerHTML = SUPABASE_LIBRARY_FAILED
+        ? `<span class="field-hint" style="max-width:220px;color:var(--warn,#b45309);">${t("authLibraryLoadFailed")}</span>`
+        : "";
+      return;
+    }
 
     if (currentUser) {
       el.innerHTML = `
@@ -2537,7 +2582,8 @@
           <button type="button" class="btn-primary" id="auth-signin-btn" style="flex:1;">${t("authSignIn")}</button>
           <button type="button" class="btn-secondary" id="auth-signup-btn" style="flex:1;">${t("authSignUp")}</button>
         </div>
-        <p class="field-hint" id="auth-status" style="margin-top:8px;"></p>
+        <button type="button" id="auth-forgot-btn" style="background:none;border:none;padding:8px 0 0;color:var(--ink-soft);text-decoration:underline;cursor:pointer;font-size:12px;">${t("authForgotPassword")}</button>
+        <p class="field-hint" id="auth-status" style="margin-top:4px;"></p>
       </div>`;
 
     const panel = document.getElementById("auth-panel");
@@ -2567,6 +2613,50 @@
       // A project with email confirmation on returns no session yet —
       // say so rather than looking like nothing happened.
       if (!data.session) status.textContent = t("authCheckEmail");
+    };
+    document.getElementById("auth-forgot-btn").onclick = async () => {
+      const email = emailInput.value.trim();
+      if (!email) { status.textContent = t("authNeedEmailOnly"); return; }
+      status.textContent = "…";
+      // Comes back to this same page (whatever URL it's actually running
+      // at) with a recovery token in the URL; onAuthStateChange below
+      // catches the resulting PASSWORD_RECOVERY event and swaps in the
+      // "set a new password" form.
+      const { error } = await supa.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + window.location.pathname,
+      });
+      status.textContent = error ? tfPlain("authResetFailed", { message: error.message }) : t("authResetSent");
+    };
+  }
+
+  // Shown in place of the normal sign-in/signed-in widget when the user
+  // arrived via a password-reset email link (Supabase fires a
+  // PASSWORD_RECOVERY auth event once it reads the recovery token out of
+  // the URL) — the one moment a brand new password has to be collected.
+  function renderPasswordRecoveryWidget() {
+    const el = document.getElementById("auth-widget");
+    el.innerHTML = `
+      <button type="button" class="auth-trigger" id="auth-open-btn">${t("authNewPasswordHeading")}</button>
+      <div class="auth-panel" id="auth-panel">
+        <h3>${t("authNewPasswordHeading")}</h3>
+        <div class="field">
+          <label for="auth-new-password-input">${t("authPassword")}</label>
+          <input type="password" id="auth-new-password-input" autocomplete="new-password">
+        </div>
+        <button type="button" class="btn-primary" id="auth-update-password-btn" style="width:100%;">${t("authNewPasswordBtn")}</button>
+        <p class="field-hint" id="auth-status" style="margin-top:8px;"></p>
+      </div>`;
+    openAuthPanel(document.getElementById("auth-open-btn"));
+
+    const status = document.getElementById("auth-status");
+    document.getElementById("auth-update-password-btn").onclick = async () => {
+      const newPassword = document.getElementById("auth-new-password-input").value;
+      if (!newPassword) return;
+      status.textContent = "…";
+      const { error } = await supa.auth.updateUser({ password: newPassword });
+      if (error) { status.textContent = tfPlain("authNewPasswordFailed", { message: error.message }); return; }
+      status.textContent = t("authNewPasswordSuccess");
+      setTimeout(async () => { await loadProfile(); renderAuthWidget(); }, 1200);
     };
   }
 
