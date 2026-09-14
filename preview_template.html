@@ -112,10 +112,12 @@
     letter-spacing: 0.04em; text-transform: uppercase; border-radius: 999px; padding: 3px 8px;
   }
   .auth-panel {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
+    /* top/left set in JS (see openAuthPanel()) so it's always clamped to
+       the viewport — position:fixed relative to the header's own small
+       trigger button pushed it off-screen entirely on narrow widths. */
+    position: fixed;
     width: 280px;
+    max-width: calc(100vw - 24px);
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 14px;
@@ -2483,6 +2485,23 @@
     if (!document.getElementById("view-submit").hidden) renderStepCard();
   }
 
+  // Un-hides #auth-panel and positions it (fixed, clamped to the
+  // viewport) just under whichever element triggered it. Needed because
+  // a plain CSS `right: 0` anchor put it off-screen entirely on narrow
+  // viewports — its header trigger button can sit near the left edge
+  // there, and a 280px-wide panel anchored to that button's right edge
+  // then extends mostly past the left edge of the screen.
+  function openAuthPanel(triggerEl) {
+    const panel = document.getElementById("auth-panel");
+    if (!panel) return;
+    panel.hidden = false;
+    const panelWidth = Math.min(280, window.innerWidth - 24);
+    const rect = triggerEl.getBoundingClientRect();
+    const left = Math.max(12, Math.min(rect.right - panelWidth, window.innerWidth - panelWidth - 12));
+    panel.style.left = left + "px";
+    panel.style.top = (rect.bottom + 8) + "px";
+  }
+
   // Populates #auth-widget in the header: a "Sign in" trigger (opening a
   // small sign-in/sign-up panel) when signed out, or the signed-in
   // email + an admin badge + "Sign out" when signed in. Renders nothing
@@ -2522,7 +2541,9 @@
       </div>`;
 
     const panel = document.getElementById("auth-panel");
-    document.getElementById("auth-open-btn").onclick = () => { panel.hidden = !panel.hidden; };
+    document.getElementById("auth-open-btn").onclick = (e) => {
+      if (panel.hidden) openAuthPanel(e.currentTarget); else panel.hidden = true;
+    };
 
     const emailInput = document.getElementById("auth-email-input");
     const passwordInput = document.getElementById("auth-password-input");
@@ -3110,9 +3131,10 @@
       <button type="button" class="btn-primary" id="s0-open-auth">${t("authSignIn")}</button>
     `;
     document.getElementById("s0-open-auth").onclick = () => {
-      const panel = document.getElementById("auth-panel");
-      if (panel) panel.hidden = false;
+      const headerTrigger = document.getElementById("auth-open-btn");
+      if (!headerTrigger) return;
       document.getElementById("auth-widget").scrollIntoView({ behavior: "smooth", block: "start" });
+      openAuthPanel(headerTrigger);
     };
   }
 
