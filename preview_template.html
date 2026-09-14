@@ -2542,6 +2542,17 @@
     panel.style.top = (rect.bottom + 8) + "px";
   }
 
+  // #auth-status's default .field-hint style is small, low-contrast gray
+  // — an error there ("wrong password", "email not confirmed") could
+  // easily read as nothing having happened at all. Errors get a bold,
+  // colored treatment instead; anything else (a "…" while working, a
+  // plain confirmation) keeps the quieter default look.
+  function setAuthStatus(el, text, isError) {
+    el.textContent = text;
+    el.style.color = isError ? "var(--warn, #b45309)" : "";
+    el.style.fontWeight = isError ? "700" : "";
+  }
+
   // Populates #auth-widget in the header: a "Sign in" trigger (opening a
   // small sign-in/sign-up panel) when signed out, or the signed-in
   // email + an admin badge + "Sign out" when signed in. Renders nothing
@@ -2597,27 +2608,27 @@
 
     document.getElementById("auth-signin-btn").onclick = async () => {
       const email = emailInput.value.trim(), password = passwordInput.value;
-      if (!email || !password) { status.textContent = t("authNeedBoth"); return; }
-      status.textContent = "…";
+      if (!email || !password) { setAuthStatus(status, t("authNeedBoth"), true); return; }
+      setAuthStatus(status, "…", false);
       const { error } = await supa.auth.signInWithPassword({ email, password });
       // On success, onAuthStateChange fires and re-renders this whole
       // widget as signed-in — nothing more to do here.
-      if (error) status.textContent = tfPlain("authSignInFailed", { message: error.message });
+      if (error) setAuthStatus(status, tfPlain("authSignInFailed", { message: error.message }), true);
     };
     document.getElementById("auth-signup-btn").onclick = async () => {
       const email = emailInput.value.trim(), password = passwordInput.value;
-      if (!email || !password) { status.textContent = t("authNeedBoth"); return; }
-      status.textContent = "…";
+      if (!email || !password) { setAuthStatus(status, t("authNeedBoth"), true); return; }
+      setAuthStatus(status, "…", false);
       const { data, error } = await supa.auth.signUp({ email, password });
-      if (error) { status.textContent = tfPlain("authSignUpFailed", { message: error.message }); return; }
+      if (error) { setAuthStatus(status, tfPlain("authSignUpFailed", { message: error.message }), true); return; }
       // A project with email confirmation on returns no session yet —
       // say so rather than looking like nothing happened.
-      if (!data.session) status.textContent = t("authCheckEmail");
+      if (!data.session) setAuthStatus(status, t("authCheckEmail"), false);
     };
     document.getElementById("auth-forgot-btn").onclick = async () => {
       const email = emailInput.value.trim();
-      if (!email) { status.textContent = t("authNeedEmailOnly"); return; }
-      status.textContent = "…";
+      if (!email) { setAuthStatus(status, t("authNeedEmailOnly"), true); return; }
+      setAuthStatus(status, "…", false);
       // Comes back to this same page (whatever URL it's actually running
       // at) with a recovery token in the URL; onAuthStateChange below
       // catches the resulting PASSWORD_RECOVERY event and swaps in the
@@ -2625,7 +2636,7 @@
       const { error } = await supa.auth.resetPasswordForEmail(email, {
         redirectTo: window.location.origin + window.location.pathname,
       });
-      status.textContent = error ? tfPlain("authResetFailed", { message: error.message }) : t("authResetSent");
+      setAuthStatus(status, error ? tfPlain("authResetFailed", { message: error.message }) : t("authResetSent"), !!error);
     };
   }
 
@@ -2652,10 +2663,10 @@
     document.getElementById("auth-update-password-btn").onclick = async () => {
       const newPassword = document.getElementById("auth-new-password-input").value;
       if (!newPassword) return;
-      status.textContent = "…";
+      setAuthStatus(status, "…", false);
       const { error } = await supa.auth.updateUser({ password: newPassword });
-      if (error) { status.textContent = tfPlain("authNewPasswordFailed", { message: error.message }); return; }
-      status.textContent = t("authNewPasswordSuccess");
+      if (error) { setAuthStatus(status, tfPlain("authNewPasswordFailed", { message: error.message }), true); return; }
+      setAuthStatus(status, t("authNewPasswordSuccess"), false);
       setTimeout(async () => { await loadProfile(); renderAuthWidget(); }, 1200);
     };
   }
