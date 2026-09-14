@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """
-Oppidu Recipes — builds preview.html from preview_template.html.
+Oppidu Recipes — builds preview.html (and index.html) from preview_template.html.
 
 preview_template.html contains three literal placeholder tokens,
 /*__RECIPES_JSON__*/, /*__INGREDIENTS_JSON__*/, and /*__NUTRITION_JSON__*/,
 inside its <script> block. This script substitutes real data (every recipe
 in data/recipes/, the ingredient reference database, and the nutrition
-reference database) in their place and writes the result to preview.html —
-the file actually published as the prototype.
+reference database) in their place and writes the identical result to both
+preview.html (the name referenced throughout this README, and what the
+Claude Artifact publish points at) and index.html (the name GitHub Pages
+requires at the repo root to serve the site) — two files, same content, so
+neither goes stale relative to the other.
 
 Run this any time preview_template.html, data/recipes/*.json,
 data/ingredients.json, or scripts/nutrition_data.py changes.
@@ -21,6 +24,7 @@ RECIPES_DIR = os.path.join(BASE_DIR, "data", "recipes")
 INGREDIENTS_PATH = os.path.join(BASE_DIR, "data", "ingredients.json")
 TEMPLATE_PATH = os.path.join(BASE_DIR, "preview_template.html")
 OUTPUT_PATH = os.path.join(BASE_DIR, "preview.html")
+PAGES_OUTPUT_PATH = os.path.join(BASE_DIR, "index.html")
 
 sys.path.insert(0, os.path.join(BASE_DIR, "scripts"))
 from nutrition_data import NUTRITION_PER_100G, PIECE_GRAMS, PIECE_GRAMS_DEFAULT, UNIT_TO_GRAMS  # noqa: E402
@@ -56,11 +60,13 @@ def build():
 
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(template)
+    with open(PAGES_OUTPUT_PATH, "w", encoding="utf-8") as f:
+        f.write(template)
 
     return recipes, ingredients, nutrition
 
 
 if __name__ == "__main__":
     recipes, ingredients, nutrition = build()
-    print(f"Wrote {OUTPUT_PATH}: {len(recipes)} recipes, {len(ingredients)} ingredient entries, "
-          f"{len(nutrition['per100g'])} nutrition entries")
+    print(f"Wrote {OUTPUT_PATH} and {PAGES_OUTPUT_PATH}: {len(recipes)} recipes, "
+          f"{len(ingredients)} ingredient entries, {len(nutrition['per100g'])} nutrition entries")
