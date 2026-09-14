@@ -91,6 +91,40 @@
     gap: 20px;
     flex-wrap: wrap;
   }
+  .auth-widget { position: relative; }
+  .auth-trigger {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .auth-signed-in { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; }
+  .auth-email { color: var(--ink-soft); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .auth-admin-badge {
+    background: var(--accent-ink); color: #fff; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase; border-radius: 999px; padding: 3px 8px;
+  }
+  .auth-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 280px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 18px;
+    z-index: 30;
+  }
+  .auth-panel h3 { font-size: 14px; margin: 0 0 4px; }
+  .auth-panel .field { margin-bottom: 10px; }
   .lang-toggle {
     display: inline-flex;
     gap: 2px;
@@ -1208,6 +1242,7 @@
       <p class="tagline" id="tagline">A seed database for Oppidu's recipe search — local index first, external sources later.</p>
     </div>
     <div class="header-top-right">
+      <div class="auth-widget" id="auth-widget"></div>
       <div class="lang-toggle" id="lang-toggle">
         <button type="button" data-lang="en" class="active">EN</button>
         <button type="button" data-lang="de">DE</button>
@@ -1268,7 +1303,7 @@
 
   <section id="view-submit" hidden>
     <div class="wizard" id="wizard">
-      <div class="wizard-progress">
+      <div class="wizard-progress" id="wizard-progress">
         <span class="step-label" id="wizard-step-label">Step 1 of 6</span>
         <div class="track"><div class="fill" id="wizard-fill"></div></div>
       </div>
@@ -1277,23 +1312,66 @@
   </section>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
   const SEED_RECIPES = /*__RECIPES_JSON__*/;
 
   /* =================================================================
-     Local persistence for user-submitted recipes.
+     Accounts + shared persistence (Supabase), local-only fallback.
 
-     No accounts or backend exist yet (see README), so a submitted recipe
-     has nowhere durable to go except this browser. RecipeStore wraps that
-     in a small, swappable interface — list()/save()/remove() — so that a
-     later Supabase-backed version is a drop-in replacement for the body of
-     THIS OBJECT ONLY; nothing else in the app talks to localStorage
-     directly. See the README's "Local persistence today, Supabase later"
-     section for the intended swap.
+     Fill in SUPABASE_URL / SUPABASE_ANON_KEY (Supabase dashboard →
+     Settings → API — the anon key is meant to be public/client-side,
+     unlike the service_role key or DB password) once a project exists;
+     see supabase/README.md for the one-time setup + how to become the
+     app's admin. Left blank, `supa` stays null and every RecipeStore call
+     falls back to this browser's own localStorage — today's behavior,
+     unchanged, so the live site keeps working exactly as before until
+     real credentials are added.
      ================================================================= */
+  const SUPABASE_URL = "";
+  const SUPABASE_ANON_KEY = "";
+  const supa = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+  let currentUser = null;    // Supabase auth user, or null when signed out / in local-only mode
+  let currentProfile = null; // { id, email, role, kitchen_name } row from public.profiles
+
+  function isAdmin() {
+    return !!(currentProfile && currentProfile.role === "admin");
+  }
+
+  // Who may remove a given recipe from view. A seed recipe is never
+  // manageable, admin or not — it's bundled static data, not a database
+  // row, so "deleting" it would just no-op and reappear on the next
+  // refresh. Otherwise: in local-only mode, anything this browser saved
+  // (no accounts to check ownership against); with Supabase configured,
+  // its own submitter or an admin — RLS enforces the same rule
+  // server-side regardless of what this returns, so this only controls
+  // whether the button is even shown.
+  function canManageRecipe(r) {
+    if (r.source !== "user-submitted") return false;
+    if (!supa) return true;
+    if (!currentUser) return false;
+    return r.submitted_by === currentUser.id || isAdmin();
+  }
+
+  async function loadProfile() {
+    if (!supa || !currentUser) { currentProfile = null; return; }
+    const { data } = await supa.from("profiles").select("*").eq("id", currentUser.id).single();
+    currentProfile = data || null;
+  }
+
   const RECIPE_STORE_KEY = "recipe-creator:submissions:v1";
   const RecipeStore = {
-    list() {
+    // Every seed's own list() reader is used by save() too, so the shape
+    // is identical whichever backend is active: a plain array of recipes.
+    async list() {
+      if (supa) {
+        const { data, error } = await supa.from("recipes").select("*").order("created_at", { ascending: false });
+        if (error) { console.error(error); return []; }
+        return data || [];
+      }
       try {
         const raw = localStorage.getItem(RECIPE_STORE_KEY);
         const parsed = raw ? JSON.parse(raw) : [];
@@ -1302,20 +1380,45 @@
         return [];
       }
     },
-    save(recipe) {
+    // Returns {ok, id} on success (id is the one actually stored — see the
+    // retry loop below) or {ok: false, reason} on failure. Local-only mode
+    // keeps returning a plain id even on failure paths, matching the shape.
+    async save(recipe) {
+      if (supa) {
+        if (!currentUser) return { ok: false, reason: "not-signed-in" };
+        const baseId = recipe.id;
+        // A slug collision is now a real race, not just a same-browser
+        // repeat: two different people can submit the same dish name at
+        // nearly the same time. uniqueRecipeId() below already checks
+        // against this browser's last-loaded RECIPES first, but that
+        // snapshot can be stale — so retry against the database's own
+        // unique-constraint error (Postgres 23505) as the actual source
+        // of truth, rather than trusting a client-side guess alone.
+        for (let n = 0; n < 25; n++) {
+          const candidateId = n === 0 ? baseId : `${baseId}-${n + 1}`;
+          const { error } = await supa.from("recipes").insert({ ...recipe, id: candidateId, submitted_by: currentUser.id });
+          if (!error) return { ok: true, id: candidateId };
+          if (error.code !== "23505") return { ok: false, reason: error.message };
+        }
+        return { ok: false, reason: "id-conflict" };
+      }
       try {
-        const all = RecipeStore.list();
+        const all = await RecipeStore.list();
         const idx = all.findIndex(r => r.id === recipe.id);
         if (idx >= 0) all[idx] = recipe; else all.push(recipe);
         localStorage.setItem(RECIPE_STORE_KEY, JSON.stringify(all));
-        return true;
+        return { ok: true, id: recipe.id };
       } catch (err) {
-        return false;
+        return { ok: false, reason: "storage" };
       }
     },
-    remove(id) {
+    async remove(id) {
+      if (supa) {
+        const { error } = await supa.from("recipes").delete().eq("id", id);
+        return !error;
+      }
       try {
-        const all = RecipeStore.list().filter(r => r.id !== id);
+        const all = (await RecipeStore.list()).filter(r => r.id !== id);
         localStorage.setItem(RECIPE_STORE_KEY, JSON.stringify(all));
         return true;
       } catch (err) {
@@ -1324,10 +1427,19 @@
     },
   };
 
-  // The working recipe pool = the curated seed set + whatever this browser
-  // has saved locally. Reassigned (not mutated in place) after every
-  // save/remove so every function that reads RECIPES picks up the change.
-  let RECIPES = SEED_RECIPES.concat(RecipeStore.list());
+  // The working recipe pool = the curated seed set + whatever's been
+  // submitted (shared via Supabase once configured, otherwise this
+  // browser's own localStorage). Starts seed-only so the page has
+  // something to render immediately; refreshRecipes() fills in the rest
+  // asynchronously and is called again after every save/remove so every
+  // function that reads RECIPES picks up the change.
+  let RECIPES = SEED_RECIPES.slice();
+
+  async function refreshRecipes() {
+    const submitted = await RecipeStore.list();
+    RECIPES = SEED_RECIPES.concat(submitted);
+    recomputeIndexes();
+  }
 
   function uniqueRecipeId(baseId) {
     const existing = new Set(RECIPES.map(r => r.id));
@@ -1356,6 +1468,17 @@
     en: {
       tagline: "A seed database for Oppidu's recipe search — local index first, external sources later.",
       statRecipesLbl: "Recipes", statCuisinesLbl: "Cuisines", statGeneratedLbl: "Generated", statGeneratedVal: "AI",
+      authSignIn: "Sign in", authSignUp: "Create account", authSignOut: "Sign out",
+      authEmail: "Email", authPassword: "Password", authAdminBadge: "Admin",
+      authSignedInAs: "Signed in as {email}",
+      authCheckEmail: "Check your email to confirm your account, then sign in.",
+      authSignInFailed: "Couldn't sign in: {message}",
+      authSignUpFailed: "Couldn't sign up: {message}",
+      authNeedBoth: "Enter both an email and a password.",
+      s0Heading: "Sign in to submit a recipe",
+      s0Help: "Recipes are shared with everyone once you're signed in — create a free account or sign in to continue.",
+      actionDeleteRecipe: "Delete recipe",
+      saveFailedNotSignedIn: "Sign in to save your recipe.",
       tabBrowse: "Browse", tabSubmit: "Submit a Recipe", heroSubmit: "Submit a Recipe",
       searchPlaceholder: "Search by dish, ingredient, or tag…",
       quickCuisineLbl: "Cuisine", quickDietLbl: "Diet", resetFilters: "Reset filters",
@@ -1468,6 +1591,17 @@
     de: {
       tagline: "Eine Rezeptdatenbank für die Oppidu-Suche — zunächst der lokale Index, externe Quellen folgen später.",
       statRecipesLbl: "Rezepte", statCuisinesLbl: "Küchen", statGeneratedLbl: "Erstellt von", statGeneratedVal: "KI",
+      authSignIn: "Anmelden", authSignUp: "Konto erstellen", authSignOut: "Abmelden",
+      authEmail: "E-Mail", authPassword: "Passwort", authAdminBadge: "Admin",
+      authSignedInAs: "Angemeldet als {email}",
+      authCheckEmail: "Bestätigen Sie Ihr Konto per E-Mail und melden Sie sich dann an.",
+      authSignInFailed: "Anmeldung fehlgeschlagen: {message}",
+      authSignUpFailed: "Registrierung fehlgeschlagen: {message}",
+      authNeedBoth: "Geben Sie E-Mail und Passwort ein.",
+      s0Heading: "Zum Einreichen anmelden",
+      s0Help: "Rezepte werden mit allen geteilt, sobald Sie angemeldet sind — erstellen Sie ein kostenloses Konto oder melden Sie sich an, um fortzufahren.",
+      actionDeleteRecipe: "Rezept löschen",
+      saveFailedNotSignedIn: "Melden Sie sich an, um Ihr Rezept zu speichern.",
       tabBrowse: "Durchsuchen", tabSubmit: "Rezept einreichen", heroSubmit: "Rezept einreichen",
       searchPlaceholder: "Suche nach Gericht, Zutat oder Schlagwort…",
       quickCuisineLbl: "Küche", quickDietLbl: "Ernährung", resetFilters: "Filter zurücksetzen",
@@ -2132,7 +2266,7 @@
         <button class="action-btn" data-act="download" type="button">${DOWNLOAD_ICON} ${t("actionDownload")}</button>
         <button class="action-btn" data-act="print" type="button">${PRINT_ICON} ${t("actionPrint")}</button>
         <button class="action-btn action-btn-accent" data-act="compare" type="button">${CART_ICON} ${t("actionCompare")}</button>
-        ${opts.showRemove ? `<button class="action-btn" data-act="remove-local" type="button">${t("actionRemoveLocal")}</button>` : ""}
+        ${opts.showRemove ? `<button class="action-btn" data-act="remove-local" type="button">${supa ? t("actionDeleteRecipe") : t("actionRemoveLocal")}</button>` : ""}
         <span class="action-status" data-role="action-status"></span>
       </div>`;
   }
@@ -2151,10 +2285,9 @@
       status.textContent = t("actionCompareStatus");
       setTimeout(() => { status.textContent = ""; }, 3500);
     };
-    if (rm) rm.onclick = () => {
-      RecipeStore.remove(r.id);
-      RECIPES = SEED_RECIPES.concat(RecipeStore.list());
-      recomputeIndexes();
+    if (rm) rm.onclick = async () => {
+      await RecipeStore.remove(r.id);
+      await refreshRecipes();
       closeDetail();
       render();
     };
@@ -2222,7 +2355,7 @@
       ${r.source === "user-submitted" ? `<span class="pill" style="margin-top:8px;display:inline-block;">${t("localBadge")}</span>` : ""}
       ${r.submitted_kitchen ? `<span class="pill" style="margin-top:8px;margin-left:6px;display:inline-block;">🍳 ${esc(r.submitted_kitchen)}</span>` : ""}
       ${locDescription(r) ? `<p class="detail-desc">${esc(locDescription(r))}</p>` : ""}
-      ${recipeActionsHtml({ showRemove: r.source === "user-submitted" })}
+      ${recipeActionsHtml({ showRemove: canManageRecipe(r) })}
 
       <div class="meta-strip">
         <div class="meta-item"><span class="n">${r.servings}</span><span class="lbl">${t("lblServings")}</span></div>
@@ -2251,7 +2384,7 @@
         <span class="source-note">${t("sourceLbl")}: ${r.source}</span>
       </div>
     `;
-    wireRecipeActions(el, r, el, { showRemove: r.source === "user-submitted" });
+    wireRecipeActions(el, r, el, { showRemove: canManageRecipe(r) });
   }
 
   function buildLegend() {
@@ -2273,18 +2406,53 @@
   });
 
   // Deep link support via URL hash — no storage involved, just reads the URL.
+  // First pass renders the (synchronous, always-available) seed set
+  // immediately so the page has something on screen right away; the
+  // async pass below re-checks the hash and re-renders once submitted
+  // recipes (and, with Supabase configured, the signed-in session) have
+  // actually loaded — a link straight to someone's submission still
+  // resolves correctly, just a beat later.
   state.shuffledOrder = shuffleArray(RECIPES.map(r => r.id));
   if (location.hash) {
     const id = location.hash.slice(1);
     if (RECIPES.some(r => r.id === id)) state.selected = id;
   }
-
   buildLegend();
   render();
   if (state.selected) {
     document.getElementById("detail-wrap").hidden = false;
     renderDetail();
   }
+
+  async function initAccountsAndRecipes() {
+    if (supa) {
+      const { data: { session } } = await supa.auth.getSession();
+      currentUser = session ? session.user : null;
+      await loadProfile();
+      supa.auth.onAuthStateChange(async (_event, newSession) => {
+        currentUser = newSession ? newSession.user : null;
+        await loadProfile();
+        renderAuthWidget();
+        await refreshRecipes();
+        render();
+        if (!document.getElementById("view-submit").hidden) renderStepCard();
+      });
+    }
+    renderAuthWidget();
+
+    await refreshRecipes();
+    state.shuffledOrder = shuffleArray(RECIPES.map(r => r.id));
+    if (location.hash) {
+      const id = location.hash.slice(1);
+      if (RECIPES.some(r => r.id === id)) state.selected = id;
+    }
+    render();
+    if (state.selected && document.getElementById("detail-wrap").hidden) {
+      document.getElementById("detail-wrap").hidden = false;
+      renderDetail();
+    }
+  }
+  initAccountsAndRecipes();
 
   /* ---------- Language toggle ---------- */
   function applyStaticText() {
@@ -2310,8 +2478,75 @@
     applyStaticText();
     buildLegend();
     render();
+    renderAuthWidget();
     if (state.selected) renderDetail();
     if (!document.getElementById("view-submit").hidden) renderStepCard();
+  }
+
+  // Populates #auth-widget in the header: a "Sign in" trigger (opening a
+  // small sign-in/sign-up panel) when signed out, or the signed-in
+  // email + an admin badge + "Sign out" when signed in. Renders nothing
+  // at all when Supabase isn't configured — no accounts to speak of yet.
+  function renderAuthWidget() {
+    const el = document.getElementById("auth-widget");
+    if (!supa) { el.innerHTML = ""; return; }
+
+    if (currentUser) {
+      el.innerHTML = `
+        <div class="auth-signed-in">
+          ${isAdmin() ? `<span class="auth-admin-badge">${t("authAdminBadge")}</span>` : ""}
+          <span class="auth-email" title="${esc(currentUser.email)}">${esc(currentUser.email)}</span>
+          <button type="button" class="auth-trigger" id="auth-signout-btn">${t("authSignOut")}</button>
+        </div>`;
+      document.getElementById("auth-signout-btn").onclick = async () => { await supa.auth.signOut(); };
+      return;
+    }
+
+    el.innerHTML = `
+      <button type="button" class="auth-trigger" id="auth-open-btn">${t("authSignIn")}</button>
+      <div class="auth-panel" id="auth-panel" hidden>
+        <h3>${t("authSignIn")} / ${t("authSignUp")}</h3>
+        <div class="field">
+          <label for="auth-email-input">${t("authEmail")}</label>
+          <input type="email" id="auth-email-input" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="auth-password-input">${t("authPassword")}</label>
+          <input type="password" id="auth-password-input" autocomplete="current-password">
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="btn-primary" id="auth-signin-btn" style="flex:1;">${t("authSignIn")}</button>
+          <button type="button" class="btn-secondary" id="auth-signup-btn" style="flex:1;">${t("authSignUp")}</button>
+        </div>
+        <p class="field-hint" id="auth-status" style="margin-top:8px;"></p>
+      </div>`;
+
+    const panel = document.getElementById("auth-panel");
+    document.getElementById("auth-open-btn").onclick = () => { panel.hidden = !panel.hidden; };
+
+    const emailInput = document.getElementById("auth-email-input");
+    const passwordInput = document.getElementById("auth-password-input");
+    const status = document.getElementById("auth-status");
+
+    document.getElementById("auth-signin-btn").onclick = async () => {
+      const email = emailInput.value.trim(), password = passwordInput.value;
+      if (!email || !password) { status.textContent = t("authNeedBoth"); return; }
+      status.textContent = "…";
+      const { error } = await supa.auth.signInWithPassword({ email, password });
+      // On success, onAuthStateChange fires and re-renders this whole
+      // widget as signed-in — nothing more to do here.
+      if (error) status.textContent = tfPlain("authSignInFailed", { message: error.message });
+    };
+    document.getElementById("auth-signup-btn").onclick = async () => {
+      const email = emailInput.value.trim(), password = passwordInput.value;
+      if (!email || !password) { status.textContent = t("authNeedBoth"); return; }
+      status.textContent = "…";
+      const { data, error } = await supa.auth.signUp({ email, password });
+      if (error) { status.textContent = tfPlain("authSignUpFailed", { message: error.message }); return; }
+      // A project with email confirmation on returns no session yet —
+      // say so rather than looking like nothing happened.
+      if (!data.session) status.textContent = t("authCheckEmail");
+    };
   }
 
   document.getElementById("lang-toggle").addEventListener("click", (e) => {
@@ -2841,11 +3076,23 @@
   }
 
   function renderStepCard() {
+    const card = document.getElementById("step-card");
+
+    // Browsing/viewing recipes stays open to everyone; submitting one
+    // requires an account once Supabase is actually configured (in
+    // local-only mode there's no concept of an account to require).
+    if (supa && !currentUser) {
+      document.getElementById("wizard-progress").hidden = true;
+      document.getElementById("wizard").classList.remove("wizard-wide");
+      renderSignInRequired(card);
+      return;
+    }
+    document.getElementById("wizard-progress").hidden = false;
+
     const titleKeys = ["stepTitleServings", "stepTitleBasics", "stepTitleIngredients", "stepTitlePhoto", "stepTitleMethod", "stepTitleReview"];
     document.getElementById("wizard-step-label").textContent = `${t("step")} ${wiz.step} ${t("of")} 6 — ${t(titleKeys[wiz.step - 1])}`;
     document.getElementById("wizard-fill").style.width = (wiz.step / 6 * 100) + "%";
     document.getElementById("wizard").classList.toggle("wizard-wide", wiz.step === 5);
-    const card = document.getElementById("step-card");
 
     if (wiz.step === 1) renderStepServings(card);
     else if (wiz.step === 2) renderStepBasics(card);
@@ -2853,6 +3100,20 @@
     else if (wiz.step === 4) renderStepIngredientsPhoto(card);
     else if (wiz.step === 5) renderStepMethod(card);
     else renderStepReview(card);
+  }
+
+  function renderSignInRequired(card) {
+    card.innerHTML = `
+      <div class="step-eyebrow">${t("step")} 1 ${t("of")} 6</div>
+      <h2>${t("s0Heading")}</h2>
+      <p class="step-help">${t("s0Help")}</p>
+      <button type="button" class="btn-primary" id="s0-open-auth">${t("authSignIn")}</button>
+    `;
+    document.getElementById("s0-open-auth").onclick = () => {
+      const panel = document.getElementById("auth-panel");
+      if (panel) panel.hidden = false;
+      document.getElementById("auth-widget").scrollIntoView({ behavior: "smooth", block: "start" });
+    };
   }
 
   function renderStepServings(card) {
@@ -3561,15 +3822,15 @@
       renderStepCard();
     };
     const saveBtn = document.getElementById("save-recipe");
-    saveBtn.onclick = () => {
+    saveBtn.onclick = async () => {
       const status = document.getElementById("review-status");
       if (RECIPES.some(x => x.id === r.id)) r.id = uniqueRecipeId(r.id);
-      const ok = RecipeStore.save(r);
-      if (ok) {
-        RECIPES = SEED_RECIPES.concat(RecipeStore.list());
+      saveBtn.disabled = true;
+      const result = await RecipeStore.save(r);
+      if (result.ok) {
+        r.id = result.id; // may differ from the pre-check above under a real race — see RecipeStore.save()
+        await refreshRecipes();
         state.shuffledOrder.push(r.id);
-        recomputeIndexes();
-        saveBtn.disabled = true;
         saveBtn.textContent = t("savedBtnLabel");
         status.textContent = t("savedStatus");
         const savedId = r.id;
@@ -3584,7 +3845,8 @@
           selectRecipe(savedId);
         }, 900);
       } else {
-        status.textContent = t("saveFailedStatus");
+        saveBtn.disabled = false;
+        status.textContent = result.reason === "not-signed-in" ? t("saveFailedNotSignedIn") : t("saveFailedStatus");
       }
     };
     document.getElementById("copy-json").onclick = async () => {

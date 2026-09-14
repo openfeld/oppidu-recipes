@@ -237,50 +237,39 @@ Errors are surfaced inline on step 1: choosing a non-PDF file, a PDF over
 layer (the scanned-photo case) each show a specific message and leave the
 wizard on step 1, untouched.
 
-## Local persistence today, Supabase later
+## Accounts + a shared database (Supabase)
 
-Until now, a submission from the wizard only ever existed as JSON you could
-copy out — closing the tab or clicking "Start over" made it vanish. Both
-surfaces now save it somewhere durable instead:
+`preview_template.html` now has full Supabase wiring — sign-up/sign-in,
+row-level security, and a real shared `recipes` table — but it ships with
+`SUPABASE_URL`/`SUPABASE_ANON_KEY` left blank, which keeps it in
+**local-only mode**: every submission still just goes to that one
+browser's `localStorage` via `RecipeStore` (`list()`/`save()`/`remove()`),
+same as before, until a project is actually wired in.
 
-**In `preview.html`**, the review step's **Save recipe** button writes the
-finished submission to the browser's `localStorage` via a small `RecipeStore`
-object in `preview_template.html` (`list()` / `save()` / `remove()`). Saved
-recipes are merged into the browsable pool alongside the 19 seed recipes —
-they show up in search and the carousel with a "saved on this device" badge,
-survive a page reload, and can be removed again from their detail view's
-action row (a **Remove from this device** button appears only on these, not
-on the seed recipes). If two recipes would slugify to the same id, the
-newer one gets a `-2`/`-3` suffix rather than silently overwriting the
-first.
+**To go live with real, shared accounts**, see
+[`supabase/README.md`](supabase/README.md) — create a Supabase project,
+run [`supabase/schema.sql`](supabase/schema.sql), drop the URL + anon key
+into those two constants, and rebuild. From that point on:
 
-**In `scripts/submit_recipe.py`**, the equivalent is `save_submission(draft)`
-(and `list_submissions()` to read them back), writing to
-`data/submissions/<id>.json` — deliberately separate from the curated
-`data/recipes/` seed set. Like the browser wizard, this is opt-in: it's not
-called automatically inside `finalize()`, matching the "Save recipe" button
-being a distinct step from building the record.
+- Anyone can sign up and submit — `RecipeStore` talks to Supabase instead
+  of `localStorage`, so a submission is visible to every visitor, not just
+  the browser that made it. `submitted_by` becomes a real user id instead
+  of always `null`.
+- A slug collision (two different people naming a dish the same thing) is
+  now a genuine race, not just a same-browser repeat — `RecipeStore.save()`
+  retries against the database's own unique-constraint error rather than
+  trusting a client-side guess alone.
+- Signing in gates the submission wizard (Browse stays open to everyone,
+  signed in or not); an admin (a role granted via one SQL statement — see
+  the linked README) gets a **Delete recipe** button on any recipe, not
+  just their own, for moderation.
 
-**This is explicitly per-browser / per-device, not shared.** Two people
-looking at the same published preview link each get their own local copy;
-nothing here syncs between them. That gap is exactly what a real backend
-closes, and both `RecipeStore` (JS) and `save_submission()`/
-`list_submissions()` (Python) are written as small, swappable interfaces for
-that reason — nothing else in either codebase talks to `localStorage` or the
-filesystem directly. Wiring in Supabase later means:
-
-- Add the `supabase-js` client to `preview_template.html` and replace
-  `RecipeStore.list/save/remove`'s bodies with `select()` / `upsert()` /
-  `delete()` against a `recipes` table shaped like
-  `schema/recipe.schema.json` (primary key `id`) — every call site
-  (`RecipeStore.list()`, `.save(recipe)`, `.remove(id)`) stays the same.
-- Do the same for `save_submission()`/`list_submissions()` in
-  `submit_recipe.py` using the `supabase-py` client.
-- At that point recipes stop being per-device and become the real shared
-  database this whole project is a seed for — and pairs naturally with
-  wiring in actual accounts (see "Accounts are intentionally not built"
-  below), since `submitted_by` can finally be a real user id instead of
-  always `null`.
+**In `scripts/submit_recipe.py`**, the equivalent is still
+`save_submission(draft)` (and `list_submissions()` to read them back),
+writing to `data/submissions/<id>.json` — deliberately separate from the
+curated `data/recipes/` seed set, and not yet wired to Supabase itself
+(only the browser wizard is, for now). Like the browser wizard, saving is
+opt-in: it's not called automatically inside `finalize()`.
 
 ## English / German
 
@@ -309,19 +298,16 @@ also how most browsers offer "Save as PDF"), and **Compare & buy
 ingredients**, which is intentionally just a button for now — see "Not yet
 wired up" below.
 
-**Accounts are intentionally not built.** Every submission carries
-`submitted_by: null` and comes out with `status: "submitted"` rather than
-`"published"` — see the new optional fields in `schema/recipe.schema.json`.
-Wiring in real accounts later is a matter of setting `submitted_by` to a
-real user id and adding whatever review/approval step promotes `submitted`
-recipes to `published`; nothing else in the schema needs to change.
-The optional `submitted_kitchen` field (e.g. "Nina's Kitchen") is the
-stopgap for that gap today — a submitter can organize their own recipes
-under a recognizable name without needing to log in for one. Once real
-accounts exist, `submitted_kitchen` doesn't go away — a user id groups
-recipes by *account*, `submitted_kitchen` groups them by a *name the
-person chose*, and the two can coexist (someone might run more than one
-named kitchen under one account).
+**Accounts exist in code, pending real credentials** — see "Accounts + a
+shared database" above. Until `SUPABASE_URL`/`SUPABASE_ANON_KEY` are
+filled in, every submission still carries `submitted_by: null` and comes
+out with `status: "submitted"` rather than `"published"` (there's no
+review/approval step yet — a Supabase-backed submission is visible the
+moment it's saved). See the optional fields in `schema/recipe.schema.json`.
+The optional `submitted_kitchen` field (e.g. "Nina's Kitchen") stays
+useful even with real accounts — a user id groups recipes by *account*,
+`submitted_kitchen` groups them by a *name the person chose*, and the two
+coexist (someone might run more than one named kitchen under one account).
 
 **Photos are intentionally not built.** No image-generation API is wired
 up. What *is* built is the bookkeeping: `photos_needed` on a finalized

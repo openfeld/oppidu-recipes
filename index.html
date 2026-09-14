@@ -91,6 +91,40 @@
     gap: 20px;
     flex-wrap: wrap;
   }
+  .auth-widget { position: relative; }
+  .auth-trigger {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .auth-signed-in { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; }
+  .auth-email { color: var(--ink-soft); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .auth-admin-badge {
+    background: var(--accent-ink); color: #fff; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase; border-radius: 999px; padding: 3px 8px;
+  }
+  .auth-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 280px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 18px;
+    z-index: 30;
+  }
+  .auth-panel h3 { font-size: 14px; margin: 0 0 4px; }
+  .auth-panel .field { margin-bottom: 10px; }
   .lang-toggle {
     display: inline-flex;
     gap: 2px;
@@ -1208,6 +1242,7 @@
       <p class="tagline" id="tagline">A seed database for Oppidu's recipe search — local index first, external sources later.</p>
     </div>
     <div class="header-top-right">
+      <div class="auth-widget" id="auth-widget"></div>
       <div class="lang-toggle" id="lang-toggle">
         <button type="button" data-lang="en" class="active">EN</button>
         <button type="button" data-lang="de">DE</button>
@@ -1268,7 +1303,7 @@
 
   <section id="view-submit" hidden>
     <div class="wizard" id="wizard">
-      <div class="wizard-progress">
+      <div class="wizard-progress" id="wizard-progress">
         <span class="step-label" id="wizard-step-label">Step 1 of 6</span>
         <div class="track"><div class="fill" id="wizard-fill"></div></div>
       </div>
@@ -1277,23 +1312,66 @@
   </section>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
   const SEED_RECIPES = [{"id": "aloo-gobi", "title": "Aloo Gobi (Potato & Cauliflower Curry)", "description": "Dry-spiced potato and cauliflower stir-fry, a North Indian staple.", "cuisine": "Indian", "category": "side", "servings": 4, "prep_time_minutes": 15, "cook_time_minutes": 25, "difficulty": "easy", "ingredients": [{"name": "cauliflower, cut into florets", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "potatoes, cubed", "quantity": 3, "unit": "piece", "grocery_category": "vegetables"}, {"name": "turmeric powder", "quantity": 0.5, "unit": "tsp", "grocery_category": "spices"}, {"name": "cumin seeds", "quantity": 1, "unit": "tsp", "grocery_category": "spices"}, {"name": "coriander powder", "quantity": 1, "unit": "tsp", "grocery_category": "spices"}, {"name": "vegetable oil", "quantity": 3, "unit": "tbsp", "grocery_category": "oils-fats"}, {"name": "green chili, slit", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "cilantro, chopped", "quantity": 2, "unit": "tbsp", "grocery_category": "herbs-fresh"}], "instructions": ["Heat oil, temper cumin seeds.", "Add potatoes, cook 5 minutes stirring occasionally.", "Add cauliflower, turmeric, coriander powder and chili; mix well.", "Cover and cook on low heat 15-18 minutes until tender, stirring occasionally.", "Garnish with cilantro and serve with roti."], "tags": ["vegan", "dry-curry", "everyday"], "dietary": ["vegan", "vegetarian", "gluten-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Aloo Gobi (Kartoffel-Blumenkohl-Curry)", "description": "Trocken gew\u00fcrztes Kartoffel-Blumenkohl-Pfannengericht, ein nordindischer Klassiker.", "ingredient_names": ["Blumenkohl, in R\u00f6schen geschnitten", "Kartoffeln, gew\u00fcrfelt", "Kurkumapulver", "Kreuzk\u00fcmmelsamen", "Korianderpulver", "Pflanzen\u00f6l", "gr\u00fcne Chili, eingeschnitten", "Koriandergr\u00fcn, gehackt"], "instructions": ["\u00d6l erhitzen, Kreuzk\u00fcmmelsamen darin anschwitzen.", "Kartoffeln zugeben, 5 Minuten unter gelegentlichem R\u00fchren braten.", "Blumenkohl, Kurkuma, Korianderpulver und Chili zugeben; gut vermengen.", "Zugedeckt bei niedriger Hitze 15-18 Minuten garen, bis alles weich ist, dabei gelegentlich umr\u00fchren.", "Mit Koriandergr\u00fcn garnieren und mit Roti servieren."]}}}, {"id": "bibimbap", "title": "Bibimbap (Mixed Rice Bowl)", "description": "Korean rice bowl topped with seasoned vegetables, beef and a fried egg.", "cuisine": "Korean", "category": "main", "servings": 4, "prep_time_minutes": 30, "cook_time_minutes": 20, "difficulty": "medium", "ingredients": [{"name": "cooked short-grain rice", "quantity": 4, "unit": "cup", "grocery_category": "grains-rice"}, {"name": "beef sirloin, thinly sliced", "quantity": 300, "unit": "g", "grocery_category": "meat-poultry"}, {"name": "spinach", "quantity": 150, "unit": "g", "grocery_category": "vegetables"}, {"name": "bean sprouts", "quantity": 150, "unit": "g", "grocery_category": "vegetables"}, {"name": "carrot, julienned", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "shiitake mushrooms, sliced", "quantity": 100, "unit": "g", "grocery_category": "vegetables"}, {"name": "eggs", "quantity": 4, "unit": "piece", "grocery_category": "dairy"}, {"name": "gochujang (Korean chili paste)", "quantity": 3, "unit": "tbsp", "grocery_category": "condiments-sauces"}, {"name": "sesame oil", "quantity": 2, "unit": "tbsp", "grocery_category": "oils-fats"}, {"name": "soy sauce", "quantity": 2, "unit": "tbsp", "grocery_category": "condiments-sauces"}], "instructions": ["Marinate beef in soy sauce and a little sesame oil; stir-fry until browned.", "Blanch spinach and bean sprouts separately; season each with sesame oil and salt.", "Saute carrot and mushrooms separately until just tender.", "Fry eggs sunny-side up.", "Assemble rice in bowls, arrange beef and vegetables in sections, top with a fried egg.", "Serve with gochujang on the side to mix in."], "tags": ["rice-bowl", "meal-prep", "customizable"], "dietary": ["non-vegetarian"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Bibimbap (Koreanische Reisschale)", "description": "Koreanische Reisschale mit gew\u00fcrztem Gem\u00fcse, Rindfleisch und Spiegelei.", "ingredient_names": ["gekochter Rundkornreis", "Rinderh\u00fcfte, d\u00fcnn geschnitten", "Spinat", "Sojasprossen", "Karotte, in feine Streifen geschnitten", "Shiitake-Pilze, in Scheiben geschnitten", "Eier", "Gochujang (koreanische Chilipaste)", "Sesam\u00f6l", "Sojasauce"], "instructions": ["Rindfleisch in Sojasauce und etwas Sesam\u00f6l marinieren; scharf anbraten, bis es gebr\u00e4unt ist.", "Spinat und Sojasprossen getrennt blanchieren; jeweils mit Sesam\u00f6l und Salz w\u00fcrzen.", "Karotte und Pilze getrennt anbraten, bis sie gerade gar sind.", "Eier als Spiegelei braten.", "Reis in Schalen anrichten, Rindfleisch und Gem\u00fcse in Abschnitten darauf verteilen, mit einem Spiegelei toppen.", "Mit Gochujang zum Untermischen servieren."]}}}, {"id": "butter-chicken", "title": "Butter Chicken (Murgh Makhani)", "description": "Creamy, tomato-based North Indian curry with tandoori-spiced chicken.", "cuisine": "Indian", "category": "main", "servings": 4, "prep_time_minutes": 30, "cook_time_minutes": 40, "difficulty": "medium", "ingredients": [{"name": "boneless chicken thighs", "quantity": 700, "unit": "g", "grocery_category": "meat-poultry"}, {"name": "plain yogurt", "quantity": 150, "unit": "g", "grocery_category": "dairy"}, {"name": "garlic paste", "quantity": 1, "unit": "tbsp", "grocery_category": "vegetables"}, {"name": "ginger paste", "quantity": 1, "unit": "tbsp", "grocery_category": "vegetables"}, {"name": "garam masala", "quantity": 2, "unit": "tsp", "grocery_category": "spices"}, {"name": "kashmiri chili powder", "quantity": 1, "unit": "tsp", "grocery_category": "spices"}, {"name": "butter", "quantity": 60, "unit": "g", "grocery_category": "dairy"}, {"name": "tomato puree", "quantity": 400, "unit": "g", "grocery_category": "canned-jarred"}, {"name": "heavy cream", "quantity": 100, "unit": "ml", "grocery_category": "dairy"}, {"name": "kasuri methi (dried fenugreek leaves)", "quantity": 1, "unit": "tsp", "grocery_category": "herbs-fresh"}, {"name": "sugar", "quantity": 1, "unit": "tsp", "grocery_category": "other"}], "instructions": ["Marinate chicken in yogurt, garlic, ginger, garam masala and chili powder for at least 1 hour (overnight is best).", "Sear the marinated chicken in a hot pan or grill until charred at the edges; set aside.", "Melt butter in a pan, add remaining garlic and ginger, cook 1 minute.", "Add tomato puree and simmer 15 minutes until thickened and the raw smell is gone.", "Blend the sauce smooth, return to the pan, stir in cream, sugar and kasuri methi.", "Add the seared chicken and simmer 10 minutes until cooked through.", "Finish with a swirl of cream and serve with naan or rice."], "tags": ["curry", "creamy", "weeknight", "restaurant-style"], "dietary": ["non-vegetarian"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Butter Chicken (Murgh Makhani)", "description": "Cremiges, tomatenbasiertes nordindisches Curry mit tandoori-gew\u00fcrztem H\u00e4hnchen.", "ingredient_names": ["H\u00e4hnchenoberschenkel, ohne Knochen", "Naturjoghurt", "Knoblauchpaste", "Ingwerpaste", "Garam Masala", "Kashmiri-Chilipulver", "Butter", "Tomatenp\u00fcree", "Schlagsahne", "Kasuri Methi (getrocknete Bockshornkleebl\u00e4tter)", "Zucker"], "instructions": ["H\u00e4hnchen mindestens 1 Stunde (am besten \u00fcber Nacht) in Joghurt, Knoblauch, Ingwer, Garam Masala und Chilipulver marinieren.", "Das marinierte H\u00e4hnchen in einer hei\u00dfen Pfanne oder auf dem Grill scharf anbraten, bis es an den R\u00e4ndern angebr\u00e4unt ist; beiseitestellen.", "Butter in einer Pfanne schmelzen, restlichen Knoblauch und Ingwer zugeben, 1 Minute anbraten.", "Tomatenp\u00fcree zugeben und 15 Minuten k\u00f6cheln lassen, bis es eingedickt ist und der rohe Geruch verschwunden ist.", "Die Sauce glatt p\u00fcrieren, zur\u00fcck in die Pfanne geben, Sahne, Zucker und Kasuri Methi einr\u00fchren.", "Das angebratene H\u00e4hnchen zugeben und 10 Minuten k\u00f6cheln lassen, bis es durchgegart ist.", "Mit einem Schuss Sahne abschlie\u00dfen und mit Naan oder Reis servieren."]}}}, {"id": "buttermilk-pancakes", "title": "Fluffy Buttermilk Pancakes", "description": "Classic breakfast pancakes, light and fluffy.", "cuisine": "American", "category": "breakfast", "servings": 4, "prep_time_minutes": 10, "cook_time_minutes": 15, "difficulty": "easy", "ingredients": [{"name": "all-purpose flour", "quantity": 250, "unit": "g", "grocery_category": "flour-baking"}, {"name": "baking powder", "quantity": 2, "unit": "tsp", "grocery_category": "flour-baking"}, {"name": "baking soda", "quantity": 0.5, "unit": "tsp", "grocery_category": "flour-baking"}, {"name": "sugar", "quantity": 2, "unit": "tbsp", "grocery_category": "other"}, {"name": "buttermilk", "quantity": 400, "unit": "ml", "grocery_category": "dairy"}, {"name": "eggs", "quantity": 2, "unit": "piece", "grocery_category": "dairy"}, {"name": "butter, melted", "quantity": 40, "unit": "g", "grocery_category": "dairy"}, {"name": "maple syrup", "quantity": 60, "unit": "ml", "grocery_category": "condiments-sauces", "optional": true}], "instructions": ["Whisk dry ingredients together in a bowl.", "In another bowl, whisk buttermilk, eggs and melted butter.", "Combine wet and dry ingredients, mixing just until no dry streaks remain (lumps are fine).", "Cook 1/4-cup portions on a buttered griddle until bubbles form, flip and cook through.", "Serve stacked with maple syrup and butter."], "tags": ["breakfast", "weekend", "kid-friendly"], "dietary": ["vegetarian"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Fluffige Buttermilch-Pancakes", "description": "Klassische Fr\u00fchst\u00fccks-Pancakes, leicht und fluffig.", "ingredient_names": ["Weizenmehl (Type 405)", "Backpulver", "Natron", "Zucker", "Buttermilch", "Eier", "Butter, geschmolzen", "Ahornsirup"], "instructions": ["Trockene Zutaten in einer Sch\u00fcssel verquirlen.", "In einer weiteren Sch\u00fcssel Buttermilch, Eier und geschmolzene Butter verquirlen.", "Nasse und trockene Zutaten vermengen, nur bis keine trockenen Stellen mehr sichtbar sind (Kl\u00fcmpchen sind in Ordnung).", "Portionen von 60 ml auf einer gebutterten Platte backen, bis Bl\u00e4schen entstehen, wenden und fertig garen.", "Gestapelt mit Ahornsirup und Butter servieren."]}}}, {"id": "chana-masala", "title": "Chana Masala (Spiced Chickpea Curry)", "description": "Punchy, tangy chickpea curry from North India, naturally vegan.", "cuisine": "Indian", "category": "main", "servings": 4, "prep_time_minutes": 10, "cook_time_minutes": 30, "difficulty": "easy", "ingredients": [{"name": "canned chickpeas", "quantity": 2, "unit": "cup", "grocery_category": "canned-jarred"}, {"name": "onion, finely chopped", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "tomatoes, pureed", "quantity": 2, "unit": "piece", "grocery_category": "vegetables"}, {"name": "ginger-garlic paste", "quantity": 1, "unit": "tbsp", "grocery_category": "vegetables"}, {"name": "chana masala spice blend", "quantity": 2, "unit": "tsp", "grocery_category": "spices"}, {"name": "cumin seeds", "quantity": 1, "unit": "tsp", "grocery_category": "spices"}, {"name": "vegetable oil", "quantity": 2, "unit": "tbsp", "grocery_category": "oils-fats"}, {"name": "cilantro, chopped", "quantity": 2, "unit": "tbsp", "grocery_category": "herbs-fresh"}, {"name": "lemon juice", "quantity": 1, "unit": "tbsp", "grocery_category": "fruits"}], "instructions": ["Heat oil, temper cumin seeds until fragrant.", "Add onion, cook until golden, then add ginger-garlic paste.", "Add tomato puree and spice blend, cook until oil separates.", "Add chickpeas with a splash of water, simmer 15 minutes, mashing a few for body.", "Finish with lemon juice and cilantro; serve with rice or roti."], "tags": ["vegan", "budget-friendly", "one-pot", "weeknight"], "dietary": ["vegan", "vegetarian", "gluten-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Chana Masala (Gew\u00fcrztes Kichererbsen-Curry)", "description": "W\u00fcrziges, pikantes Kichererbsen-Curry aus Nordindien, von Natur aus vegan.", "ingredient_names": ["Kichererbsen aus der Dose", "Zwiebel, fein gehackt", "Tomaten, p\u00fcriert", "Ingwer-Knoblauch-Paste", "Chana-Masala-Gew\u00fcrzmischung", "Kreuzk\u00fcmmelsamen", "Pflanzen\u00f6l", "Koriandergr\u00fcn, gehackt", "Zitronensaft"], "instructions": ["\u00d6l erhitzen, Kreuzk\u00fcmmelsamen anschwitzen, bis sie duften.", "Zwiebel zugeben, goldbraun anbraten, dann Ingwer-Knoblauch-Paste zugeben.", "Tomatenp\u00fcree und Gew\u00fcrzmischung zugeben, braten, bis sich das \u00d6l absetzt.", "Kichererbsen mit einem Schuss Wasser zugeben, 15 Minuten k\u00f6cheln lassen, dabei einige zerdr\u00fccken, um Bindung zu geben.", "Mit Zitronensaft und Koriandergr\u00fcn abschlie\u00dfen; mit Reis oder Roti servieren."]}}}, {"id": "chicken-tacos", "title": "Chicken Tacos al Pastor Style", "description": "Achiote-marinated chicken tacos with pineapple, onion and cilantro.", "cuisine": "Mexican", "category": "main", "servings": 4, "prep_time_minutes": 30, "cook_time_minutes": 20, "difficulty": "medium", "ingredients": [{"name": "chicken thighs, boneless", "quantity": 600, "unit": "g", "grocery_category": "meat-poultry"}, {"name": "achiote paste", "quantity": 2, "unit": "tbsp", "grocery_category": "condiments-sauces"}, {"name": "orange juice", "quantity": 60, "unit": "ml", "grocery_category": "beverages"}, {"name": "lime juice", "quantity": 30, "unit": "ml", "grocery_category": "fruits"}, {"name": "pineapple, diced", "quantity": 150, "unit": "g", "grocery_category": "fruits"}, {"name": "corn tortillas", "quantity": 12, "unit": "piece", "grocery_category": "bakery"}, {"name": "white onion, diced", "quantity": 0.5, "unit": "piece", "grocery_category": "vegetables"}, {"name": "cilantro, chopped", "quantity": 3, "unit": "tbsp", "grocery_category": "herbs-fresh"}], "instructions": ["Whisk achiote paste with orange and lime juice; marinate chicken 1-2 hours.", "Sear chicken in a hot pan until charred and cooked through; rest and slice.", "Warm tortillas; fill with chicken, pineapple, onion and cilantro.", "Serve with extra lime wedges."], "tags": ["street-food", "grill", "party"], "dietary": ["non-vegetarian", "gluten-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "H\u00e4hnchen-Tacos al Pastor", "description": "Mit Achiote marinierte H\u00e4hnchen-Tacos mit Ananas, Zwiebel und Koriandergr\u00fcn.", "ingredient_names": ["H\u00e4hnchenoberschenkel, ohne Knochen", "Achiote-Paste", "Orangensaft", "Limettensaft", "Ananas, gew\u00fcrfelt", "Maistortillas", "wei\u00dfe Zwiebel, gew\u00fcrfelt", "Koriandergr\u00fcn, gehackt"], "instructions": ["Achiote-Paste mit Orangen- und Limettensaft verquirlen; H\u00e4hnchen 1-2 Stunden marinieren.", "H\u00e4hnchen in einer hei\u00dfen Pfanne scharf anbraten, bis es angebr\u00e4unt und durchgegart ist; ruhen lassen und in Scheiben schneiden.", "Tortillas erw\u00e4rmen; mit H\u00e4hnchen, Ananas, Zwiebel und Koriandergr\u00fcn f\u00fcllen.", "Mit zus\u00e4tzlichen Limettenspalten servieren."]}}}, {"id": "chicken-teriyaki", "title": "Chicken Teriyaki", "description": "Pan-glazed chicken thighs in a sweet-savory soy sauce glaze.", "cuisine": "Japanese", "category": "main", "servings": 4, "prep_time_minutes": 10, "cook_time_minutes": 20, "difficulty": "easy", "ingredients": [{"name": "chicken thighs, skin-on", "quantity": 600, "unit": "g", "grocery_category": "meat-poultry"}, {"name": "soy sauce", "quantity": 60, "unit": "ml", "grocery_category": "condiments-sauces"}, {"name": "mirin", "quantity": 60, "unit": "ml", "grocery_category": "condiments-sauces"}, {"name": "sake", "quantity": 30, "unit": "ml", "grocery_category": "beverages", "optional": true}, {"name": "sugar", "quantity": 1, "unit": "tbsp", "grocery_category": "other"}, {"name": "ginger, grated", "quantity": 1, "unit": "tsp", "grocery_category": "vegetables"}, {"name": "sesame seeds", "quantity": 1, "unit": "tsp", "grocery_category": "nuts-seeds", "optional": true}], "instructions": ["Sear chicken thighs skin-side down until crisp; flip and cook through.", "Whisk soy sauce, mirin, sake, sugar and ginger together.", "Pour sauce into the pan, simmer until it reduces to a glaze coating the chicken.", "Slice, sprinkle with sesame seeds, and serve with steamed rice."], "tags": ["glazed", "weeknight", "umami"], "dietary": ["non-vegetarian", "dairy-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "H\u00e4hnchen Teriyaki", "description": "In der Pfanne glasierte H\u00e4hnchenschenkel in einer s\u00fc\u00df-herzhaften Sojasauce-Glasur.", "ingredient_names": ["H\u00e4hnchenschenkel, mit Haut", "Sojasauce", "Mirin", "Sake", "Zucker", "Ingwer, gerieben", "Sesamsamen"], "instructions": ["H\u00e4hnchenschenkel mit der Hautseite nach unten knusprig anbraten; wenden und fertig garen.", "Sojasauce, Mirin, Sake, Zucker und Ingwer verquirlen.", "Sauce in die Pfanne gie\u00dfen, k\u00f6cheln lassen, bis sie zu einer Glasur einreduziert, die das H\u00e4hnchen umh\u00fcllt.", "In Scheiben schneiden, mit Sesamsamen bestreuen und mit ged\u00e4mpftem Reis servieren."]}}}, {"id": "classic-beef-burger", "title": "Classic Beef Burger", "description": "Juicy diner-style beef burger with cheese and all the fixings.", "cuisine": "American", "category": "main", "servings": 4, "prep_time_minutes": 15, "cook_time_minutes": 10, "difficulty": "easy", "ingredients": [{"name": "ground beef (80/20)", "quantity": 600, "unit": "g", "grocery_category": "meat-poultry"}, {"name": "burger buns", "quantity": 4, "unit": "piece", "grocery_category": "bakery"}, {"name": "cheddar cheese slices", "quantity": 4, "unit": "piece", "grocery_category": "dairy"}, {"name": "lettuce leaves", "quantity": 4, "unit": "piece", "grocery_category": "vegetables"}, {"name": "tomato, sliced", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "red onion, sliced", "quantity": 0.5, "unit": "piece", "grocery_category": "vegetables"}, {"name": "pickles", "quantity": 8, "unit": "piece", "grocery_category": "canned-jarred"}, {"name": "ketchup", "quantity": 2, "unit": "tbsp", "grocery_category": "condiments-sauces"}, {"name": "mustard", "quantity": 1, "unit": "tbsp", "grocery_category": "condiments-sauces"}], "instructions": ["Divide beef into 4 patties, season generously with salt and pepper.", "Sear on a hot pan or grill 3-4 minutes per side, adding cheese in the last minute.", "Toast the buns lightly.", "Assemble with lettuce, tomato, onion, pickles, ketchup and mustard."], "tags": ["grill", "weekend", "crowd-pleaser"], "dietary": ["non-vegetarian"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Klassischer Rindfleisch-Burger", "description": "Saftiger Diner-Style-Rindfleisch-Burger mit K\u00e4se und allem Drum und Dran.", "ingredient_names": ["Rinderhack (80/20)", "Burgerbr\u00f6tchen", "Cheddar-K\u00e4sescheiben", "Kopfsalatbl\u00e4tter", "Tomate, in Scheiben geschnitten", "rote Zwiebel, in Scheiben geschnitten", "Essiggurken", "Ketchup", "Senf"], "instructions": ["Rinderhack in 4 Patties teilen, gro\u00dfz\u00fcgig mit Salz und Pfeffer w\u00fcrzen.", "In einer hei\u00dfen Pfanne oder auf dem Grill 3-4 Minuten pro Seite anbraten, in der letzten Minute K\u00e4se zugeben.", "Br\u00f6tchen leicht toasten.", "Mit Salat, Tomate, Zwiebel, Essiggurken, Ketchup und Senf belegen."]}}}, {"id": "falafel", "title": "Crispy Baked Falafel", "description": "Herb-packed chickpea fritters, oven-baked for a lighter finish.", "cuisine": "Middle Eastern", "category": "main", "servings": 4, "prep_time_minutes": 20, "cook_time_minutes": 25, "difficulty": "medium", "ingredients": [{"name": "dried chickpeas, soaked overnight", "quantity": 250, "unit": "g", "grocery_category": "lentils-pulses"}, {"name": "parsley", "quantity": 1, "unit": "cup", "grocery_category": "herbs-fresh"}, {"name": "cilantro", "quantity": 0.5, "unit": "cup", "grocery_category": "herbs-fresh"}, {"name": "onion, roughly chopped", "quantity": 0.5, "unit": "piece", "grocery_category": "vegetables"}, {"name": "garlic cloves", "quantity": 4, "unit": "piece", "grocery_category": "vegetables"}, {"name": "cumin powder", "quantity": 1, "unit": "tsp", "grocery_category": "spices"}, {"name": "coriander powder", "quantity": 1, "unit": "tsp", "grocery_category": "spices"}, {"name": "baking powder", "quantity": 1, "unit": "tsp", "grocery_category": "flour-baking"}, {"name": "olive oil", "quantity": 2, "unit": "tbsp", "grocery_category": "oils-fats"}], "instructions": ["Note: use dried, soaked (not canned) chickpeas for proper texture.", "Pulse chickpeas, herbs, onion, garlic and spices in a food processor until finely ground but not pureed.", "Mix in baking powder, chill mixture 30 minutes.", "Shape into small patties, brush with olive oil.", "Bake at 200C for 12-14 minutes per side until golden and crisp.", "Serve in pita with tahini sauce and salad."], "tags": ["vegan", "meal-prep", "baked"], "dietary": ["vegan", "vegetarian"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Knusprige gebackene Falafel", "description": "Kr\u00e4uterreiche Kichererbsen-Bratlinge, im Ofen gebacken f\u00fcr ein leichteres Ergebnis.", "ingredient_names": ["getrocknete Kichererbsen, \u00fcber Nacht eingeweicht", "Petersilie", "Koriandergr\u00fcn", "Zwiebel, grob gehackt", "Knoblauchzehen", "Kreuzk\u00fcmmelpulver", "Korianderpulver", "Backpulver", "Oliven\u00f6l"], "instructions": ["Hinweis: f\u00fcr die richtige Textur getrocknete, eingeweichte (keine Dosen-) Kichererbsen verwenden.", "Kichererbsen, Kr\u00e4uter, Zwiebel, Knoblauch und Gew\u00fcrze in einer K\u00fcchenmaschine pulsieren, bis sie fein gemahlen, aber nicht p\u00fcriert sind.", "Backpulver unterr\u00fchren, Mischung 30 Minuten k\u00fchl stellen.", "Zu kleinen Bratlingen formen, mit Oliven\u00f6l bestreichen.", "Bei 200\u00b0C 12-14 Minuten pro Seite backen, bis sie goldbraun und knusprig sind.", "In Pita mit Tahini-Sauce und Salat servieren."]}}}, {"id": "greek-salad", "title": "Greek Salad (Horiatiki)", "description": "Rustic salad of tomato, cucumber, olives and feta.", "cuisine": "Greek", "category": "salad", "servings": 4, "prep_time_minutes": 15, "cook_time_minutes": 0, "difficulty": "easy", "ingredients": [{"name": "tomatoes, cut into wedges", "quantity": 4, "unit": "piece", "grocery_category": "vegetables"}, {"name": "cucumber, sliced", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "red onion, thinly sliced", "quantity": 0.5, "unit": "piece", "grocery_category": "vegetables"}, {"name": "kalamata olives", "quantity": 100, "unit": "g", "grocery_category": "canned-jarred"}, {"name": "feta cheese block", "quantity": 150, "unit": "g", "grocery_category": "dairy"}, {"name": "extra virgin olive oil", "quantity": 3, "unit": "tbsp", "grocery_category": "oils-fats"}, {"name": "dried oregano", "quantity": 1, "unit": "tsp", "grocery_category": "spices"}], "instructions": ["Combine tomato, cucumber, onion and olives in a bowl.", "Top with a whole block of feta, drizzle with olive oil and sprinkle oregano.", "Season with salt and pepper; serve with crusty bread."], "tags": ["no-cook", "fresh", "summer", "vegetarian"], "dietary": ["vegetarian", "gluten-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Griechischer Salat (Horiatiki)", "description": "Rustikaler Salat aus Tomate, Gurke, Oliven und Feta.", "ingredient_names": ["Tomaten, in Spalten geschnitten", "Gurke, in Scheiben geschnitten", "rote Zwiebel, d\u00fcnn geschnitten", "Kalamata-Oliven", "Feta-K\u00e4se, im St\u00fcck", "natives Oliven\u00f6l extra", "getrockneter Oregano"], "instructions": ["Tomate, Gurke, Zwiebel und Oliven in einer Sch\u00fcssel vermengen.", "Mit einem ganzen St\u00fcck Feta belegen, mit Oliven\u00f6l betr\u00e4ufeln und mit Oregano bestreuen.", "Mit Salz und Pfeffer w\u00fcrzen; mit knusprigem Brot servieren."]}}}, {"id": "guacamole", "title": "Classic Guacamole", "description": "Fresh avocado dip with lime, onion and cilantro.", "cuisine": "Mexican", "category": "snack", "servings": 4, "prep_time_minutes": 10, "cook_time_minutes": 0, "difficulty": "easy", "ingredients": [{"name": "ripe avocados", "quantity": 3, "unit": "piece", "grocery_category": "fruits"}, {"name": "lime juice", "quantity": 2, "unit": "tbsp", "grocery_category": "fruits"}, {"name": "red onion, finely diced", "quantity": 0.25, "unit": "piece", "grocery_category": "vegetables"}, {"name": "tomato, diced", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "cilantro, chopped", "quantity": 2, "unit": "tbsp", "grocery_category": "herbs-fresh"}, {"name": "jalapeno, minced", "quantity": 1, "unit": "piece", "grocery_category": "vegetables", "optional": true}, {"name": "salt", "quantity": 0.5, "unit": "tsp", "grocery_category": "spices"}], "instructions": ["Mash avocados to desired texture in a bowl.", "Fold in lime juice, onion, tomato, cilantro and jalapeno.", "Season with salt and serve immediately with tortilla chips."], "tags": ["no-cook", "quick", "party", "vegan"], "dietary": ["vegan", "vegetarian", "gluten-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Klassische Guacamole", "description": "Frischer Avocado-Dip mit Limette, Zwiebel und Koriandergr\u00fcn.", "ingredient_names": ["reife Avocados", "Limettensaft", "rote Zwiebel, fein gew\u00fcrfelt", "Tomate, gew\u00fcrfelt", "Koriandergr\u00fcn, gehackt", "Jalape\u00f1o, fein gehackt", "Salz"], "instructions": ["Avocados in einer Sch\u00fcssel auf die gew\u00fcnschte Konsistenz zerdr\u00fccken.", "Limettensaft, Zwiebel, Tomate, Koriandergr\u00fcn und Jalape\u00f1o untermengen.", "Mit Salz w\u00fcrzen und sofort mit Tortilla-Chips servieren."]}}}, {"id": "hummus", "title": "Classic Hummus", "description": "Smooth chickpea and tahini dip from the Levant.", "cuisine": "Middle Eastern", "category": "snack", "servings": 6, "prep_time_minutes": 10, "cook_time_minutes": 0, "difficulty": "easy", "ingredients": [{"name": "canned chickpeas", "quantity": 400, "unit": "g", "grocery_category": "canned-jarred"}, {"name": "tahini", "quantity": 60, "unit": "g", "grocery_category": "condiments-sauces"}, {"name": "lemon juice", "quantity": 3, "unit": "tbsp", "grocery_category": "fruits"}, {"name": "garlic clove", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "olive oil", "quantity": 2, "unit": "tbsp", "grocery_category": "oils-fats"}, {"name": "cumin powder", "quantity": 0.5, "unit": "tsp", "grocery_category": "spices"}, {"name": "ice water", "quantity": 3, "unit": "tbsp", "grocery_category": "beverages"}], "instructions": ["Blend chickpeas, tahini, lemon juice, garlic and cumin until coarse.", "Stream in ice water while blending until smooth and creamy.", "Season with salt, drizzle with olive oil and serve with pita."], "tags": ["no-cook", "dip", "vegan", "meal-prep"], "dietary": ["vegan", "vegetarian", "gluten-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Klassischer Hummus", "description": "Cremiger Kichererbsen-Tahini-Dip aus der Levante.", "ingredient_names": ["Kichererbsen aus der Dose", "Tahini", "Zitronensaft", "Knoblauchzehe", "Oliven\u00f6l", "Kreuzk\u00fcmmelpulver", "Eiswasser"], "instructions": ["Kichererbsen, Tahini, Zitronensaft, Knoblauch und Kreuzk\u00fcmmel grob p\u00fcrieren.", "Beim P\u00fcrieren nach und nach Eiswasser zugeben, bis alles glatt und cremig ist.", "Mit Salz w\u00fcrzen, mit Oliven\u00f6l betr\u00e4ufeln und mit Pita servieren."]}}}, {"id": "kung-pao-chicken", "title": "Kung Pao Chicken", "description": "Sichuan stir-fry with chicken, peanuts and dried chilies.", "cuisine": "Chinese", "category": "main", "servings": 4, "prep_time_minutes": 20, "cook_time_minutes": 15, "difficulty": "medium", "ingredients": [{"name": "chicken breast, diced", "quantity": 500, "unit": "g", "grocery_category": "meat-poultry"}, {"name": "roasted peanuts", "quantity": 80, "unit": "g", "grocery_category": "nuts-seeds"}, {"name": "dried red chilies", "quantity": 8, "unit": "piece", "grocery_category": "spices"}, {"name": "sichuan peppercorns", "quantity": 1, "unit": "tsp", "grocery_category": "spices"}, {"name": "soy sauce", "quantity": 2, "unit": "tbsp", "grocery_category": "condiments-sauces"}, {"name": "black vinegar", "quantity": 1, "unit": "tbsp", "grocery_category": "condiments-sauces"}, {"name": "garlic, minced", "quantity": 3, "unit": "piece", "grocery_category": "vegetables"}, {"name": "spring onion, chopped", "quantity": 3, "unit": "piece", "grocery_category": "vegetables"}, {"name": "cornstarch", "quantity": 1, "unit": "tbsp", "grocery_category": "flour-baking"}, {"name": "vegetable oil", "quantity": 3, "unit": "tbsp", "grocery_category": "oils-fats"}], "instructions": ["Toss chicken with cornstarch and a splash of soy sauce; marinate 10 minutes.", "Stir-fry dried chilies and sichuan peppercorns in hot oil until fragrant.", "Add chicken, stir-fry until cooked through.", "Add garlic, soy sauce and black vinegar; toss to coat.", "Stir in peanuts and spring onion; serve with steamed rice."], "tags": ["stir-fry", "spicy", "weeknight"], "dietary": ["non-vegetarian", "dairy-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Kung Pao H\u00e4hnchen", "description": "Sichuan-Pfannengericht mit H\u00e4hnchen, Erdn\u00fcssen und getrockneten Chilis.", "ingredient_names": ["H\u00e4hnchenbrust, gew\u00fcrfelt", "ger\u00f6stete Erdn\u00fcsse", "getrocknete rote Chilis", "Sichuan-Pfefferk\u00f6rner", "Sojasauce", "schwarzer Essig", "Knoblauch, gehackt", "Fr\u00fchlingszwiebel, gehackt", "Speisest\u00e4rke", "Pflanzen\u00f6l"], "instructions": ["H\u00e4hnchen mit Speisest\u00e4rke und einem Schuss Sojasauce vermengen; 10 Minuten marinieren.", "Getrocknete Chilis und Sichuan-Pfefferk\u00f6rner in hei\u00dfem \u00d6l anbraten, bis sie duften.", "H\u00e4hnchen zugeben, braten, bis es durchgegart ist.", "Knoblauch, Sojasauce und schwarzen Essig zugeben; gut vermengen.", "Erdn\u00fcsse und Fr\u00fchlingszwiebel unterr\u00fchren; mit ged\u00e4mpftem Reis servieren."]}}}, {"id": "margherita-pizza", "title": "Margherita Pizza", "description": "Neapolitan-style pizza with tomato, mozzarella and basil.", "cuisine": "Italian", "category": "main", "servings": 2, "prep_time_minutes": 90, "cook_time_minutes": 12, "difficulty": "medium", "ingredients": [{"name": "00 flour or bread flour", "quantity": 300, "unit": "g", "grocery_category": "flour-baking"}, {"name": "active dry yeast", "quantity": 3, "unit": "g", "grocery_category": "flour-baking"}, {"name": "water", "quantity": 200, "unit": "ml", "grocery_category": "beverages"}, {"name": "salt", "quantity": 6, "unit": "g", "grocery_category": "spices"}, {"name": "canned San Marzano tomatoes, crushed", "quantity": 200, "unit": "g", "grocery_category": "canned-jarred"}, {"name": "fresh mozzarella, torn", "quantity": 150, "unit": "g", "grocery_category": "dairy"}, {"name": "fresh basil leaves", "quantity": 10, "unit": "piece", "grocery_category": "herbs-fresh"}, {"name": "olive oil", "quantity": 2, "unit": "tbsp", "grocery_category": "oils-fats"}], "instructions": ["Mix flour, yeast, water and salt into a dough; knead 10 minutes until smooth.", "Let rise covered for 1-1.5 hours until doubled.", "Preheat oven with a pizza stone or tray as hot as it will go (250C+).", "Stretch dough into a round, top with crushed tomatoes, mozzarella and a drizzle of oil.", "Bake 8-12 minutes until the crust is charred in spots.", "Top with fresh basil before serving."], "tags": ["baking", "weekend-project", "crowd-pleaser"], "dietary": ["vegetarian"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Pizza Margherita", "description": "Pizza nach neapolitanischer Art mit Tomate, Mozzarella und Basilikum.", "ingredient_names": ["00-Mehl oder Brotmehl", "Trockenhefe", "Wasser", "Salz", "San-Marzano-Tomaten aus der Dose, zerdr\u00fcckt", "frischer Mozzarella, zerzupft", "frische Basilikumbl\u00e4tter", "Oliven\u00f6l"], "instructions": ["Mehl, Hefe, Wasser und Salz zu einem Teig verkneten; 10 Minuten kneten, bis er glatt ist.", "Zugedeckt 1-1,5 Stunden gehen lassen, bis sich der Teig verdoppelt hat.", "Ofen mit Pizzastein oder Blech so hei\u00df wie m\u00f6glich vorheizen (250\u00b0C+).", "Teig zu einem Rund ausziehen, mit zerdr\u00fcckten Tomaten, Mozzarella und einem Schuss \u00d6l belegen.", "8-12 Minuten backen, bis der Rand stellenweise dunkle Flecken hat.", "Vor dem Servieren mit frischem Basilikum belegen."]}}}, {"id": "miso-soup", "title": "Miso Soup", "description": "Light Japanese soup with dashi, miso, tofu and seaweed.", "cuisine": "Japanese", "category": "soup", "servings": 4, "prep_time_minutes": 5, "cook_time_minutes": 10, "difficulty": "easy", "ingredients": [{"name": "dashi stock", "quantity": 1, "unit": "l", "grocery_category": "beverages"}, {"name": "miso paste", "quantity": 3, "unit": "tbsp", "grocery_category": "condiments-sauces"}, {"name": "silken tofu, cubed", "quantity": 200, "unit": "g", "grocery_category": "other"}, {"name": "dried wakame seaweed", "quantity": 1, "unit": "tbsp", "grocery_category": "other"}, {"name": "spring onion, sliced", "quantity": 2, "unit": "piece", "grocery_category": "vegetables"}], "instructions": ["Bring dashi to a gentle simmer (do not boil).", "Whisk a ladle of hot dashi with miso paste until dissolved, then stir back into the pot.", "Add tofu and rehydrated wakame, warm through.", "Garnish with spring onion and serve immediately."], "tags": ["light", "quick", "comfort"], "dietary": ["vegetarian", "dairy-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Miso-Suppe", "description": "Leichte japanische Suppe mit Dashi, Miso, Tofu und Algen.", "ingredient_names": ["Dashi-Br\u00fche", "Miso-Paste", "Seidentofu, gew\u00fcrfelt", "getrocknete Wakame-Algen", "Fr\u00fchlingszwiebel, in Ringe geschnitten"], "instructions": ["Dashi sanft erhitzen (nicht kochen lassen).", "Eine Kelle hei\u00dfe Dashi mit Miso-Paste verquirlen, bis sie sich aufgel\u00f6st hat, dann zur\u00fcck in den Topf r\u00fchren.", "Tofu und eingeweichte Wakame zugeben, durchw\u00e4rmen.", "Mit Fr\u00fchlingszwiebel garnieren und sofort servieren."]}}}, {"id": "ratatouille", "title": "Ratatouille", "description": "Provencal stewed vegetable dish of eggplant, zucchini, pepper and tomato.", "cuisine": "French", "category": "side", "servings": 4, "prep_time_minutes": 20, "cook_time_minutes": 40, "difficulty": "medium", "ingredients": [{"name": "eggplant, diced", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "zucchini, diced", "quantity": 2, "unit": "piece", "grocery_category": "vegetables"}, {"name": "bell peppers, diced", "quantity": 2, "unit": "piece", "grocery_category": "vegetables"}, {"name": "tomatoes, chopped", "quantity": 4, "unit": "piece", "grocery_category": "vegetables"}, {"name": "onion, chopped", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "garlic cloves, minced", "quantity": 3, "unit": "piece", "grocery_category": "vegetables"}, {"name": "herbes de Provence", "quantity": 1, "unit": "tsp", "grocery_category": "spices"}, {"name": "olive oil", "quantity": 4, "unit": "tbsp", "grocery_category": "oils-fats"}], "instructions": ["Saute onion and garlic in olive oil until soft.", "Add eggplant, cook 5 minutes, then add peppers and zucchini.", "Stir in tomatoes and herbes de Provence.", "Cover and simmer 25-30 minutes, stirring occasionally, until vegetables are tender and stew-like.", "Season and serve warm or at room temperature."], "tags": ["vegan", "make-ahead", "summer"], "dietary": ["vegan", "vegetarian", "gluten-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Ratatouille", "description": "Provenzalisches Schmorgericht aus Aubergine, Zucchini, Paprika und Tomate.", "ingredient_names": ["Aubergine, gew\u00fcrfelt", "Zucchini, gew\u00fcrfelt", "Paprika, gew\u00fcrfelt", "Tomaten, gehackt", "Zwiebel, gehackt", "Knoblauchzehen, gehackt", "Kr\u00e4uter der Provence", "Oliven\u00f6l"], "instructions": ["Zwiebel und Knoblauch in Oliven\u00f6l weich d\u00fcnsten.", "Aubergine zugeben, 5 Minuten braten, dann Paprika und Zucchini zugeben.", "Tomaten und Kr\u00e4uter der Provence unterr\u00fchren.", "Zugedeckt 25-30 Minuten k\u00f6cheln lassen, dabei gelegentlich umr\u00fchren, bis das Gem\u00fcse weich und schmorig ist.", "W\u00fcrzen und warm oder bei Zimmertemperatur servieren."]}}}, {"id": "spaghetti-aglio-e-olio", "title": "Spaghetti Aglio e Olio", "description": "Classic Roman pasta of garlic, olive oil and chili flakes.", "cuisine": "Italian", "category": "main", "servings": 2, "prep_time_minutes": 5, "cook_time_minutes": 15, "difficulty": "easy", "ingredients": [{"name": "spaghetti", "quantity": 200, "unit": "g", "grocery_category": "grains-rice"}, {"name": "garlic, thinly sliced", "quantity": 6, "unit": "piece", "grocery_category": "vegetables"}, {"name": "extra virgin olive oil", "quantity": 80, "unit": "ml", "grocery_category": "oils-fats"}, {"name": "red chili flakes", "quantity": 1, "unit": "tsp", "grocery_category": "spices"}, {"name": "parsley, chopped", "quantity": 2, "unit": "tbsp", "grocery_category": "herbs-fresh"}, {"name": "parmesan cheese, grated", "quantity": 30, "unit": "g", "grocery_category": "dairy", "optional": true}], "instructions": ["Cook spaghetti in salted water until al dente; reserve 1 cup pasta water.", "Gently warm olive oil with garlic and chili flakes until garlic is golden, not browned.", "Toss drained pasta into the pan with a splash of pasta water to emulsify.", "Stir in parsley, season with salt, and serve with parmesan if desired."], "tags": ["quick", "pantry", "weeknight", "vegetarian-optional"], "dietary": ["vegetarian"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Spaghetti Aglio e Olio", "description": "Klassische r\u00f6mische Pasta mit Knoblauch, Oliven\u00f6l und Chiliflocken.", "ingredient_names": ["Spaghetti", "Knoblauch, in d\u00fcnne Scheiben geschnitten", "natives Oliven\u00f6l extra", "rote Chiliflocken", "Petersilie, gehackt", "Parmesan, gerieben"], "instructions": ["Spaghetti in Salzwasser al dente kochen; 1 Tasse Nudelwasser aufheben.", "Oliven\u00f6l mit Knoblauch und Chiliflocken sanft erw\u00e4rmen, bis der Knoblauch golden, nicht braun ist.", "Abgetropfte Pasta mit einem Schuss Nudelwasser in die Pfanne geben, um zu emulgieren.", "Petersilie unterr\u00fchren, mit Salz w\u00fcrzen und nach Belieben mit Parmesan servieren."]}}}, {"id": "thai-green-curry", "title": "Thai Green Curry with Chicken", "description": "Aromatic, coconut-based curry with green chilies, Thai basil and vegetables.", "cuisine": "Thai", "category": "main", "servings": 4, "prep_time_minutes": 20, "cook_time_minutes": 25, "difficulty": "medium", "ingredients": [{"name": "chicken breast, sliced", "quantity": 500, "unit": "g", "grocery_category": "meat-poultry"}, {"name": "green curry paste", "quantity": 3, "unit": "tbsp", "grocery_category": "condiments-sauces"}, {"name": "coconut milk", "quantity": 400, "unit": "ml", "grocery_category": "canned-jarred"}, {"name": "fish sauce", "quantity": 1, "unit": "tbsp", "grocery_category": "condiments-sauces"}, {"name": "palm sugar", "quantity": 1, "unit": "tbsp", "grocery_category": "other"}, {"name": "Thai eggplant or zucchini, chopped", "quantity": 150, "unit": "g", "grocery_category": "vegetables"}, {"name": "bell pepper, sliced", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "Thai basil leaves", "quantity": 0.5, "unit": "cup", "grocery_category": "herbs-fresh"}, {"name": "kaffir lime leaves", "quantity": 3, "unit": "piece", "grocery_category": "herbs-fresh"}], "instructions": ["Fry curry paste in a splash of coconut milk until fragrant.", "Add chicken, cook until sealed on all sides.", "Pour in remaining coconut milk, fish sauce and palm sugar; simmer 10 minutes.", "Add vegetables and kaffir lime leaves; simmer until tender.", "Stir in Thai basil and serve with jasmine rice."], "tags": ["curry", "coconut", "spicy"], "dietary": ["non-vegetarian", "gluten-free", "dairy-free"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Thail\u00e4ndisches gr\u00fcnes Curry mit H\u00e4hnchen", "description": "Aromatisches Kokos-Curry mit gr\u00fcnen Chilis, Thai-Basilikum und Gem\u00fcse.", "ingredient_names": ["H\u00e4hnchenbrust, in Scheiben geschnitten", "gr\u00fcne Currypaste", "Kokosmilch", "Fischsauce", "Palmzucker", "Thai-Aubergine oder Zucchini, gehackt", "Paprika, in Scheiben geschnitten", "Thai-Basilikumbl\u00e4tter", "Kaffirlimettenbl\u00e4tter"], "instructions": ["Currypaste in einem Schuss Kokosmilch anbraten, bis sie duftet.", "H\u00e4hnchen zugeben, anbraten, bis es rundum versiegelt ist.", "Restliche Kokosmilch, Fischsauce und Palmzucker zugeben; 10 Minuten k\u00f6cheln lassen.", "Gem\u00fcse und Kaffirlimettenbl\u00e4tter zugeben; k\u00f6cheln, bis alles weich ist.", "Thai-Basilikum unterr\u00fchren und mit Jasminreis servieren."]}}}, {"id": "vegetable-fried-rice", "title": "Vegetable Fried Rice", "description": "Wok-fried rice with mixed vegetables, egg and soy sauce.", "cuisine": "Chinese", "category": "main", "servings": 4, "prep_time_minutes": 10, "cook_time_minutes": 15, "difficulty": "easy", "ingredients": [{"name": "rice, cooked and cooled", "quantity": 4, "unit": "cup", "grocery_category": "grains-rice"}, {"name": "eggs, beaten", "quantity": 2, "unit": "piece", "grocery_category": "dairy"}, {"name": "carrot, diced", "quantity": 1, "unit": "piece", "grocery_category": "vegetables"}, {"name": "peas", "quantity": 0.5, "unit": "cup", "grocery_category": "frozen"}, {"name": "spring onion, chopped", "quantity": 3, "unit": "piece", "grocery_category": "vegetables"}, {"name": "soy sauce", "quantity": 3, "unit": "tbsp", "grocery_category": "condiments-sauces"}, {"name": "sesame oil", "quantity": 1, "unit": "tsp", "grocery_category": "oils-fats"}, {"name": "vegetable oil", "quantity": 2, "unit": "tbsp", "grocery_category": "oils-fats"}], "instructions": ["Scramble eggs in a hot wok with a little oil; set aside.", "Stir-fry carrot and peas 2-3 minutes.", "Add rice, breaking up clumps, stir-fry 5 minutes until slightly crisp.", "Return eggs, add soy sauce and sesame oil, toss well.", "Garnish with spring onion and serve."], "tags": ["quick", "leftovers", "one-pan", "budget-friendly"], "dietary": ["vegetarian"], "source": "ai-generated", "generated_by": "claude-sonnet-5", "translations": {"de": {"title": "Gebratener Reis mit Gem\u00fcse", "description": "Im Wok gebratener Reis mit gemischtem Gem\u00fcse, Ei und Sojasauce.", "ingredient_names": ["Reis, gekocht und abgek\u00fchlt", "Eier, verquirlt", "Karotte, gew\u00fcrfelt", "Erbsen", "Fr\u00fchlingszwiebel, gehackt", "Sojasauce", "Sesam\u00f6l", "Pflanzen\u00f6l"], "instructions": ["Eier in einem hei\u00dfen Wok mit etwas \u00d6l verr\u00fchren; beiseitestellen.", "Karotte und Erbsen 2-3 Minuten anbraten.", "Reis zugeben, Klumpen aufl\u00f6sen, 5 Minuten braten, bis er leicht knusprig ist.", "Eier zur\u00fcckgeben, Sojasauce und Sesam\u00f6l zugeben, gut vermengen.", "Mit Fr\u00fchlingszwiebel garnieren und servieren."]}}}];
 
   /* =================================================================
-     Local persistence for user-submitted recipes.
+     Accounts + shared persistence (Supabase), local-only fallback.
 
-     No accounts or backend exist yet (see README), so a submitted recipe
-     has nowhere durable to go except this browser. RecipeStore wraps that
-     in a small, swappable interface — list()/save()/remove() — so that a
-     later Supabase-backed version is a drop-in replacement for the body of
-     THIS OBJECT ONLY; nothing else in the app talks to localStorage
-     directly. See the README's "Local persistence today, Supabase later"
-     section for the intended swap.
+     Fill in SUPABASE_URL / SUPABASE_ANON_KEY (Supabase dashboard →
+     Settings → API — the anon key is meant to be public/client-side,
+     unlike the service_role key or DB password) once a project exists;
+     see supabase/README.md for the one-time setup + how to become the
+     app's admin. Left blank, `supa` stays null and every RecipeStore call
+     falls back to this browser's own localStorage — today's behavior,
+     unchanged, so the live site keeps working exactly as before until
+     real credentials are added.
      ================================================================= */
+  const SUPABASE_URL = "";
+  const SUPABASE_ANON_KEY = "";
+  const supa = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+  let currentUser = null;    // Supabase auth user, or null when signed out / in local-only mode
+  let currentProfile = null; // { id, email, role, kitchen_name } row from public.profiles
+
+  function isAdmin() {
+    return !!(currentProfile && currentProfile.role === "admin");
+  }
+
+  // Who may remove a given recipe from view. A seed recipe is never
+  // manageable, admin or not — it's bundled static data, not a database
+  // row, so "deleting" it would just no-op and reappear on the next
+  // refresh. Otherwise: in local-only mode, anything this browser saved
+  // (no accounts to check ownership against); with Supabase configured,
+  // its own submitter or an admin — RLS enforces the same rule
+  // server-side regardless of what this returns, so this only controls
+  // whether the button is even shown.
+  function canManageRecipe(r) {
+    if (r.source !== "user-submitted") return false;
+    if (!supa) return true;
+    if (!currentUser) return false;
+    return r.submitted_by === currentUser.id || isAdmin();
+  }
+
+  async function loadProfile() {
+    if (!supa || !currentUser) { currentProfile = null; return; }
+    const { data } = await supa.from("profiles").select("*").eq("id", currentUser.id).single();
+    currentProfile = data || null;
+  }
+
   const RECIPE_STORE_KEY = "recipe-creator:submissions:v1";
   const RecipeStore = {
-    list() {
+    // Every seed's own list() reader is used by save() too, so the shape
+    // is identical whichever backend is active: a plain array of recipes.
+    async list() {
+      if (supa) {
+        const { data, error } = await supa.from("recipes").select("*").order("created_at", { ascending: false });
+        if (error) { console.error(error); return []; }
+        return data || [];
+      }
       try {
         const raw = localStorage.getItem(RECIPE_STORE_KEY);
         const parsed = raw ? JSON.parse(raw) : [];
@@ -1302,20 +1380,45 @@
         return [];
       }
     },
-    save(recipe) {
+    // Returns {ok, id} on success (id is the one actually stored — see the
+    // retry loop below) or {ok: false, reason} on failure. Local-only mode
+    // keeps returning a plain id even on failure paths, matching the shape.
+    async save(recipe) {
+      if (supa) {
+        if (!currentUser) return { ok: false, reason: "not-signed-in" };
+        const baseId = recipe.id;
+        // A slug collision is now a real race, not just a same-browser
+        // repeat: two different people can submit the same dish name at
+        // nearly the same time. uniqueRecipeId() below already checks
+        // against this browser's last-loaded RECIPES first, but that
+        // snapshot can be stale — so retry against the database's own
+        // unique-constraint error (Postgres 23505) as the actual source
+        // of truth, rather than trusting a client-side guess alone.
+        for (let n = 0; n < 25; n++) {
+          const candidateId = n === 0 ? baseId : `${baseId}-${n + 1}`;
+          const { error } = await supa.from("recipes").insert({ ...recipe, id: candidateId, submitted_by: currentUser.id });
+          if (!error) return { ok: true, id: candidateId };
+          if (error.code !== "23505") return { ok: false, reason: error.message };
+        }
+        return { ok: false, reason: "id-conflict" };
+      }
       try {
-        const all = RecipeStore.list();
+        const all = await RecipeStore.list();
         const idx = all.findIndex(r => r.id === recipe.id);
         if (idx >= 0) all[idx] = recipe; else all.push(recipe);
         localStorage.setItem(RECIPE_STORE_KEY, JSON.stringify(all));
-        return true;
+        return { ok: true, id: recipe.id };
       } catch (err) {
-        return false;
+        return { ok: false, reason: "storage" };
       }
     },
-    remove(id) {
+    async remove(id) {
+      if (supa) {
+        const { error } = await supa.from("recipes").delete().eq("id", id);
+        return !error;
+      }
       try {
-        const all = RecipeStore.list().filter(r => r.id !== id);
+        const all = (await RecipeStore.list()).filter(r => r.id !== id);
         localStorage.setItem(RECIPE_STORE_KEY, JSON.stringify(all));
         return true;
       } catch (err) {
@@ -1324,10 +1427,19 @@
     },
   };
 
-  // The working recipe pool = the curated seed set + whatever this browser
-  // has saved locally. Reassigned (not mutated in place) after every
-  // save/remove so every function that reads RECIPES picks up the change.
-  let RECIPES = SEED_RECIPES.concat(RecipeStore.list());
+  // The working recipe pool = the curated seed set + whatever's been
+  // submitted (shared via Supabase once configured, otherwise this
+  // browser's own localStorage). Starts seed-only so the page has
+  // something to render immediately; refreshRecipes() fills in the rest
+  // asynchronously and is called again after every save/remove so every
+  // function that reads RECIPES picks up the change.
+  let RECIPES = SEED_RECIPES.slice();
+
+  async function refreshRecipes() {
+    const submitted = await RecipeStore.list();
+    RECIPES = SEED_RECIPES.concat(submitted);
+    recomputeIndexes();
+  }
 
   function uniqueRecipeId(baseId) {
     const existing = new Set(RECIPES.map(r => r.id));
@@ -1356,6 +1468,17 @@
     en: {
       tagline: "A seed database for Oppidu's recipe search — local index first, external sources later.",
       statRecipesLbl: "Recipes", statCuisinesLbl: "Cuisines", statGeneratedLbl: "Generated", statGeneratedVal: "AI",
+      authSignIn: "Sign in", authSignUp: "Create account", authSignOut: "Sign out",
+      authEmail: "Email", authPassword: "Password", authAdminBadge: "Admin",
+      authSignedInAs: "Signed in as {email}",
+      authCheckEmail: "Check your email to confirm your account, then sign in.",
+      authSignInFailed: "Couldn't sign in: {message}",
+      authSignUpFailed: "Couldn't sign up: {message}",
+      authNeedBoth: "Enter both an email and a password.",
+      s0Heading: "Sign in to submit a recipe",
+      s0Help: "Recipes are shared with everyone once you're signed in — create a free account or sign in to continue.",
+      actionDeleteRecipe: "Delete recipe",
+      saveFailedNotSignedIn: "Sign in to save your recipe.",
       tabBrowse: "Browse", tabSubmit: "Submit a Recipe", heroSubmit: "Submit a Recipe",
       searchPlaceholder: "Search by dish, ingredient, or tag…",
       quickCuisineLbl: "Cuisine", quickDietLbl: "Diet", resetFilters: "Reset filters",
@@ -1468,6 +1591,17 @@
     de: {
       tagline: "Eine Rezeptdatenbank für die Oppidu-Suche — zunächst der lokale Index, externe Quellen folgen später.",
       statRecipesLbl: "Rezepte", statCuisinesLbl: "Küchen", statGeneratedLbl: "Erstellt von", statGeneratedVal: "KI",
+      authSignIn: "Anmelden", authSignUp: "Konto erstellen", authSignOut: "Abmelden",
+      authEmail: "E-Mail", authPassword: "Passwort", authAdminBadge: "Admin",
+      authSignedInAs: "Angemeldet als {email}",
+      authCheckEmail: "Bestätigen Sie Ihr Konto per E-Mail und melden Sie sich dann an.",
+      authSignInFailed: "Anmeldung fehlgeschlagen: {message}",
+      authSignUpFailed: "Registrierung fehlgeschlagen: {message}",
+      authNeedBoth: "Geben Sie E-Mail und Passwort ein.",
+      s0Heading: "Zum Einreichen anmelden",
+      s0Help: "Rezepte werden mit allen geteilt, sobald Sie angemeldet sind — erstellen Sie ein kostenloses Konto oder melden Sie sich an, um fortzufahren.",
+      actionDeleteRecipe: "Rezept löschen",
+      saveFailedNotSignedIn: "Melden Sie sich an, um Ihr Rezept zu speichern.",
       tabBrowse: "Durchsuchen", tabSubmit: "Rezept einreichen", heroSubmit: "Rezept einreichen",
       searchPlaceholder: "Suche nach Gericht, Zutat oder Schlagwort…",
       quickCuisineLbl: "Küche", quickDietLbl: "Ernährung", resetFilters: "Filter zurücksetzen",
@@ -2132,7 +2266,7 @@
         <button class="action-btn" data-act="download" type="button">${DOWNLOAD_ICON} ${t("actionDownload")}</button>
         <button class="action-btn" data-act="print" type="button">${PRINT_ICON} ${t("actionPrint")}</button>
         <button class="action-btn action-btn-accent" data-act="compare" type="button">${CART_ICON} ${t("actionCompare")}</button>
-        ${opts.showRemove ? `<button class="action-btn" data-act="remove-local" type="button">${t("actionRemoveLocal")}</button>` : ""}
+        ${opts.showRemove ? `<button class="action-btn" data-act="remove-local" type="button">${supa ? t("actionDeleteRecipe") : t("actionRemoveLocal")}</button>` : ""}
         <span class="action-status" data-role="action-status"></span>
       </div>`;
   }
@@ -2151,10 +2285,9 @@
       status.textContent = t("actionCompareStatus");
       setTimeout(() => { status.textContent = ""; }, 3500);
     };
-    if (rm) rm.onclick = () => {
-      RecipeStore.remove(r.id);
-      RECIPES = SEED_RECIPES.concat(RecipeStore.list());
-      recomputeIndexes();
+    if (rm) rm.onclick = async () => {
+      await RecipeStore.remove(r.id);
+      await refreshRecipes();
       closeDetail();
       render();
     };
@@ -2222,7 +2355,7 @@
       ${r.source === "user-submitted" ? `<span class="pill" style="margin-top:8px;display:inline-block;">${t("localBadge")}</span>` : ""}
       ${r.submitted_kitchen ? `<span class="pill" style="margin-top:8px;margin-left:6px;display:inline-block;">🍳 ${esc(r.submitted_kitchen)}</span>` : ""}
       ${locDescription(r) ? `<p class="detail-desc">${esc(locDescription(r))}</p>` : ""}
-      ${recipeActionsHtml({ showRemove: r.source === "user-submitted" })}
+      ${recipeActionsHtml({ showRemove: canManageRecipe(r) })}
 
       <div class="meta-strip">
         <div class="meta-item"><span class="n">${r.servings}</span><span class="lbl">${t("lblServings")}</span></div>
@@ -2251,7 +2384,7 @@
         <span class="source-note">${t("sourceLbl")}: ${r.source}</span>
       </div>
     `;
-    wireRecipeActions(el, r, el, { showRemove: r.source === "user-submitted" });
+    wireRecipeActions(el, r, el, { showRemove: canManageRecipe(r) });
   }
 
   function buildLegend() {
@@ -2273,18 +2406,53 @@
   });
 
   // Deep link support via URL hash — no storage involved, just reads the URL.
+  // First pass renders the (synchronous, always-available) seed set
+  // immediately so the page has something on screen right away; the
+  // async pass below re-checks the hash and re-renders once submitted
+  // recipes (and, with Supabase configured, the signed-in session) have
+  // actually loaded — a link straight to someone's submission still
+  // resolves correctly, just a beat later.
   state.shuffledOrder = shuffleArray(RECIPES.map(r => r.id));
   if (location.hash) {
     const id = location.hash.slice(1);
     if (RECIPES.some(r => r.id === id)) state.selected = id;
   }
-
   buildLegend();
   render();
   if (state.selected) {
     document.getElementById("detail-wrap").hidden = false;
     renderDetail();
   }
+
+  async function initAccountsAndRecipes() {
+    if (supa) {
+      const { data: { session } } = await supa.auth.getSession();
+      currentUser = session ? session.user : null;
+      await loadProfile();
+      supa.auth.onAuthStateChange(async (_event, newSession) => {
+        currentUser = newSession ? newSession.user : null;
+        await loadProfile();
+        renderAuthWidget();
+        await refreshRecipes();
+        render();
+        if (!document.getElementById("view-submit").hidden) renderStepCard();
+      });
+    }
+    renderAuthWidget();
+
+    await refreshRecipes();
+    state.shuffledOrder = shuffleArray(RECIPES.map(r => r.id));
+    if (location.hash) {
+      const id = location.hash.slice(1);
+      if (RECIPES.some(r => r.id === id)) state.selected = id;
+    }
+    render();
+    if (state.selected && document.getElementById("detail-wrap").hidden) {
+      document.getElementById("detail-wrap").hidden = false;
+      renderDetail();
+    }
+  }
+  initAccountsAndRecipes();
 
   /* ---------- Language toggle ---------- */
   function applyStaticText() {
@@ -2310,8 +2478,75 @@
     applyStaticText();
     buildLegend();
     render();
+    renderAuthWidget();
     if (state.selected) renderDetail();
     if (!document.getElementById("view-submit").hidden) renderStepCard();
+  }
+
+  // Populates #auth-widget in the header: a "Sign in" trigger (opening a
+  // small sign-in/sign-up panel) when signed out, or the signed-in
+  // email + an admin badge + "Sign out" when signed in. Renders nothing
+  // at all when Supabase isn't configured — no accounts to speak of yet.
+  function renderAuthWidget() {
+    const el = document.getElementById("auth-widget");
+    if (!supa) { el.innerHTML = ""; return; }
+
+    if (currentUser) {
+      el.innerHTML = `
+        <div class="auth-signed-in">
+          ${isAdmin() ? `<span class="auth-admin-badge">${t("authAdminBadge")}</span>` : ""}
+          <span class="auth-email" title="${esc(currentUser.email)}">${esc(currentUser.email)}</span>
+          <button type="button" class="auth-trigger" id="auth-signout-btn">${t("authSignOut")}</button>
+        </div>`;
+      document.getElementById("auth-signout-btn").onclick = async () => { await supa.auth.signOut(); };
+      return;
+    }
+
+    el.innerHTML = `
+      <button type="button" class="auth-trigger" id="auth-open-btn">${t("authSignIn")}</button>
+      <div class="auth-panel" id="auth-panel" hidden>
+        <h3>${t("authSignIn")} / ${t("authSignUp")}</h3>
+        <div class="field">
+          <label for="auth-email-input">${t("authEmail")}</label>
+          <input type="email" id="auth-email-input" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="auth-password-input">${t("authPassword")}</label>
+          <input type="password" id="auth-password-input" autocomplete="current-password">
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="btn-primary" id="auth-signin-btn" style="flex:1;">${t("authSignIn")}</button>
+          <button type="button" class="btn-secondary" id="auth-signup-btn" style="flex:1;">${t("authSignUp")}</button>
+        </div>
+        <p class="field-hint" id="auth-status" style="margin-top:8px;"></p>
+      </div>`;
+
+    const panel = document.getElementById("auth-panel");
+    document.getElementById("auth-open-btn").onclick = () => { panel.hidden = !panel.hidden; };
+
+    const emailInput = document.getElementById("auth-email-input");
+    const passwordInput = document.getElementById("auth-password-input");
+    const status = document.getElementById("auth-status");
+
+    document.getElementById("auth-signin-btn").onclick = async () => {
+      const email = emailInput.value.trim(), password = passwordInput.value;
+      if (!email || !password) { status.textContent = t("authNeedBoth"); return; }
+      status.textContent = "…";
+      const { error } = await supa.auth.signInWithPassword({ email, password });
+      // On success, onAuthStateChange fires and re-renders this whole
+      // widget as signed-in — nothing more to do here.
+      if (error) status.textContent = tfPlain("authSignInFailed", { message: error.message });
+    };
+    document.getElementById("auth-signup-btn").onclick = async () => {
+      const email = emailInput.value.trim(), password = passwordInput.value;
+      if (!email || !password) { status.textContent = t("authNeedBoth"); return; }
+      status.textContent = "…";
+      const { data, error } = await supa.auth.signUp({ email, password });
+      if (error) { status.textContent = tfPlain("authSignUpFailed", { message: error.message }); return; }
+      // A project with email confirmation on returns no session yet —
+      // say so rather than looking like nothing happened.
+      if (!data.session) status.textContent = t("authCheckEmail");
+    };
   }
 
   document.getElementById("lang-toggle").addEventListener("click", (e) => {
@@ -2841,11 +3076,23 @@
   }
 
   function renderStepCard() {
+    const card = document.getElementById("step-card");
+
+    // Browsing/viewing recipes stays open to everyone; submitting one
+    // requires an account once Supabase is actually configured (in
+    // local-only mode there's no concept of an account to require).
+    if (supa && !currentUser) {
+      document.getElementById("wizard-progress").hidden = true;
+      document.getElementById("wizard").classList.remove("wizard-wide");
+      renderSignInRequired(card);
+      return;
+    }
+    document.getElementById("wizard-progress").hidden = false;
+
     const titleKeys = ["stepTitleServings", "stepTitleBasics", "stepTitleIngredients", "stepTitlePhoto", "stepTitleMethod", "stepTitleReview"];
     document.getElementById("wizard-step-label").textContent = `${t("step")} ${wiz.step} ${t("of")} 6 — ${t(titleKeys[wiz.step - 1])}`;
     document.getElementById("wizard-fill").style.width = (wiz.step / 6 * 100) + "%";
     document.getElementById("wizard").classList.toggle("wizard-wide", wiz.step === 5);
-    const card = document.getElementById("step-card");
 
     if (wiz.step === 1) renderStepServings(card);
     else if (wiz.step === 2) renderStepBasics(card);
@@ -2853,6 +3100,20 @@
     else if (wiz.step === 4) renderStepIngredientsPhoto(card);
     else if (wiz.step === 5) renderStepMethod(card);
     else renderStepReview(card);
+  }
+
+  function renderSignInRequired(card) {
+    card.innerHTML = `
+      <div class="step-eyebrow">${t("step")} 1 ${t("of")} 6</div>
+      <h2>${t("s0Heading")}</h2>
+      <p class="step-help">${t("s0Help")}</p>
+      <button type="button" class="btn-primary" id="s0-open-auth">${t("authSignIn")}</button>
+    `;
+    document.getElementById("s0-open-auth").onclick = () => {
+      const panel = document.getElementById("auth-panel");
+      if (panel) panel.hidden = false;
+      document.getElementById("auth-widget").scrollIntoView({ behavior: "smooth", block: "start" });
+    };
   }
 
   function renderStepServings(card) {
@@ -3561,15 +3822,15 @@
       renderStepCard();
     };
     const saveBtn = document.getElementById("save-recipe");
-    saveBtn.onclick = () => {
+    saveBtn.onclick = async () => {
       const status = document.getElementById("review-status");
       if (RECIPES.some(x => x.id === r.id)) r.id = uniqueRecipeId(r.id);
-      const ok = RecipeStore.save(r);
-      if (ok) {
-        RECIPES = SEED_RECIPES.concat(RecipeStore.list());
+      saveBtn.disabled = true;
+      const result = await RecipeStore.save(r);
+      if (result.ok) {
+        r.id = result.id; // may differ from the pre-check above under a real race — see RecipeStore.save()
+        await refreshRecipes();
         state.shuffledOrder.push(r.id);
-        recomputeIndexes();
-        saveBtn.disabled = true;
         saveBtn.textContent = t("savedBtnLabel");
         status.textContent = t("savedStatus");
         const savedId = r.id;
@@ -3584,7 +3845,8 @@
           selectRecipe(savedId);
         }, 900);
       } else {
-        status.textContent = t("saveFailedStatus");
+        saveBtn.disabled = false;
+        status.textContent = result.reason === "not-signed-in" ? t("saveFailedNotSignedIn") : t("saveFailedStatus");
       }
     };
     document.getElementById("copy-json").onclick = async () => {
