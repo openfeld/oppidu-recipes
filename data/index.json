@@ -1,0 +1,485 @@
+[
+  {
+    "id": "aloo-gobi",
+    "title": "Aloo Gobi (Potato & Cauliflower Curry)",
+    "cuisine": "Indian",
+    "category": "side",
+    "tags": [
+      "vegan",
+      "dry-curry",
+      "everyday"
+    ],
+    "dietary": [
+      "vegan",
+      "vegetarian",
+      "gluten-free"
+    ],
+    "ingredient_names": [
+      "cauliflower, cut into florets",
+      "potatoes, cubed",
+      "turmeric powder",
+      "cumin seeds",
+      "coriander powder",
+      "vegetable oil",
+      "green chili, slit",
+      "cilantro, chopped"
+    ]
+  },
+  {
+    "id": "bibimbap",
+    "title": "Bibimbap (Mixed Rice Bowl)",
+    "cuisine": "Korean",
+    "category": "main",
+    "tags": [
+      "rice-bowl",
+      "meal-prep",
+      "customizable"
+    ],
+    "dietary": [
+      "non-vegetarian"
+    ],
+    "ingredient_names": [
+      "cooked short-grain rice",
+      "beef sirloin, thinly sliced",
+      "spinach",
+      "bean sprouts",
+      "carrot, julienned",
+      "shiitake mushrooms, sliced",
+      "eggs",
+      "gochujang (Korean chili paste)",
+      "sesame oil",
+      "soy sauce"
+    ]
+  },
+  {
+    "id": "butter-chicken",
+    "title": "Butter Chicken (Murgh Makhani)",
+    "cuisine": "Indian",
+    "category": "main",
+    "tags": [
+      "curry",
+      "creamy",
+      "weeknight",
+      "restaurant-style"
+    ],
+    "dietary": [
+      "non-vegetarian"
+    ],
+    "ingredient_names": [
+      "boneless chicken thighs",
+      "plain yogurt",
+      "garlic paste",
+      "ginger paste",
+      "garam masala",
+      "kashmiri chili powder",
+      "butter",
+      "tomato puree",
+      "heavy cream",
+      "kasuri methi (dried fenugreek leaves)",
+      "sugar"
+    ]
+  },
+  {
+    "id": "buttermilk-pancakes",
+    "title": "Fluffy Buttermilk Pancakes",
+    "cuisine": "American",
+    "category": "breakfast",
+    "tags": [
+      "breakfast",
+      "weekend",
+      "kid-friendly"
+    ],
+    "dietary": [
+      "vegetarian"
+    ],
+    "ingredient_names": [
+      "all-purpose flour",
+      "baking powder",
+      "baking soda",
+      "sugar",
+      "buttermilk",
+      "eggs",
+      "butter, melted",
+      "maple syrup"
+    ]
+  },
+  {
+    "id": "chana-masala",
+    "title": "Chana Masala (Spiced Chickpea Curry)",
+    "cuisine": "Indian",
+    "category": "main",
+    "tags": [
+      "vegan",
+      "budget-friendly",
+      "one-pot",
+      "weeknight"
+    ],
+    "dietary": [
+      "vegan",
+      "vegetarian",
+      "gluten-free"
+    ],
+    "ingredient_names": [
+      "canned chickpeas",
+      "onion, finely chopped",
+      "tomatoes, pureed",
+      "ginger-garlic paste",
+      "chana masala spice blend",
+      "cumin seeds",
+      "vegetable oil",
+      "cilantro, chopped",
+      "lemon juice"
+    ]
+  },
+  {
+    "id": "chicken-tacos",
+    "title": "Chicken Tacos al Pastor Style",
+    "cuisine": "Mexican",
+    "category": "main",
+    "tags": [
+      "street-food",
+      "grill",
+      "party"
+    ],
+    "dietary": [
+      "non-vegetarian",
+      "gluten-free"
+    ],
+    "ingredient_names": [
+      "chicken thighs, boneless",
+      "achiote paste",
+      "orange juice",
+      "lime juice",
+      "pineapple, diced",
+      "corn tortillas",
+      "white onion, diced",
+      "cilantro, chopped"
+    ]
+  },
+  {
+    "id": "chicken-teriyaki",
+    "title": "Chicken Teriyaki",
+    "cuisine": "Japanese",
+    "category": "main",
+    "tags": [
+      "glazed",
+      "weeknight",
+      "umami"
+    ],
+    "dietary": [
+      "non-vegetarian",
+      "dairy-free"
+    ],
+    "ingredient_names": [
+      "chicken thighs, skin-on",
+      "soy sauce",
+      "mirin",
+      "sake",
+      "sugar",
+      "ginger, grated",
+      "sesame seeds"
+    ]
+  },
+  {
+    "id": "classic-beef-burger",
+    "title": "Classic Beef Burger",
+    "cuisine": "American",
+    "category": "main",
+    "tags": [
+      "grill",
+      "weekend",
+      "crowd-pleaser"
+    ],
+    "dietary": [
+      "non-vegetarian"
+    ],
+    "ingredient_names": [
+      "ground beef (80/20)",
+      "burger buns",
+      "cheddar cheese slices",
+      "lettuce leaves",
+      "tomato, sliced",
+      "red onion, sliced",
+      "pickles",
+      "ketchup",
+      "mustard"
+    ]
+  },
+  {
+    "id": "falafel",
+    "title": "Crispy Baked Falafel",
+    "cuisine": "Middle Eastern",
+    "category": "main",
+    "tags": [
+      "vegan",
+      "meal-prep",
+      "baked"
+    ],
+    "dietary": [
+      "vegan",
+      "vegetarian"
+    ],
+    "ingredient_names": [
+      "dried chickpeas, soaked overnight",
+      "parsley",
+      "cilantro",
+      "onion, roughly chopped",
+      "garlic cloves",
+      "cumin powder",
+      "coriander powder",
+      "baking powder",
+      "olive oil"
+    ]
+  },
+  {
+    "id": "greek-salad",
+    "title": "Greek Salad (Horiatiki)",
+    "cuisine": "Greek",
+    "category": "salad",
+    "tags": [
+      "no-cook",
+      "fresh",
+      "summer",
+      "vegetarian"
+    ],
+    "dietary": [
+      "vegetarian",
+      "gluten-free"
+    ],
+    "ingredient_names": [
+      "tomatoes, cut into wedges",
+      "cucumber, sliced",
+      "red onion, thinly sliced",
+      "kalamata olives",
+      "feta cheese block",
+      "extra virgin olive oil",
+      "dried oregano"
+    ]
+  },
+  {
+    "id": "guacamole",
+    "title": "Classic Guacamole",
+    "cuisine": "Mexican",
+    "category": "snack",
+    "tags": [
+      "no-cook",
+      "quick",
+      "party",
+      "vegan"
+    ],
+    "dietary": [
+      "vegan",
+      "vegetarian",
+      "gluten-free"
+    ],
+    "ingredient_names": [
+      "ripe avocados",
+      "lime juice",
+      "red onion, finely diced",
+      "tomato, diced",
+      "cilantro, chopped",
+      "jalapeno, minced",
+      "salt"
+    ]
+  },
+  {
+    "id": "hummus",
+    "title": "Classic Hummus",
+    "cuisine": "Middle Eastern",
+    "category": "snack",
+    "tags": [
+      "no-cook",
+      "dip",
+      "vegan",
+      "meal-prep"
+    ],
+    "dietary": [
+      "vegan",
+      "vegetarian",
+      "gluten-free"
+    ],
+    "ingredient_names": [
+      "canned chickpeas",
+      "tahini",
+      "lemon juice",
+      "garlic clove",
+      "olive oil",
+      "cumin powder",
+      "ice water"
+    ]
+  },
+  {
+    "id": "kung-pao-chicken",
+    "title": "Kung Pao Chicken",
+    "cuisine": "Chinese",
+    "category": "main",
+    "tags": [
+      "stir-fry",
+      "spicy",
+      "weeknight"
+    ],
+    "dietary": [
+      "non-vegetarian",
+      "dairy-free"
+    ],
+    "ingredient_names": [
+      "chicken breast, diced",
+      "roasted peanuts",
+      "dried red chilies",
+      "sichuan peppercorns",
+      "soy sauce",
+      "black vinegar",
+      "garlic, minced",
+      "spring onion, chopped",
+      "cornstarch",
+      "vegetable oil"
+    ]
+  },
+  {
+    "id": "margherita-pizza",
+    "title": "Margherita Pizza",
+    "cuisine": "Italian",
+    "category": "main",
+    "tags": [
+      "baking",
+      "weekend-project",
+      "crowd-pleaser"
+    ],
+    "dietary": [
+      "vegetarian"
+    ],
+    "ingredient_names": [
+      "00 flour or bread flour",
+      "active dry yeast",
+      "water",
+      "salt",
+      "canned San Marzano tomatoes, crushed",
+      "fresh mozzarella, torn",
+      "fresh basil leaves",
+      "olive oil"
+    ]
+  },
+  {
+    "id": "miso-soup",
+    "title": "Miso Soup",
+    "cuisine": "Japanese",
+    "category": "soup",
+    "tags": [
+      "light",
+      "quick",
+      "comfort"
+    ],
+    "dietary": [
+      "vegetarian",
+      "dairy-free"
+    ],
+    "ingredient_names": [
+      "dashi stock",
+      "miso paste",
+      "silken tofu, cubed",
+      "dried wakame seaweed",
+      "spring onion, sliced"
+    ]
+  },
+  {
+    "id": "ratatouille",
+    "title": "Ratatouille",
+    "cuisine": "French",
+    "category": "side",
+    "tags": [
+      "vegan",
+      "make-ahead",
+      "summer"
+    ],
+    "dietary": [
+      "vegan",
+      "vegetarian",
+      "gluten-free"
+    ],
+    "ingredient_names": [
+      "eggplant, diced",
+      "zucchini, diced",
+      "bell peppers, diced",
+      "tomatoes, chopped",
+      "onion, chopped",
+      "garlic cloves, minced",
+      "herbes de Provence",
+      "olive oil"
+    ]
+  },
+  {
+    "id": "spaghetti-aglio-e-olio",
+    "title": "Spaghetti Aglio e Olio",
+    "cuisine": "Italian",
+    "category": "main",
+    "tags": [
+      "quick",
+      "pantry",
+      "weeknight",
+      "vegetarian-optional"
+    ],
+    "dietary": [
+      "vegetarian"
+    ],
+    "ingredient_names": [
+      "spaghetti",
+      "garlic, thinly sliced",
+      "extra virgin olive oil",
+      "red chili flakes",
+      "parsley, chopped",
+      "parmesan cheese, grated"
+    ]
+  },
+  {
+    "id": "thai-green-curry",
+    "title": "Thai Green Curry with Chicken",
+    "cuisine": "Thai",
+    "category": "main",
+    "tags": [
+      "curry",
+      "coconut",
+      "spicy"
+    ],
+    "dietary": [
+      "non-vegetarian",
+      "gluten-free",
+      "dairy-free"
+    ],
+    "ingredient_names": [
+      "chicken breast, sliced",
+      "green curry paste",
+      "coconut milk",
+      "fish sauce",
+      "palm sugar",
+      "Thai eggplant or zucchini, chopped",
+      "bell pepper, sliced",
+      "Thai basil leaves",
+      "kaffir lime leaves"
+    ]
+  },
+  {
+    "id": "vegetable-fried-rice",
+    "title": "Vegetable Fried Rice",
+    "cuisine": "Chinese",
+    "category": "main",
+    "tags": [
+      "quick",
+      "leftovers",
+      "one-pan",
+      "budget-friendly"
+    ],
+    "dietary": [
+      "vegetarian"
+    ],
+    "ingredient_names": [
+      "rice, cooked and cooled",
+      "eggs, beaten",
+      "carrot, diced",
+      "peas",
+      "spring onion, chopped",
+      "soy sauce",
+      "sesame oil",
+      "vegetable oil"
+    ]
+  }
+]

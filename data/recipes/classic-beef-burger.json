@@ -1,0 +1,106 @@
+{
+  "id": "classic-beef-burger",
+  "title": "Classic Beef Burger",
+  "description": "Juicy diner-style beef burger with cheese and all the fixings.",
+  "cuisine": "American",
+  "category": "main",
+  "servings": 4,
+  "prep_time_minutes": 15,
+  "cook_time_minutes": 10,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "ground beef (80/20)",
+      "quantity": 600,
+      "unit": "g",
+      "grocery_category": "meat-poultry"
+    },
+    {
+      "name": "burger buns",
+      "quantity": 4,
+      "unit": "piece",
+      "grocery_category": "bakery"
+    },
+    {
+      "name": "cheddar cheese slices",
+      "quantity": 4,
+      "unit": "piece",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "lettuce leaves",
+      "quantity": 4,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "tomato, sliced",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "red onion, sliced",
+      "quantity": 0.5,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "pickles",
+      "quantity": 8,
+      "unit": "piece",
+      "grocery_category": "canned-jarred"
+    },
+    {
+      "name": "ketchup",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "mustard",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    }
+  ],
+  "instructions": [
+    "Divide beef into 4 patties, season generously with salt and pepper.",
+    "Sear on a hot pan or grill 3-4 minutes per side, adding cheese in the last minute.",
+    "Toast the buns lightly.",
+    "Assemble with lettuce, tomato, onion, pickles, ketchup and mustard."
+  ],
+  "tags": [
+    "grill",
+    "weekend",
+    "crowd-pleaser"
+  ],
+  "dietary": [
+    "non-vegetarian"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Klassischer Rindfleisch-Burger",
+      "description": "Saftiger Diner-Style-Rindfleisch-Burger mit Käse und allem Drum und Dran.",
+      "ingredient_names": [
+        "Rinderhack (80/20)",
+        "Burgerbrötchen",
+        "Cheddar-Käsescheiben",
+        "Kopfsalatblätter",
+        "Tomate, in Scheiben geschnitten",
+        "rote Zwiebel, in Scheiben geschnitten",
+        "Essiggurken",
+        "Ketchup",
+        "Senf"
+      ],
+      "instructions": [
+        "Rinderhack in 4 Patties teilen, großzügig mit Salz und Pfeffer würzen.",
+        "In einer heißen Pfanne oder auf dem Grill 3-4 Minuten pro Seite anbraten, in der letzten Minute Käse zugeben.",
+        "Brötchen leicht toasten.",
+        "Mit Salat, Tomate, Zwiebel, Essiggurken, Ketchup und Senf belegen."
+      ]
+    }
+  }
+}

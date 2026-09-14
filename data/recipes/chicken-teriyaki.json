@@ -1,0 +1,95 @@
+{
+  "id": "chicken-teriyaki",
+  "title": "Chicken Teriyaki",
+  "description": "Pan-glazed chicken thighs in a sweet-savory soy sauce glaze.",
+  "cuisine": "Japanese",
+  "category": "main",
+  "servings": 4,
+  "prep_time_minutes": 10,
+  "cook_time_minutes": 20,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "chicken thighs, skin-on",
+      "quantity": 600,
+      "unit": "g",
+      "grocery_category": "meat-poultry"
+    },
+    {
+      "name": "soy sauce",
+      "quantity": 60,
+      "unit": "ml",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "mirin",
+      "quantity": 60,
+      "unit": "ml",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "sake",
+      "quantity": 30,
+      "unit": "ml",
+      "grocery_category": "beverages",
+      "optional": true
+    },
+    {
+      "name": "sugar",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "other"
+    },
+    {
+      "name": "ginger, grated",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "sesame seeds",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "nuts-seeds",
+      "optional": true
+    }
+  ],
+  "instructions": [
+    "Sear chicken thighs skin-side down until crisp; flip and cook through.",
+    "Whisk soy sauce, mirin, sake, sugar and ginger together.",
+    "Pour sauce into the pan, simmer until it reduces to a glaze coating the chicken.",
+    "Slice, sprinkle with sesame seeds, and serve with steamed rice."
+  ],
+  "tags": [
+    "glazed",
+    "weeknight",
+    "umami"
+  ],
+  "dietary": [
+    "non-vegetarian",
+    "dairy-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Hähnchen Teriyaki",
+      "description": "In der Pfanne glasierte Hähnchenschenkel in einer süß-herzhaften Sojasauce-Glasur.",
+      "ingredient_names": [
+        "Hähnchenschenkel, mit Haut",
+        "Sojasauce",
+        "Mirin",
+        "Sake",
+        "Zucker",
+        "Ingwer, gerieben",
+        "Sesamsamen"
+      ],
+      "instructions": [
+        "Hähnchenschenkel mit der Hautseite nach unten knusprig anbraten; wenden und fertig garen.",
+        "Sojasauce, Mirin, Sake, Zucker und Ingwer verquirlen.",
+        "Sauce in die Pfanne gießen, köcheln lassen, bis sie zu einer Glasur einreduziert, die das Hähnchen umhüllt.",
+        "In Scheiben schneiden, mit Sesamsamen bestreuen und mit gedämpftem Reis servieren."
+      ]
+    }
+  }
+}

@@ -1,0 +1,1010 @@
+[
+  {
+    "name": "00 flour or bread flour",
+    "example_name": "00 flour or bread flour",
+    "name_de": "00-Mehl oder Brotmehl",
+    "grocery_category": "flour-baking",
+    "default_unit": "g",
+    "qty_per_serving": 150.0,
+    "sample_count": 1
+  },
+  {
+    "name": "achiote paste",
+    "example_name": "achiote paste",
+    "name_de": "Achiote-Paste",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.5,
+    "sample_count": 1
+  },
+  {
+    "name": "active dry yeast",
+    "example_name": "active dry yeast",
+    "name_de": "Trockenhefe",
+    "grocery_category": "flour-baking",
+    "default_unit": "g",
+    "qty_per_serving": 1.5,
+    "sample_count": 1
+  },
+  {
+    "name": "all-purpose flour",
+    "example_name": "all-purpose flour",
+    "name_de": "Weizenmehl (Type 405)",
+    "grocery_category": "flour-baking",
+    "default_unit": "g",
+    "qty_per_serving": 62.5,
+    "sample_count": 1
+  },
+  {
+    "name": "baking powder",
+    "example_name": "baking powder",
+    "name_de": "Backpulver",
+    "grocery_category": "flour-baking",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.375,
+    "sample_count": 2
+  },
+  {
+    "name": "baking soda",
+    "example_name": "baking soda",
+    "name_de": "Natron",
+    "grocery_category": "flour-baking",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.125,
+    "sample_count": 1
+  },
+  {
+    "name": "bean sprouts",
+    "example_name": "bean sprouts",
+    "name_de": "Sojasprossen",
+    "grocery_category": "vegetables",
+    "default_unit": "g",
+    "qty_per_serving": 37.5,
+    "sample_count": 1
+  },
+  {
+    "name": "beef sirloin",
+    "example_name": "beef sirloin, thinly sliced",
+    "name_de": "Rinderhüfte",
+    "grocery_category": "meat-poultry",
+    "default_unit": "g",
+    "qty_per_serving": 75.0,
+    "sample_count": 1
+  },
+  {
+    "name": "bell pepper",
+    "example_name": "bell pepper, sliced",
+    "name_de": "Paprika",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "bell peppers",
+    "example_name": "bell peppers, diced",
+    "name_de": "Paprika",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.5,
+    "sample_count": 1
+  },
+  {
+    "name": "black pepper",
+    "example_name": "black pepper",
+    "name_de": "schwarzer Pfeffer",
+    "grocery_category": "spices",
+    "default_unit": "to taste",
+    "qty_per_serving": null,
+    "sample_count": 0
+  },
+  {
+    "name": "black vinegar",
+    "example_name": "black vinegar",
+    "name_de": "schwarzer Essig",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "boneless chicken thighs",
+    "example_name": "boneless chicken thighs",
+    "name_de": "Hähnchenoberschenkel, ohne Knochen",
+    "grocery_category": "meat-poultry",
+    "default_unit": "g",
+    "qty_per_serving": 175.0,
+    "sample_count": 1
+  },
+  {
+    "name": "burger buns",
+    "example_name": "burger buns",
+    "name_de": "Burgerbrötchen",
+    "grocery_category": "bakery",
+    "default_unit": "piece",
+    "qty_per_serving": 1.0,
+    "sample_count": 1
+  },
+  {
+    "name": "butter",
+    "example_name": "butter",
+    "name_de": "Butter",
+    "grocery_category": "dairy",
+    "default_unit": "g",
+    "qty_per_serving": 12.5,
+    "sample_count": 2
+  },
+  {
+    "name": "buttermilk",
+    "example_name": "buttermilk",
+    "name_de": "Buttermilch",
+    "grocery_category": "dairy",
+    "default_unit": "ml",
+    "qty_per_serving": 100.0,
+    "sample_count": 1
+  },
+  {
+    "name": "canned chickpeas",
+    "example_name": "canned chickpeas",
+    "name_de": "Kichererbsen aus der Dose",
+    "grocery_category": "canned-jarred",
+    "default_unit": "cup",
+    "qty_per_serving": 0.5,
+    "sample_count": 1
+  },
+  {
+    "name": "canned san marzano tomatoes",
+    "example_name": "canned San Marzano tomatoes, crushed",
+    "name_de": "San-Marzano-Tomaten aus der Dose",
+    "grocery_category": "canned-jarred",
+    "default_unit": "g",
+    "qty_per_serving": 100.0,
+    "sample_count": 1
+  },
+  {
+    "name": "carrot",
+    "example_name": "carrot, julienned",
+    "name_de": "Karotte",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.25,
+    "sample_count": 2
+  },
+  {
+    "name": "cauliflower",
+    "example_name": "cauliflower, cut into florets",
+    "name_de": "Blumenkohl",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "chana masala spice blend",
+    "example_name": "chana masala spice blend",
+    "name_de": "Chana-Masala-Gewürzmischung",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.5,
+    "sample_count": 1
+  },
+  {
+    "name": "cheddar cheese slices",
+    "example_name": "cheddar cheese slices",
+    "name_de": "Cheddar-Käsescheiben",
+    "grocery_category": "dairy",
+    "default_unit": "piece",
+    "qty_per_serving": 1.0,
+    "sample_count": 1
+  },
+  {
+    "name": "chicken breast",
+    "example_name": "chicken breast, diced",
+    "name_de": "Hähnchenbrust",
+    "grocery_category": "meat-poultry",
+    "default_unit": "g",
+    "qty_per_serving": 125.0,
+    "sample_count": 2
+  },
+  {
+    "name": "chicken thighs",
+    "example_name": "chicken thighs, boneless",
+    "name_de": "Hähnchenschenkel",
+    "grocery_category": "meat-poultry",
+    "default_unit": "g",
+    "qty_per_serving": 150.0,
+    "sample_count": 2
+  },
+  {
+    "name": "cilantro",
+    "example_name": "cilantro, chopped",
+    "name_de": "Koriandergrün",
+    "grocery_category": "herbs-fresh",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.562,
+    "sample_count": 4
+  },
+  {
+    "name": "coconut milk",
+    "example_name": "coconut milk",
+    "name_de": "Kokosmilch",
+    "grocery_category": "canned-jarred",
+    "default_unit": "ml",
+    "qty_per_serving": 100.0,
+    "sample_count": 1
+  },
+  {
+    "name": "cooked short-grain rice",
+    "example_name": "cooked short-grain rice",
+    "name_de": "gekochter Rundkornreis",
+    "grocery_category": "grains-rice",
+    "default_unit": "cup",
+    "qty_per_serving": 1.0,
+    "sample_count": 1
+  },
+  {
+    "name": "coriander powder",
+    "example_name": "coriander powder",
+    "name_de": "Korianderpulver",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 2
+  },
+  {
+    "name": "corn tortillas",
+    "example_name": "corn tortillas",
+    "name_de": "Maistortillas",
+    "grocery_category": "bakery",
+    "default_unit": "piece",
+    "qty_per_serving": 3.0,
+    "sample_count": 1
+  },
+  {
+    "name": "cornstarch",
+    "example_name": "cornstarch",
+    "name_de": "Speisestärke",
+    "grocery_category": "flour-baking",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "cucumber",
+    "example_name": "cucumber, sliced",
+    "name_de": "Gurke",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "cumin powder",
+    "example_name": "cumin powder",
+    "name_de": "Kreuzkümmelpulver",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.167,
+    "sample_count": 2
+  },
+  {
+    "name": "cumin seeds",
+    "example_name": "cumin seeds",
+    "name_de": "Kreuzkümmelsamen",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 2
+  },
+  {
+    "name": "dashi stock",
+    "example_name": "dashi stock",
+    "name_de": "Dashi-Brühe",
+    "grocery_category": "beverages",
+    "default_unit": "l",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "dried chickpeas",
+    "example_name": "dried chickpeas, soaked overnight",
+    "name_de": "getrocknete Kichererbsen",
+    "grocery_category": "lentils-pulses",
+    "default_unit": "g",
+    "qty_per_serving": 62.5,
+    "sample_count": 1
+  },
+  {
+    "name": "dried oregano",
+    "example_name": "dried oregano",
+    "name_de": "getrockneter Oregano",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "dried red chilies",
+    "example_name": "dried red chilies",
+    "name_de": "getrocknete rote Chilis",
+    "grocery_category": "spices",
+    "default_unit": "piece",
+    "qty_per_serving": 2.0,
+    "sample_count": 1
+  },
+  {
+    "name": "dried wakame seaweed",
+    "example_name": "dried wakame seaweed",
+    "name_de": "getrocknete Wakame-Algen",
+    "grocery_category": "other",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "eggplant",
+    "example_name": "eggplant, diced",
+    "name_de": "Aubergine",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "eggs",
+    "example_name": "eggs",
+    "name_de": "Eier",
+    "grocery_category": "dairy",
+    "default_unit": "piece",
+    "qty_per_serving": 0.667,
+    "sample_count": 3
+  },
+  {
+    "name": "extra virgin olive oil",
+    "example_name": "extra virgin olive oil",
+    "name_de": "natives Olivenöl extra",
+    "grocery_category": "oils-fats",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.75,
+    "sample_count": 1
+  },
+  {
+    "name": "feta cheese block",
+    "example_name": "feta cheese block",
+    "name_de": "Feta-Käse",
+    "grocery_category": "dairy",
+    "default_unit": "g",
+    "qty_per_serving": 37.5,
+    "sample_count": 1
+  },
+  {
+    "name": "fish sauce",
+    "example_name": "fish sauce",
+    "name_de": "Fischsauce",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "fresh basil leaves",
+    "example_name": "fresh basil leaves",
+    "name_de": "frische Basilikumblätter",
+    "grocery_category": "herbs-fresh",
+    "default_unit": "piece",
+    "qty_per_serving": 5.0,
+    "sample_count": 1
+  },
+  {
+    "name": "fresh mozzarella",
+    "example_name": "fresh mozzarella, torn",
+    "name_de": "frischer Mozzarella",
+    "grocery_category": "dairy",
+    "default_unit": "g",
+    "qty_per_serving": 75.0,
+    "sample_count": 1
+  },
+  {
+    "name": "garam masala",
+    "example_name": "garam masala",
+    "name_de": "Garam Masala",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.5,
+    "sample_count": 1
+  },
+  {
+    "name": "garlic",
+    "example_name": "garlic, minced",
+    "name_de": "Knoblauch",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 1.875,
+    "sample_count": 2
+  },
+  {
+    "name": "garlic clove",
+    "example_name": "garlic clove",
+    "name_de": "Knoblauchzehe",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.167,
+    "sample_count": 1
+  },
+  {
+    "name": "garlic cloves",
+    "example_name": "garlic cloves",
+    "name_de": "Knoblauchzehen",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.875,
+    "sample_count": 2
+  },
+  {
+    "name": "garlic paste",
+    "example_name": "garlic paste",
+    "name_de": "Knoblauchpaste",
+    "grocery_category": "vegetables",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "ginger",
+    "example_name": "ginger, grated",
+    "name_de": "Ingwer",
+    "grocery_category": "vegetables",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "ginger paste",
+    "example_name": "ginger paste",
+    "name_de": "Ingwerpaste",
+    "grocery_category": "vegetables",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "ginger-garlic paste",
+    "example_name": "ginger-garlic paste",
+    "name_de": "Ingwer-Knoblauch-Paste",
+    "grocery_category": "vegetables",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "gochujang",
+    "example_name": "gochujang (Korean chili paste)",
+    "name_de": "Gochujang (koreanische Chilipaste)",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.75,
+    "sample_count": 1
+  },
+  {
+    "name": "green chili",
+    "example_name": "green chili, slit",
+    "name_de": "grüne Chili",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "green curry paste",
+    "example_name": "green curry paste",
+    "name_de": "grüne Currypaste",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.75,
+    "sample_count": 1
+  },
+  {
+    "name": "ground beef",
+    "example_name": "ground beef (80/20)",
+    "name_de": "Rinderhack",
+    "grocery_category": "meat-poultry",
+    "default_unit": "g",
+    "qty_per_serving": 150.0,
+    "sample_count": 1
+  },
+  {
+    "name": "heavy cream",
+    "example_name": "heavy cream",
+    "name_de": "Schlagsahne",
+    "grocery_category": "dairy",
+    "default_unit": "ml",
+    "qty_per_serving": 25.0,
+    "sample_count": 1
+  },
+  {
+    "name": "herbes de provence",
+    "example_name": "herbes de Provence",
+    "name_de": "Kräuter der Provence",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "ice water",
+    "example_name": "ice water",
+    "name_de": "Eiswasser",
+    "grocery_category": "beverages",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.5,
+    "sample_count": 1
+  },
+  {
+    "name": "jalapeno",
+    "example_name": "jalapeno, minced",
+    "name_de": "Jalapeño",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "kaffir lime leaves",
+    "example_name": "kaffir lime leaves",
+    "name_de": "Kaffirlimettenblätter",
+    "grocery_category": "herbs-fresh",
+    "default_unit": "piece",
+    "qty_per_serving": 0.75,
+    "sample_count": 1
+  },
+  {
+    "name": "kalamata olives",
+    "example_name": "kalamata olives",
+    "name_de": "Kalamata-Oliven",
+    "grocery_category": "canned-jarred",
+    "default_unit": "g",
+    "qty_per_serving": 25.0,
+    "sample_count": 1
+  },
+  {
+    "name": "kashmiri chili powder",
+    "example_name": "kashmiri chili powder",
+    "name_de": "Kashmiri-Chilipulver",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "kasuri methi",
+    "example_name": "kasuri methi (dried fenugreek leaves)",
+    "name_de": "Kasuri Methi (getrocknete Bockshornkleeblätter)",
+    "grocery_category": "herbs-fresh",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "ketchup",
+    "example_name": "ketchup",
+    "name_de": "Ketchup",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.5,
+    "sample_count": 1
+  },
+  {
+    "name": "lemon juice",
+    "example_name": "lemon juice",
+    "name_de": "Zitronensaft",
+    "grocery_category": "fruits",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.375,
+    "sample_count": 2
+  },
+  {
+    "name": "lettuce leaves",
+    "example_name": "lettuce leaves",
+    "name_de": "Kopfsalatblätter",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 1.0,
+    "sample_count": 1
+  },
+  {
+    "name": "lime juice",
+    "example_name": "lime juice",
+    "name_de": "Limettensaft",
+    "grocery_category": "fruits",
+    "default_unit": "ml",
+    "qty_per_serving": 7.5,
+    "sample_count": 1
+  },
+  {
+    "name": "maple syrup",
+    "example_name": "maple syrup",
+    "name_de": "Ahornsirup",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "ml",
+    "qty_per_serving": 15.0,
+    "sample_count": 1
+  },
+  {
+    "name": "mirin",
+    "example_name": "mirin",
+    "name_de": "Mirin",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "ml",
+    "qty_per_serving": 15.0,
+    "sample_count": 1
+  },
+  {
+    "name": "miso paste",
+    "example_name": "miso paste",
+    "name_de": "Miso-Paste",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.75,
+    "sample_count": 1
+  },
+  {
+    "name": "mustard",
+    "example_name": "mustard",
+    "name_de": "Senf",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "olive oil",
+    "example_name": "olive oil",
+    "name_de": "Olivenöl",
+    "grocery_category": "oils-fats",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.708,
+    "sample_count": 4
+  },
+  {
+    "name": "onion",
+    "example_name": "onion, finely chopped",
+    "name_de": "Zwiebel",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.208,
+    "sample_count": 3
+  },
+  {
+    "name": "orange juice",
+    "example_name": "orange juice",
+    "name_de": "Orangensaft",
+    "grocery_category": "beverages",
+    "default_unit": "ml",
+    "qty_per_serving": 15.0,
+    "sample_count": 1
+  },
+  {
+    "name": "palm sugar",
+    "example_name": "palm sugar",
+    "name_de": "Palmzucker",
+    "grocery_category": "other",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "parmesan cheese",
+    "example_name": "parmesan cheese, grated",
+    "name_de": "Parmesan",
+    "grocery_category": "dairy",
+    "default_unit": "g",
+    "qty_per_serving": 15.0,
+    "sample_count": 1
+  },
+  {
+    "name": "parsley",
+    "example_name": "parsley",
+    "name_de": "Petersilie",
+    "grocery_category": "herbs-fresh",
+    "default_unit": "cup",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "peas",
+    "example_name": "peas",
+    "name_de": "Erbsen",
+    "grocery_category": "frozen",
+    "default_unit": "cup",
+    "qty_per_serving": 0.125,
+    "sample_count": 1
+  },
+  {
+    "name": "pickles",
+    "example_name": "pickles",
+    "name_de": "Essiggurken",
+    "grocery_category": "canned-jarred",
+    "default_unit": "piece",
+    "qty_per_serving": 2.0,
+    "sample_count": 1
+  },
+  {
+    "name": "pineapple",
+    "example_name": "pineapple, diced",
+    "name_de": "Ananas",
+    "grocery_category": "fruits",
+    "default_unit": "g",
+    "qty_per_serving": 37.5,
+    "sample_count": 1
+  },
+  {
+    "name": "plain yogurt",
+    "example_name": "plain yogurt",
+    "name_de": "Naturjoghurt",
+    "grocery_category": "dairy",
+    "default_unit": "g",
+    "qty_per_serving": 37.5,
+    "sample_count": 1
+  },
+  {
+    "name": "potatoes",
+    "example_name": "potatoes, cubed",
+    "name_de": "Kartoffeln",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.75,
+    "sample_count": 1
+  },
+  {
+    "name": "red chili flakes",
+    "example_name": "red chili flakes",
+    "name_de": "rote Chiliflocken",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.5,
+    "sample_count": 1
+  },
+  {
+    "name": "red onion",
+    "example_name": "red onion, sliced",
+    "name_de": "rote Zwiebel",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.104,
+    "sample_count": 3
+  },
+  {
+    "name": "rice",
+    "example_name": "rice, cooked and cooled",
+    "name_de": "Reis",
+    "grocery_category": "grains-rice",
+    "default_unit": "cup",
+    "qty_per_serving": 1.0,
+    "sample_count": 1
+  },
+  {
+    "name": "ripe avocados",
+    "example_name": "ripe avocados",
+    "name_de": "reife Avocados",
+    "grocery_category": "fruits",
+    "default_unit": "piece",
+    "qty_per_serving": 0.75,
+    "sample_count": 1
+  },
+  {
+    "name": "roasted peanuts",
+    "example_name": "roasted peanuts",
+    "name_de": "geröstete Erdnüsse",
+    "grocery_category": "nuts-seeds",
+    "default_unit": "g",
+    "qty_per_serving": 20.0,
+    "sample_count": 1
+  },
+  {
+    "name": "sake",
+    "example_name": "sake",
+    "name_de": "Sake",
+    "grocery_category": "beverages",
+    "default_unit": "ml",
+    "qty_per_serving": 7.5,
+    "sample_count": 1
+  },
+  {
+    "name": "salt",
+    "example_name": "salt",
+    "name_de": "Salz",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.125,
+    "sample_count": 1
+  },
+  {
+    "name": "sesame oil",
+    "example_name": "sesame oil",
+    "name_de": "Sesamöl",
+    "grocery_category": "oils-fats",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.5,
+    "sample_count": 1
+  },
+  {
+    "name": "sesame seeds",
+    "example_name": "sesame seeds",
+    "name_de": "Sesamsamen",
+    "grocery_category": "nuts-seeds",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "shiitake mushrooms",
+    "example_name": "shiitake mushrooms, sliced",
+    "name_de": "Shiitake-Pilze",
+    "grocery_category": "vegetables",
+    "default_unit": "g",
+    "qty_per_serving": 25.0,
+    "sample_count": 1
+  },
+  {
+    "name": "sichuan peppercorns",
+    "example_name": "sichuan peppercorns",
+    "name_de": "Sichuan-Pfefferkörner",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.25,
+    "sample_count": 1
+  },
+  {
+    "name": "silken tofu",
+    "example_name": "silken tofu, cubed",
+    "name_de": "Seidentofu",
+    "grocery_category": "other",
+    "default_unit": "g",
+    "qty_per_serving": 50.0,
+    "sample_count": 1
+  },
+  {
+    "name": "soy sauce",
+    "example_name": "soy sauce",
+    "name_de": "Sojasauce",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.583,
+    "sample_count": 3
+  },
+  {
+    "name": "spaghetti",
+    "example_name": "spaghetti",
+    "name_de": "Spaghetti",
+    "grocery_category": "grains-rice",
+    "default_unit": "g",
+    "qty_per_serving": 100.0,
+    "sample_count": 1
+  },
+  {
+    "name": "spinach",
+    "example_name": "spinach",
+    "name_de": "Spinat",
+    "grocery_category": "vegetables",
+    "default_unit": "g",
+    "qty_per_serving": 37.5,
+    "sample_count": 1
+  },
+  {
+    "name": "spring onion",
+    "example_name": "spring onion, chopped",
+    "name_de": "Frühlingszwiebel",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.667,
+    "sample_count": 3
+  },
+  {
+    "name": "sugar",
+    "example_name": "sugar",
+    "name_de": "Zucker",
+    "grocery_category": "other",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.375,
+    "sample_count": 2
+  },
+  {
+    "name": "tahini",
+    "example_name": "tahini",
+    "name_de": "Tahini",
+    "grocery_category": "condiments-sauces",
+    "default_unit": "g",
+    "qty_per_serving": 10.0,
+    "sample_count": 1
+  },
+  {
+    "name": "thai basil leaves",
+    "example_name": "Thai basil leaves",
+    "name_de": "Thai-Basilikumblätter",
+    "grocery_category": "herbs-fresh",
+    "default_unit": "cup",
+    "qty_per_serving": 0.125,
+    "sample_count": 1
+  },
+  {
+    "name": "thai eggplant or zucchini",
+    "example_name": "Thai eggplant or zucchini, chopped",
+    "name_de": "Thai-Aubergine oder Zucchini",
+    "grocery_category": "vegetables",
+    "default_unit": "g",
+    "qty_per_serving": 37.5,
+    "sample_count": 1
+  },
+  {
+    "name": "tomato",
+    "example_name": "tomato, sliced",
+    "name_de": "Tomate",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.25,
+    "sample_count": 2
+  },
+  {
+    "name": "tomato puree",
+    "example_name": "tomato puree",
+    "name_de": "Tomatenpüree",
+    "grocery_category": "canned-jarred",
+    "default_unit": "g",
+    "qty_per_serving": 100.0,
+    "sample_count": 1
+  },
+  {
+    "name": "tomatoes",
+    "example_name": "tomatoes, pureed",
+    "name_de": "Tomaten",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.833,
+    "sample_count": 3
+  },
+  {
+    "name": "turmeric powder",
+    "example_name": "turmeric powder",
+    "name_de": "Kurkumapulver",
+    "grocery_category": "spices",
+    "default_unit": "tsp",
+    "qty_per_serving": 0.125,
+    "sample_count": 1
+  },
+  {
+    "name": "vegetable oil",
+    "example_name": "vegetable oil",
+    "name_de": "Pflanzenöl",
+    "grocery_category": "oils-fats",
+    "default_unit": "tbsp",
+    "qty_per_serving": 0.625,
+    "sample_count": 4
+  },
+  {
+    "name": "water",
+    "example_name": "water",
+    "name_de": "Wasser",
+    "grocery_category": "beverages",
+    "default_unit": "ml",
+    "qty_per_serving": 100.0,
+    "sample_count": 1
+  },
+  {
+    "name": "white onion",
+    "example_name": "white onion, diced",
+    "name_de": "weiße Zwiebel",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.125,
+    "sample_count": 1
+  },
+  {
+    "name": "zucchini",
+    "example_name": "zucchini, diced",
+    "name_de": "Zucchini",
+    "grocery_category": "vegetables",
+    "default_unit": "piece",
+    "qty_per_serving": 0.5,
+    "sample_count": 1
+  }
+]

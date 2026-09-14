@@ -1,0 +1,100 @@
+{
+  "id": "chicken-tacos",
+  "title": "Chicken Tacos al Pastor Style",
+  "description": "Achiote-marinated chicken tacos with pineapple, onion and cilantro.",
+  "cuisine": "Mexican",
+  "category": "main",
+  "servings": 4,
+  "prep_time_minutes": 30,
+  "cook_time_minutes": 20,
+  "difficulty": "medium",
+  "ingredients": [
+    {
+      "name": "chicken thighs, boneless",
+      "quantity": 600,
+      "unit": "g",
+      "grocery_category": "meat-poultry"
+    },
+    {
+      "name": "achiote paste",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "orange juice",
+      "quantity": 60,
+      "unit": "ml",
+      "grocery_category": "beverages"
+    },
+    {
+      "name": "lime juice",
+      "quantity": 30,
+      "unit": "ml",
+      "grocery_category": "fruits"
+    },
+    {
+      "name": "pineapple, diced",
+      "quantity": 150,
+      "unit": "g",
+      "grocery_category": "fruits"
+    },
+    {
+      "name": "corn tortillas",
+      "quantity": 12,
+      "unit": "piece",
+      "grocery_category": "bakery"
+    },
+    {
+      "name": "white onion, diced",
+      "quantity": 0.5,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "cilantro, chopped",
+      "quantity": 3,
+      "unit": "tbsp",
+      "grocery_category": "herbs-fresh"
+    }
+  ],
+  "instructions": [
+    "Whisk achiote paste with orange and lime juice; marinate chicken 1-2 hours.",
+    "Sear chicken in a hot pan until charred and cooked through; rest and slice.",
+    "Warm tortillas; fill with chicken, pineapple, onion and cilantro.",
+    "Serve with extra lime wedges."
+  ],
+  "tags": [
+    "street-food",
+    "grill",
+    "party"
+  ],
+  "dietary": [
+    "non-vegetarian",
+    "gluten-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Hähnchen-Tacos al Pastor",
+      "description": "Mit Achiote marinierte Hähnchen-Tacos mit Ananas, Zwiebel und Koriandergrün.",
+      "ingredient_names": [
+        "Hähnchenoberschenkel, ohne Knochen",
+        "Achiote-Paste",
+        "Orangensaft",
+        "Limettensaft",
+        "Ananas, gewürfelt",
+        "Maistortillas",
+        "weiße Zwiebel, gewürfelt",
+        "Koriandergrün, gehackt"
+      ],
+      "instructions": [
+        "Achiote-Paste mit Orangen- und Limettensaft verquirlen; Hähnchen 1-2 Stunden marinieren.",
+        "Hähnchen in einer heißen Pfanne scharf anbraten, bis es angebräunt und durchgegart ist; ruhen lassen und in Scheiben schneiden.",
+        "Tortillas erwärmen; mit Hähnchen, Ananas, Zwiebel und Koriandergrün füllen.",
+        "Mit zusätzlichen Limettenspalten servieren."
+      ]
+    }
+  }
+}

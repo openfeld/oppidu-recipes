@@ -1,0 +1,127 @@
+{
+  "id": "butter-chicken",
+  "title": "Butter Chicken (Murgh Makhani)",
+  "description": "Creamy, tomato-based North Indian curry with tandoori-spiced chicken.",
+  "cuisine": "Indian",
+  "category": "main",
+  "servings": 4,
+  "prep_time_minutes": 30,
+  "cook_time_minutes": 40,
+  "difficulty": "medium",
+  "ingredients": [
+    {
+      "name": "boneless chicken thighs",
+      "quantity": 700,
+      "unit": "g",
+      "grocery_category": "meat-poultry"
+    },
+    {
+      "name": "plain yogurt",
+      "quantity": 150,
+      "unit": "g",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "garlic paste",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "ginger paste",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "garam masala",
+      "quantity": 2,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "kashmiri chili powder",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "butter",
+      "quantity": 60,
+      "unit": "g",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "tomato puree",
+      "quantity": 400,
+      "unit": "g",
+      "grocery_category": "canned-jarred"
+    },
+    {
+      "name": "heavy cream",
+      "quantity": 100,
+      "unit": "ml",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "kasuri methi (dried fenugreek leaves)",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "herbs-fresh"
+    },
+    {
+      "name": "sugar",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "other"
+    }
+  ],
+  "instructions": [
+    "Marinate chicken in yogurt, garlic, ginger, garam masala and chili powder for at least 1 hour (overnight is best).",
+    "Sear the marinated chicken in a hot pan or grill until charred at the edges; set aside.",
+    "Melt butter in a pan, add remaining garlic and ginger, cook 1 minute.",
+    "Add tomato puree and simmer 15 minutes until thickened and the raw smell is gone.",
+    "Blend the sauce smooth, return to the pan, stir in cream, sugar and kasuri methi.",
+    "Add the seared chicken and simmer 10 minutes until cooked through.",
+    "Finish with a swirl of cream and serve with naan or rice."
+  ],
+  "tags": [
+    "curry",
+    "creamy",
+    "weeknight",
+    "restaurant-style"
+  ],
+  "dietary": [
+    "non-vegetarian"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Butter Chicken (Murgh Makhani)",
+      "description": "Cremiges, tomatenbasiertes nordindisches Curry mit tandoori-gewürztem Hähnchen.",
+      "ingredient_names": [
+        "Hähnchenoberschenkel, ohne Knochen",
+        "Naturjoghurt",
+        "Knoblauchpaste",
+        "Ingwerpaste",
+        "Garam Masala",
+        "Kashmiri-Chilipulver",
+        "Butter",
+        "Tomatenpüree",
+        "Schlagsahne",
+        "Kasuri Methi (getrocknete Bockshornkleeblätter)",
+        "Zucker"
+      ],
+      "instructions": [
+        "Hähnchen mindestens 1 Stunde (am besten über Nacht) in Joghurt, Knoblauch, Ingwer, Garam Masala und Chilipulver marinieren.",
+        "Das marinierte Hähnchen in einer heißen Pfanne oder auf dem Grill scharf anbraten, bis es an den Rändern angebräunt ist; beiseitestellen.",
+        "Butter in einer Pfanne schmelzen, restlichen Knoblauch und Ingwer zugeben, 1 Minute anbraten.",
+        "Tomatenpüree zugeben und 15 Minuten köcheln lassen, bis es eingedickt ist und der rohe Geruch verschwunden ist.",
+        "Die Sauce glatt pürieren, zurück in die Pfanne geben, Sahne, Zucker und Kasuri Methi einrühren.",
+        "Das angebratene Hähnchen zugeben und 10 Minuten köcheln lassen, bis es durchgegart ist.",
+        "Mit einem Schuss Sahne abschließen und mit Naan oder Reis servieren."
+      ]
+    }
+  }
+}

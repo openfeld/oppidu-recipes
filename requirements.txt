@@ -1,0 +1,3 @@
+jsonschema>=4.0
+# Optional, only needed for `scripts/generate_recipe.py --llm`:
+# anthropic>=0.40

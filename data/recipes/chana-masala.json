@@ -1,0 +1,111 @@
+{
+  "id": "chana-masala",
+  "title": "Chana Masala (Spiced Chickpea Curry)",
+  "description": "Punchy, tangy chickpea curry from North India, naturally vegan.",
+  "cuisine": "Indian",
+  "category": "main",
+  "servings": 4,
+  "prep_time_minutes": 10,
+  "cook_time_minutes": 30,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "canned chickpeas",
+      "quantity": 2,
+      "unit": "cup",
+      "grocery_category": "canned-jarred"
+    },
+    {
+      "name": "onion, finely chopped",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "tomatoes, pureed",
+      "quantity": 2,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "ginger-garlic paste",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "chana masala spice blend",
+      "quantity": 2,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "cumin seeds",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "vegetable oil",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "oils-fats"
+    },
+    {
+      "name": "cilantro, chopped",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "herbs-fresh"
+    },
+    {
+      "name": "lemon juice",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "fruits"
+    }
+  ],
+  "instructions": [
+    "Heat oil, temper cumin seeds until fragrant.",
+    "Add onion, cook until golden, then add ginger-garlic paste.",
+    "Add tomato puree and spice blend, cook until oil separates.",
+    "Add chickpeas with a splash of water, simmer 15 minutes, mashing a few for body.",
+    "Finish with lemon juice and cilantro; serve with rice or roti."
+  ],
+  "tags": [
+    "vegan",
+    "budget-friendly",
+    "one-pot",
+    "weeknight"
+  ],
+  "dietary": [
+    "vegan",
+    "vegetarian",
+    "gluten-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Chana Masala (Gewürztes Kichererbsen-Curry)",
+      "description": "Würziges, pikantes Kichererbsen-Curry aus Nordindien, von Natur aus vegan.",
+      "ingredient_names": [
+        "Kichererbsen aus der Dose",
+        "Zwiebel, fein gehackt",
+        "Tomaten, püriert",
+        "Ingwer-Knoblauch-Paste",
+        "Chana-Masala-Gewürzmischung",
+        "Kreuzkümmelsamen",
+        "Pflanzenöl",
+        "Koriandergrün, gehackt",
+        "Zitronensaft"
+      ],
+      "instructions": [
+        "Öl erhitzen, Kreuzkümmelsamen anschwitzen, bis sie duften.",
+        "Zwiebel zugeben, goldbraun anbraten, dann Ingwer-Knoblauch-Paste zugeben.",
+        "Tomatenpüree und Gewürzmischung zugeben, braten, bis sich das Öl absetzt.",
+        "Kichererbsen mit einem Schuss Wasser zugeben, 15 Minuten köcheln lassen, dabei einige zerdrücken, um Bindung zu geben.",
+        "Mit Zitronensaft und Koriandergrün abschließen; mit Reis oder Roti servieren."
+      ]
+    }
+  }
+}

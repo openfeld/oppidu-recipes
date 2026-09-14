@@ -1,0 +1,117 @@
+{
+  "id": "bibimbap",
+  "title": "Bibimbap (Mixed Rice Bowl)",
+  "description": "Korean rice bowl topped with seasoned vegetables, beef and a fried egg.",
+  "cuisine": "Korean",
+  "category": "main",
+  "servings": 4,
+  "prep_time_minutes": 30,
+  "cook_time_minutes": 20,
+  "difficulty": "medium",
+  "ingredients": [
+    {
+      "name": "cooked short-grain rice",
+      "quantity": 4,
+      "unit": "cup",
+      "grocery_category": "grains-rice"
+    },
+    {
+      "name": "beef sirloin, thinly sliced",
+      "quantity": 300,
+      "unit": "g",
+      "grocery_category": "meat-poultry"
+    },
+    {
+      "name": "spinach",
+      "quantity": 150,
+      "unit": "g",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "bean sprouts",
+      "quantity": 150,
+      "unit": "g",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "carrot, julienned",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "shiitake mushrooms, sliced",
+      "quantity": 100,
+      "unit": "g",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "eggs",
+      "quantity": 4,
+      "unit": "piece",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "gochujang (Korean chili paste)",
+      "quantity": 3,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "sesame oil",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "oils-fats"
+    },
+    {
+      "name": "soy sauce",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    }
+  ],
+  "instructions": [
+    "Marinate beef in soy sauce and a little sesame oil; stir-fry until browned.",
+    "Blanch spinach and bean sprouts separately; season each with sesame oil and salt.",
+    "Saute carrot and mushrooms separately until just tender.",
+    "Fry eggs sunny-side up.",
+    "Assemble rice in bowls, arrange beef and vegetables in sections, top with a fried egg.",
+    "Serve with gochujang on the side to mix in."
+  ],
+  "tags": [
+    "rice-bowl",
+    "meal-prep",
+    "customizable"
+  ],
+  "dietary": [
+    "non-vegetarian"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Bibimbap (Koreanische Reisschale)",
+      "description": "Koreanische Reisschale mit gewürztem Gemüse, Rindfleisch und Spiegelei.",
+      "ingredient_names": [
+        "gekochter Rundkornreis",
+        "Rinderhüfte, dünn geschnitten",
+        "Spinat",
+        "Sojasprossen",
+        "Karotte, in feine Streifen geschnitten",
+        "Shiitake-Pilze, in Scheiben geschnitten",
+        "Eier",
+        "Gochujang (koreanische Chilipaste)",
+        "Sesamöl",
+        "Sojasauce"
+      ],
+      "instructions": [
+        "Rindfleisch in Sojasauce und etwas Sesamöl marinieren; scharf anbraten, bis es gebräunt ist.",
+        "Spinat und Sojasprossen getrennt blanchieren; jeweils mit Sesamöl und Salz würzen.",
+        "Karotte und Pilze getrennt anbraten, bis sie gerade gar sind.",
+        "Eier als Spiegelei braten.",
+        "Reis in Schalen anrichten, Rindfleisch und Gemüse in Abschnitten darauf verteilen, mit einem Spiegelei toppen.",
+        "Mit Gochujang zum Untermischen servieren."
+      ]
+    }
+  }
+}

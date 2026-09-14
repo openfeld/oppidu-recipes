@@ -1,0 +1,92 @@
+{
+  "id": "greek-salad",
+  "title": "Greek Salad (Horiatiki)",
+  "description": "Rustic salad of tomato, cucumber, olives and feta.",
+  "cuisine": "Greek",
+  "category": "salad",
+  "servings": 4,
+  "prep_time_minutes": 15,
+  "cook_time_minutes": 0,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "tomatoes, cut into wedges",
+      "quantity": 4,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "cucumber, sliced",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "red onion, thinly sliced",
+      "quantity": 0.5,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "kalamata olives",
+      "quantity": 100,
+      "unit": "g",
+      "grocery_category": "canned-jarred"
+    },
+    {
+      "name": "feta cheese block",
+      "quantity": 150,
+      "unit": "g",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "extra virgin olive oil",
+      "quantity": 3,
+      "unit": "tbsp",
+      "grocery_category": "oils-fats"
+    },
+    {
+      "name": "dried oregano",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    }
+  ],
+  "instructions": [
+    "Combine tomato, cucumber, onion and olives in a bowl.",
+    "Top with a whole block of feta, drizzle with olive oil and sprinkle oregano.",
+    "Season with salt and pepper; serve with crusty bread."
+  ],
+  "tags": [
+    "no-cook",
+    "fresh",
+    "summer",
+    "vegetarian"
+  ],
+  "dietary": [
+    "vegetarian",
+    "gluten-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Griechischer Salat (Horiatiki)",
+      "description": "Rustikaler Salat aus Tomate, Gurke, Oliven und Feta.",
+      "ingredient_names": [
+        "Tomaten, in Spalten geschnitten",
+        "Gurke, in Scheiben geschnitten",
+        "rote Zwiebel, dünn geschnitten",
+        "Kalamata-Oliven",
+        "Feta-Käse, im Stück",
+        "natives Olivenöl extra",
+        "getrockneter Oregano"
+      ],
+      "instructions": [
+        "Tomate, Gurke, Zwiebel und Oliven in einer Schüssel vermengen.",
+        "Mit einem ganzen Stück Feta belegen, mit Olivenöl beträufeln und mit Oregano bestreuen.",
+        "Mit Salz und Pfeffer würzen; mit knusprigem Brot servieren."
+      ]
+    }
+  }
+}

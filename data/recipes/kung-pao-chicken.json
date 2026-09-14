@@ -1,0 +1,116 @@
+{
+  "id": "kung-pao-chicken",
+  "title": "Kung Pao Chicken",
+  "description": "Sichuan stir-fry with chicken, peanuts and dried chilies.",
+  "cuisine": "Chinese",
+  "category": "main",
+  "servings": 4,
+  "prep_time_minutes": 20,
+  "cook_time_minutes": 15,
+  "difficulty": "medium",
+  "ingredients": [
+    {
+      "name": "chicken breast, diced",
+      "quantity": 500,
+      "unit": "g",
+      "grocery_category": "meat-poultry"
+    },
+    {
+      "name": "roasted peanuts",
+      "quantity": 80,
+      "unit": "g",
+      "grocery_category": "nuts-seeds"
+    },
+    {
+      "name": "dried red chilies",
+      "quantity": 8,
+      "unit": "piece",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "sichuan peppercorns",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "soy sauce",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "black vinegar",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "garlic, minced",
+      "quantity": 3,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "spring onion, chopped",
+      "quantity": 3,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "cornstarch",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "flour-baking"
+    },
+    {
+      "name": "vegetable oil",
+      "quantity": 3,
+      "unit": "tbsp",
+      "grocery_category": "oils-fats"
+    }
+  ],
+  "instructions": [
+    "Toss chicken with cornstarch and a splash of soy sauce; marinate 10 minutes.",
+    "Stir-fry dried chilies and sichuan peppercorns in hot oil until fragrant.",
+    "Add chicken, stir-fry until cooked through.",
+    "Add garlic, soy sauce and black vinegar; toss to coat.",
+    "Stir in peanuts and spring onion; serve with steamed rice."
+  ],
+  "tags": [
+    "stir-fry",
+    "spicy",
+    "weeknight"
+  ],
+  "dietary": [
+    "non-vegetarian",
+    "dairy-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Kung Pao Hähnchen",
+      "description": "Sichuan-Pfannengericht mit Hähnchen, Erdnüssen und getrockneten Chilis.",
+      "ingredient_names": [
+        "Hähnchenbrust, gewürfelt",
+        "geröstete Erdnüsse",
+        "getrocknete rote Chilis",
+        "Sichuan-Pfefferkörner",
+        "Sojasauce",
+        "schwarzer Essig",
+        "Knoblauch, gehackt",
+        "Frühlingszwiebel, gehackt",
+        "Speisestärke",
+        "Pflanzenöl"
+      ],
+      "instructions": [
+        "Hähnchen mit Speisestärke und einem Schuss Sojasauce vermengen; 10 Minuten marinieren.",
+        "Getrocknete Chilis und Sichuan-Pfefferkörner in heißem Öl anbraten, bis sie duften.",
+        "Hähnchen zugeben, braten, bis es durchgegart ist.",
+        "Knoblauch, Sojasauce und schwarzen Essig zugeben; gut vermengen.",
+        "Erdnüsse und Frühlingszwiebel unterrühren; mit gedämpftem Reis servieren."
+      ]
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "id": "falafel",
+  "title": "Crispy Baked Falafel",
+  "description": "Herb-packed chickpea fritters, oven-baked for a lighter finish.",
+  "cuisine": "Middle Eastern",
+  "category": "main",
+  "servings": 4,
+  "prep_time_minutes": 20,
+  "cook_time_minutes": 25,
+  "difficulty": "medium",
+  "ingredients": [
+    {
+      "name": "dried chickpeas, soaked overnight",
+      "quantity": 250,
+      "unit": "g",
+      "grocery_category": "lentils-pulses"
+    },
+    {
+      "name": "parsley",
+      "quantity": 1,
+      "unit": "cup",
+      "grocery_category": "herbs-fresh"
+    },
+    {
+      "name": "cilantro",
+      "quantity": 0.5,
+      "unit": "cup",
+      "grocery_category": "herbs-fresh"
+    },
+    {
+      "name": "onion, roughly chopped",
+      "quantity": 0.5,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "garlic cloves",
+      "quantity": 4,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "cumin powder",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "coriander powder",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "baking powder",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "flour-baking"
+    },
+    {
+      "name": "olive oil",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "oils-fats"
+    }
+  ],
+  "instructions": [
+    "Note: use dried, soaked (not canned) chickpeas for proper texture.",
+    "Pulse chickpeas, herbs, onion, garlic and spices in a food processor until finely ground but not pureed.",
+    "Mix in baking powder, chill mixture 30 minutes.",
+    "Shape into small patties, brush with olive oil.",
+    "Bake at 200C for 12-14 minutes per side until golden and crisp.",
+    "Serve in pita with tahini sauce and salad."
+  ],
+  "tags": [
+    "vegan",
+    "meal-prep",
+    "baked"
+  ],
+  "dietary": [
+    "vegan",
+    "vegetarian"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Knusprige gebackene Falafel",
+      "description": "Kräuterreiche Kichererbsen-Bratlinge, im Ofen gebacken für ein leichteres Ergebnis.",
+      "ingredient_names": [
+        "getrocknete Kichererbsen, über Nacht eingeweicht",
+        "Petersilie",
+        "Koriandergrün",
+        "Zwiebel, grob gehackt",
+        "Knoblauchzehen",
+        "Kreuzkümmelpulver",
+        "Korianderpulver",
+        "Backpulver",
+        "Olivenöl"
+      ],
+      "instructions": [
+        "Hinweis: für die richtige Textur getrocknete, eingeweichte (keine Dosen-) Kichererbsen verwenden.",
+        "Kichererbsen, Kräuter, Zwiebel, Knoblauch und Gewürze in einer Küchenmaschine pulsieren, bis sie fein gemahlen, aber nicht püriert sind.",
+        "Backpulver unterrühren, Mischung 30 Minuten kühl stellen.",
+        "Zu kleinen Bratlingen formen, mit Olivenöl bestreichen.",
+        "Bei 200°C 12-14 Minuten pro Seite backen, bis sie goldbraun und knusprig sind.",
+        "In Pita mit Tahini-Sauce und Salat servieren."
+      ]
+    }
+  }
+}

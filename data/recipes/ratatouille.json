@@ -1,0 +1,103 @@
+{
+  "id": "ratatouille",
+  "title": "Ratatouille",
+  "description": "Provencal stewed vegetable dish of eggplant, zucchini, pepper and tomato.",
+  "cuisine": "French",
+  "category": "side",
+  "servings": 4,
+  "prep_time_minutes": 20,
+  "cook_time_minutes": 40,
+  "difficulty": "medium",
+  "ingredients": [
+    {
+      "name": "eggplant, diced",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "zucchini, diced",
+      "quantity": 2,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "bell peppers, diced",
+      "quantity": 2,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "tomatoes, chopped",
+      "quantity": 4,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "onion, chopped",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "garlic cloves, minced",
+      "quantity": 3,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "herbes de Provence",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "olive oil",
+      "quantity": 4,
+      "unit": "tbsp",
+      "grocery_category": "oils-fats"
+    }
+  ],
+  "instructions": [
+    "Saute onion and garlic in olive oil until soft.",
+    "Add eggplant, cook 5 minutes, then add peppers and zucchini.",
+    "Stir in tomatoes and herbes de Provence.",
+    "Cover and simmer 25-30 minutes, stirring occasionally, until vegetables are tender and stew-like.",
+    "Season and serve warm or at room temperature."
+  ],
+  "tags": [
+    "vegan",
+    "make-ahead",
+    "summer"
+  ],
+  "dietary": [
+    "vegan",
+    "vegetarian",
+    "gluten-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Ratatouille",
+      "description": "Provenzalisches Schmorgericht aus Aubergine, Zucchini, Paprika und Tomate.",
+      "ingredient_names": [
+        "Aubergine, gewürfelt",
+        "Zucchini, gewürfelt",
+        "Paprika, gewürfelt",
+        "Tomaten, gehackt",
+        "Zwiebel, gehackt",
+        "Knoblauchzehen, gehackt",
+        "Kräuter der Provence",
+        "Olivenöl"
+      ],
+      "instructions": [
+        "Zwiebel und Knoblauch in Olivenöl weich dünsten.",
+        "Aubergine zugeben, 5 Minuten braten, dann Paprika und Zucchini zugeben.",
+        "Tomaten und Kräuter der Provence unterrühren.",
+        "Zugedeckt 25-30 Minuten köcheln lassen, dabei gelegentlich umrühren, bis das Gemüse weich und schmorig ist.",
+        "Würzen und warm oder bei Zimmertemperatur servieren."
+      ]
+    }
+  }
+}

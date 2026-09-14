@@ -1,0 +1,110 @@
+{
+  "id": "thai-green-curry",
+  "title": "Thai Green Curry with Chicken",
+  "description": "Aromatic, coconut-based curry with green chilies, Thai basil and vegetables.",
+  "cuisine": "Thai",
+  "category": "main",
+  "servings": 4,
+  "prep_time_minutes": 20,
+  "cook_time_minutes": 25,
+  "difficulty": "medium",
+  "ingredients": [
+    {
+      "name": "chicken breast, sliced",
+      "quantity": 500,
+      "unit": "g",
+      "grocery_category": "meat-poultry"
+    },
+    {
+      "name": "green curry paste",
+      "quantity": 3,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "coconut milk",
+      "quantity": 400,
+      "unit": "ml",
+      "grocery_category": "canned-jarred"
+    },
+    {
+      "name": "fish sauce",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "palm sugar",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "other"
+    },
+    {
+      "name": "Thai eggplant or zucchini, chopped",
+      "quantity": 150,
+      "unit": "g",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "bell pepper, sliced",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "Thai basil leaves",
+      "quantity": 0.5,
+      "unit": "cup",
+      "grocery_category": "herbs-fresh"
+    },
+    {
+      "name": "kaffir lime leaves",
+      "quantity": 3,
+      "unit": "piece",
+      "grocery_category": "herbs-fresh"
+    }
+  ],
+  "instructions": [
+    "Fry curry paste in a splash of coconut milk until fragrant.",
+    "Add chicken, cook until sealed on all sides.",
+    "Pour in remaining coconut milk, fish sauce and palm sugar; simmer 10 minutes.",
+    "Add vegetables and kaffir lime leaves; simmer until tender.",
+    "Stir in Thai basil and serve with jasmine rice."
+  ],
+  "tags": [
+    "curry",
+    "coconut",
+    "spicy"
+  ],
+  "dietary": [
+    "non-vegetarian",
+    "gluten-free",
+    "dairy-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Thailändisches grünes Curry mit Hähnchen",
+      "description": "Aromatisches Kokos-Curry mit grünen Chilis, Thai-Basilikum und Gemüse.",
+      "ingredient_names": [
+        "Hähnchenbrust, in Scheiben geschnitten",
+        "grüne Currypaste",
+        "Kokosmilch",
+        "Fischsauce",
+        "Palmzucker",
+        "Thai-Aubergine oder Zucchini, gehackt",
+        "Paprika, in Scheiben geschnitten",
+        "Thai-Basilikumblätter",
+        "Kaffirlimettenblätter"
+      ],
+      "instructions": [
+        "Currypaste in einem Schuss Kokosmilch anbraten, bis sie duftet.",
+        "Hähnchen zugeben, anbraten, bis es rundum versiegelt ist.",
+        "Restliche Kokosmilch, Fischsauce und Palmzucker zugeben; 10 Minuten köcheln lassen.",
+        "Gemüse und Kaffirlimettenblätter zugeben; köcheln, bis alles weich ist.",
+        "Thai-Basilikum unterrühren und mit Jasminreis servieren."
+      ]
+    }
+  }
+}

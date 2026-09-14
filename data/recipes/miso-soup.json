@@ -1,0 +1,79 @@
+{
+  "id": "miso-soup",
+  "title": "Miso Soup",
+  "description": "Light Japanese soup with dashi, miso, tofu and seaweed.",
+  "cuisine": "Japanese",
+  "category": "soup",
+  "servings": 4,
+  "prep_time_minutes": 5,
+  "cook_time_minutes": 10,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "dashi stock",
+      "quantity": 1,
+      "unit": "l",
+      "grocery_category": "beverages"
+    },
+    {
+      "name": "miso paste",
+      "quantity": 3,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "silken tofu, cubed",
+      "quantity": 200,
+      "unit": "g",
+      "grocery_category": "other"
+    },
+    {
+      "name": "dried wakame seaweed",
+      "quantity": 1,
+      "unit": "tbsp",
+      "grocery_category": "other"
+    },
+    {
+      "name": "spring onion, sliced",
+      "quantity": 2,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    }
+  ],
+  "instructions": [
+    "Bring dashi to a gentle simmer (do not boil).",
+    "Whisk a ladle of hot dashi with miso paste until dissolved, then stir back into the pot.",
+    "Add tofu and rehydrated wakame, warm through.",
+    "Garnish with spring onion and serve immediately."
+  ],
+  "tags": [
+    "light",
+    "quick",
+    "comfort"
+  ],
+  "dietary": [
+    "vegetarian",
+    "dairy-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Miso-Suppe",
+      "description": "Leichte japanische Suppe mit Dashi, Miso, Tofu und Algen.",
+      "ingredient_names": [
+        "Dashi-Brühe",
+        "Miso-Paste",
+        "Seidentofu, gewürfelt",
+        "getrocknete Wakame-Algen",
+        "Frühlingszwiebel, in Ringe geschnitten"
+      ],
+      "instructions": [
+        "Dashi sanft erhitzen (nicht kochen lassen).",
+        "Eine Kelle heiße Dashi mit Miso-Paste verquirlen, bis sie sich aufgelöst hat, dann zurück in den Topf rühren.",
+        "Tofu und eingeweichte Wakame zugeben, durchwärmen.",
+        "Mit Frühlingszwiebel garnieren und sofort servieren."
+      ]
+    }
+  }
+}

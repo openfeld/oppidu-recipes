@@ -1,0 +1,102 @@
+{
+  "id": "vegetable-fried-rice",
+  "title": "Vegetable Fried Rice",
+  "description": "Wok-fried rice with mixed vegetables, egg and soy sauce.",
+  "cuisine": "Chinese",
+  "category": "main",
+  "servings": 4,
+  "prep_time_minutes": 10,
+  "cook_time_minutes": 15,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "rice, cooked and cooled",
+      "quantity": 4,
+      "unit": "cup",
+      "grocery_category": "grains-rice"
+    },
+    {
+      "name": "eggs, beaten",
+      "quantity": 2,
+      "unit": "piece",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "carrot, diced",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "peas",
+      "quantity": 0.5,
+      "unit": "cup",
+      "grocery_category": "frozen"
+    },
+    {
+      "name": "spring onion, chopped",
+      "quantity": 3,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "soy sauce",
+      "quantity": 3,
+      "unit": "tbsp",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "sesame oil",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "oils-fats"
+    },
+    {
+      "name": "vegetable oil",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "oils-fats"
+    }
+  ],
+  "instructions": [
+    "Scramble eggs in a hot wok with a little oil; set aside.",
+    "Stir-fry carrot and peas 2-3 minutes.",
+    "Add rice, breaking up clumps, stir-fry 5 minutes until slightly crisp.",
+    "Return eggs, add soy sauce and sesame oil, toss well.",
+    "Garnish with spring onion and serve."
+  ],
+  "tags": [
+    "quick",
+    "leftovers",
+    "one-pan",
+    "budget-friendly"
+  ],
+  "dietary": [
+    "vegetarian"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Gebratener Reis mit Gemüse",
+      "description": "Im Wok gebratener Reis mit gemischtem Gemüse, Ei und Sojasauce.",
+      "ingredient_names": [
+        "Reis, gekocht und abgekühlt",
+        "Eier, verquirlt",
+        "Karotte, gewürfelt",
+        "Erbsen",
+        "Frühlingszwiebel, gehackt",
+        "Sojasauce",
+        "Sesamöl",
+        "Pflanzenöl"
+      ],
+      "instructions": [
+        "Eier in einem heißen Wok mit etwas Öl verrühren; beiseitestellen.",
+        "Karotte und Erbsen 2-3 Minuten anbraten.",
+        "Reis zugeben, Klumpen auflösen, 5 Minuten braten, bis er leicht knusprig ist.",
+        "Eier zurückgeben, Sojasauce und Sesamöl zugeben, gut vermengen.",
+        "Mit Frühlingszwiebel garnieren und servieren."
+      ]
+    }
+  }
+}

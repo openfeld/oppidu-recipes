@@ -1,0 +1,94 @@
+{
+  "id": "guacamole",
+  "title": "Classic Guacamole",
+  "description": "Fresh avocado dip with lime, onion and cilantro.",
+  "cuisine": "Mexican",
+  "category": "snack",
+  "servings": 4,
+  "prep_time_minutes": 10,
+  "cook_time_minutes": 0,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "ripe avocados",
+      "quantity": 3,
+      "unit": "piece",
+      "grocery_category": "fruits"
+    },
+    {
+      "name": "lime juice",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "fruits"
+    },
+    {
+      "name": "red onion, finely diced",
+      "quantity": 0.25,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "tomato, diced",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "cilantro, chopped",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "herbs-fresh"
+    },
+    {
+      "name": "jalapeno, minced",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables",
+      "optional": true
+    },
+    {
+      "name": "salt",
+      "quantity": 0.5,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    }
+  ],
+  "instructions": [
+    "Mash avocados to desired texture in a bowl.",
+    "Fold in lime juice, onion, tomato, cilantro and jalapeno.",
+    "Season with salt and serve immediately with tortilla chips."
+  ],
+  "tags": [
+    "no-cook",
+    "quick",
+    "party",
+    "vegan"
+  ],
+  "dietary": [
+    "vegan",
+    "vegetarian",
+    "gluten-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Klassische Guacamole",
+      "description": "Frischer Avocado-Dip mit Limette, Zwiebel und Koriandergrün.",
+      "ingredient_names": [
+        "reife Avocados",
+        "Limettensaft",
+        "rote Zwiebel, fein gewürfelt",
+        "Tomate, gewürfelt",
+        "Koriandergrün, gehackt",
+        "Jalapeño, fein gehackt",
+        "Salz"
+      ],
+      "instructions": [
+        "Avocados in einer Schüssel auf die gewünschte Konsistenz zerdrücken.",
+        "Limettensaft, Zwiebel, Tomate, Koriandergrün und Jalapeño untermengen.",
+        "Mit Salz würzen und sofort mit Tortilla-Chips servieren."
+      ]
+    }
+  }
+}

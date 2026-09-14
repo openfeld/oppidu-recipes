@@ -1,0 +1,87 @@
+{
+  "id": "spaghetti-aglio-e-olio",
+  "title": "Spaghetti Aglio e Olio",
+  "description": "Classic Roman pasta of garlic, olive oil and chili flakes.",
+  "cuisine": "Italian",
+  "category": "main",
+  "servings": 2,
+  "prep_time_minutes": 5,
+  "cook_time_minutes": 15,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "spaghetti",
+      "quantity": 200,
+      "unit": "g",
+      "grocery_category": "grains-rice"
+    },
+    {
+      "name": "garlic, thinly sliced",
+      "quantity": 6,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "extra virgin olive oil",
+      "quantity": 80,
+      "unit": "ml",
+      "grocery_category": "oils-fats"
+    },
+    {
+      "name": "red chili flakes",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "parsley, chopped",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "herbs-fresh"
+    },
+    {
+      "name": "parmesan cheese, grated",
+      "quantity": 30,
+      "unit": "g",
+      "grocery_category": "dairy",
+      "optional": true
+    }
+  ],
+  "instructions": [
+    "Cook spaghetti in salted water until al dente; reserve 1 cup pasta water.",
+    "Gently warm olive oil with garlic and chili flakes until garlic is golden, not browned.",
+    "Toss drained pasta into the pan with a splash of pasta water to emulsify.",
+    "Stir in parsley, season with salt, and serve with parmesan if desired."
+  ],
+  "tags": [
+    "quick",
+    "pantry",
+    "weeknight",
+    "vegetarian-optional"
+  ],
+  "dietary": [
+    "vegetarian"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Spaghetti Aglio e Olio",
+      "description": "Klassische römische Pasta mit Knoblauch, Olivenöl und Chiliflocken.",
+      "ingredient_names": [
+        "Spaghetti",
+        "Knoblauch, in dünne Scheiben geschnitten",
+        "natives Olivenöl extra",
+        "rote Chiliflocken",
+        "Petersilie, gehackt",
+        "Parmesan, gerieben"
+      ],
+      "instructions": [
+        "Spaghetti in Salzwasser al dente kochen; 1 Tasse Nudelwasser aufheben.",
+        "Olivenöl mit Knoblauch und Chiliflocken sanft erwärmen, bis der Knoblauch golden, nicht braun ist.",
+        "Abgetropfte Pasta mit einem Schuss Nudelwasser in die Pfanne geben, um zu emulgieren.",
+        "Petersilie unterrühren, mit Salz würzen und nach Belieben mit Parmesan servieren."
+      ]
+    }
+  }
+}

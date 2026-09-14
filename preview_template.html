@@ -1,0 +1,3602 @@
+<title>Oppidu Recipes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-sans: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono-system: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    --bg: #FFFFFB;
+    --surface: #FFFFFF;
+    --surface-sunk: #F5F1E9;
+    --ink: #1B1714;
+    --ink-soft: #73695E;
+    --ink-faint: #A59C92;
+    --ink-faintest: #BFB5A5;
+    --line: #E8E2D8;
+    --accent: #162A99;
+    --accent-ink: #162A99;
+    --accent-strong: #101F75;
+    --accent-2: #B23A2E;
+    --info-bg: #EDEFFA; --info-fg: #162A99;
+    --produce-bg: #E7F0E3; --produce-fg: #3F6B3E;
+    --protein-bg: #F4E6DE; --protein-fg: #8C4A30;
+    --pantry-bg: #FBEFD2;  --pantry-fg: #8A6414;
+    --other-bg: #EDEAE3;   --other-fg: #6B6259;
+    --shadow: 0 1px 2px rgba(27,23,20,0.04), 0 10px 26px -14px rgba(27,23,20,0.16);
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent); color: #fff; }
+
+  h1, h2, h3, .display {
+    font-family: var(--font-sans);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  button, input { font: inherit; color: inherit; }
+  a { color: inherit; }
+
+  .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 24px 64px;
+  }
+
+  /* ---------- Header ---------- */
+  header.top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 32px;
+    padding-bottom: 22px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .wordmark {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .wordmark .mark {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+  }
+  .wordmark .mark em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .tagline {
+    color: var(--ink-soft);
+    font-size: 14px;
+    max-width: 34ch;
+    margin-top: 4px;
+  }
+  .header-top-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .lang-toggle {
+    display: inline-flex;
+    gap: 2px;
+    background: var(--surface-sunk);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px;
+  }
+  .lang-toggle button {
+    border: none;
+    background: none;
+    padding: 6px 13px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .lang-toggle button.active {
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+  .stat-row {
+    display: flex;
+    gap: 22px;
+    align-items: baseline;
+  }
+  .stat { text-align: right; }
+  .stat .n {
+    font-family: var(--font-sans);
+    font-size: 21px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent-ink);
+    display: block;
+  }
+  .stat .lbl {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- Hero: submit button + search + quick filters ---------- */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+  .btn-hero-submit {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.12s ease;
+  }
+  .btn-hero-submit:hover { background: var(--accent-strong); }
+  .btn-hero-submit svg { width: 15px; height: 15px; }
+
+  .search-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 6px;
+    box-shadow: var(--shadow);
+  }
+  .search-wrap { position: relative; }
+  .search-wrap svg {
+    position: absolute;
+    left: 16px; top: 50%;
+    transform: translateY(-50%);
+    width: 17px; height: 17px;
+    stroke: var(--ink-faint);
+  }
+  #search {
+    width: 100%;
+    padding: 14px 16px 14px 42px;
+    border-radius: 12px;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    font-size: 15px;
+  }
+  #search:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+  }
+  #search::placeholder { color: var(--ink-faint); }
+
+  .quick-rows {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+  }
+  .quick-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .quick-label {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+  .quick-chip-track {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .filter-chip {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink-soft);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+    white-space: nowrap;
+  }
+  .filter-chip:hover { border-color: var(--accent); color: var(--ink); }
+  .filter-chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .clear-btn {
+    background: none;
+    border: none;
+    color: var(--accent-2);
+    font-size: 12.5px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    padding: 5px 4px;
+  }
+
+  /* ---------- Discover carousel ---------- */
+  .discover { margin-bottom: 28px; }
+  .discover-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .discover-label {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+  }
+  .discover-controls { display: flex; gap: 6px; }
+  .carousel-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .carousel-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .carousel-viewport {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .carousel-track {
+    display: flex;
+    gap: 14px;
+    min-height: 300px;
+  }
+
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(0.88); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .recipe-card {
+    text-align: left;
+    flex: 0 0 240px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 16px 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 0.12s ease, transform 0.12s ease, box-shadow 0.12s ease;
+    animation: pop-in 0.32s ease backwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .recipe-card { animation: none; }
+  }
+  .recipe-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+  .rc-cuisine {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
+  }
+  .rc-title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.3;
+  }
+  .rc-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: auto;
+  }
+  .diff-dots { display: inline-flex; gap: 2px; }
+  .diff-dots i {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--line);
+    display: inline-block;
+  }
+  .diff-dots i.filled { background: var(--accent-2); }
+
+  .empty-state {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 13.5px;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+  }
+
+  /* ---------- Recipe detail ---------- */
+  .detail-wrap { margin-bottom: 28px; }
+  .detail-close {
+    background: var(--surface-sunk);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    cursor: pointer;
+    margin-bottom: 12px;
+  }
+  .detail-close:hover { border-color: var(--accent); color: var(--ink); }
+
+  /* ---------- Recipe actions: download / print / compare & buy ---------- */
+  .recipe-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 14px 0 6px;
+  }
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface-sunk);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .action-btn:hover { border-color: var(--accent); color: var(--ink); }
+  .action-btn-accent {
+    background: var(--info-bg);
+    border-color: var(--info-bg);
+    color: var(--info-fg);
+  }
+  .action-btn-accent:hover { border-color: var(--accent); }
+  .action-status {
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+
+  /* Print: hide everything except whichever element JS has flagged
+     .print-target (the open recipe detail, or the submission review card) —
+     see printRecipe() / wireRecipeActions() in the script below. */
+  @media print {
+    body * { visibility: hidden; }
+    .print-target, .print-target * { visibility: visible; }
+    .print-target {
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%;
+    }
+    .no-print { display: none !important; }
+  }
+
+  /* ---------- Detail ---------- */
+  .detail {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 30px 34px 34px;
+    box-shadow: var(--shadow);
+    min-height: 420px;
+  }
+  @media (max-width: 600px) {
+    .detail { padding: 22px 18px 26px; }
+  }
+
+  .detail-eyebrow {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--accent-ink);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .detail h2 {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.12;
+  }
+  .detail-desc {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin-top: 10px;
+    max-width: 60ch;
+    line-height: 1.5;
+  }
+
+  .meta-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin: 20px 0 24px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .meta-item .n {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-variant-numeric: tabular-nums;
+    display: block;
+  }
+  .meta-item .lbl {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    margin-top: 2px;
+  }
+
+  .dietary-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 26px;
+  }
+  .pill {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--surface-sunk);
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+
+  .detail-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+    gap: 36px;
+  }
+  @media (max-width: 700px) {
+    .detail-cols { grid-template-columns: 1fr; }
+  }
+
+  .block-title {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .ing-group-title {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faintest);
+    font-weight: 600;
+    margin: 14px 0 4px;
+  }
+  .ing-group-title:first-child { margin-top: 0; }
+  .ing-group-title-end {
+    margin: 4px 0 16px;
+    opacity: 0.55;
+    border-top: 1px dashed var(--line);
+    padding-top: 5px;
+  }
+
+  table.ingredients {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  table.ingredients td {
+    padding: 7px 4px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  table.ingredients tr:last-child td { border-bottom: none; }
+  .ing-qty {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--ink-soft);
+    width: 1%;
+    padding-right: 10px !important;
+  }
+  .ing-name { line-height: 1.4; }
+  .ing-name .note { color: var(--ink-faint); font-size: 12px; }
+  .ing-cat {
+    text-align: right;
+    white-space: nowrap;
+  }
+  .cat-chip {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    letter-spacing: 0.01em;
+  }
+  .cat-produce { background: var(--produce-bg); color: var(--produce-fg); }
+  .cat-protein { background: var(--protein-bg); color: var(--protein-fg); }
+  .cat-pantry  { background: var(--pantry-bg);  color: var(--pantry-fg); }
+  .cat-other   { background: var(--other-bg);   color: var(--other-fg); }
+
+  ol.steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  ol.steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  ol.steps li::before {
+    content: counter(step);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--accent-ink);
+    background: var(--surface-sunk);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .tags-footer {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .tags-footer .tag {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+  }
+  .tags-footer .tag::before { content: "#"; }
+  .source-note {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-family: var(--font-sans);
+  }
+
+  /* ---------- Legend ---------- */
+  .legend {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+  .legend .key { display: inline-flex; align-items: center; gap: 6px; }
+  .legend .swatch {
+    width: 10px; height: 10px; border-radius: 3px;
+  }
+
+  footer.foot {
+    margin-top: 46px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-faint);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  /* ---------- Tabs ---------- */
+  .tabs {
+    display: inline-flex;
+    gap: 2px;
+    background: var(--surface-sunk);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px;
+    margin-bottom: 24px;
+  }
+  .tab-btn {
+    border: none;
+    background: none;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .tab-btn.active {
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  /* ---------- Wizard shell ---------- */
+  .wizard {
+    max-width: 720px;
+  }
+  .wizard.wizard-wide { max-width: 980px; }
+  .wizard-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 26px;
+  }
+  .wizard-progress .track {
+    flex: 1;
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .wizard-progress .fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.2s ease;
+  }
+  .wizard-progress .step-label {
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px 34px;
+    box-shadow: var(--shadow);
+  }
+  @media (max-width: 600px) {
+    .step-card { padding: 24px 20px; }
+  }
+  .step-eyebrow {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--accent-ink);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .step-card h2 {
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .step-help {
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    max-width: 52ch;
+    margin-bottom: 26px;
+    line-height: 1.5;
+  }
+
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .field input[type="text"],
+  .field input[type="number"],
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--surface-sunk);
+    color: var(--ink);
+    font-size: 14px;
+  }
+  .field textarea { resize: vertical; min-height: 64px; font-family: inherit; }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
+  .field-hint { font-size: 11.5px; color: var(--ink-faint); margin-top: 5px; }
+
+  /* Servings stepper */
+  .servings-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 0 10px;
+  }
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .stepper button {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface-sunk);
+    color: var(--ink);
+    font-size: 19px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .stepper button:hover { border-color: var(--accent); color: var(--accent-ink); }
+  .stepper .count {
+    font-family: var(--font-sans);
+    font-size: 44px;
+    font-variant-numeric: tabular-nums;
+    min-width: 64px;
+    text-align: center;
+  }
+  .servings-hero .servings-lbl {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* PDF import (step 1, alternative to the manual wizard) */
+  .pdf-import-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 4px auto 14px;
+    max-width: 340px;
+    color: var(--ink-faint);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .pdf-import-divider::before, .pdf-import-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .pdf-import-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* Chip multi-select (dietary) */
+  .chip-select { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip-select .filter-chip { background: var(--surface-sunk); }
+
+  /* Ingredient builder */
+  .autocomplete-wrap { position: relative; }
+  .suggestion-list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0; right: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 5;
+  }
+  .suggestion-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .suggestion-item:hover, .suggestion-item.highlighted { background: var(--surface-sunk); }
+  .suggestion-item .cat {
+    font-size: 10px;
+    color: var(--ink-faint);
+    font-family: var(--font-sans);
+  }
+
+  .ingredient-add-row {
+    display: grid;
+    grid-template-columns: 2fr 0.8fr 0.8fr auto;
+    gap: 8px;
+    align-items: end;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 560px) { .ingredient-add-row { grid-template-columns: 1fr 1fr; } }
+  .ingredient-add-row .field { margin-bottom: 0; }
+  .add-btn {
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    height: 38px;
+  }
+  .add-btn:hover { background: var(--accent-ink); }
+  .add-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .cancel-edit-btn {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 12.5px;
+    cursor: pointer;
+    white-space: nowrap;
+    height: 38px;
+    margin-left: 8px;
+  }
+  .cancel-edit-btn:hover { border-color: var(--accent-2); color: var(--accent-2); }
+  .editing-flag {
+    font-size: 11.5px;
+    color: var(--accent-ink);
+    margin: -2px 0 10px;
+  }
+
+  .built-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 18px;
+  }
+  .built-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    background: var(--surface-sunk);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 13.5px;
+  }
+  .built-row.is-editing { border-color: var(--accent); background: var(--info-bg); }
+  .built-row .bqty {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    min-width: 64px;
+  }
+  .built-row .bname { flex: 1; }
+  .built-row .edit-btn, .built-row .remove-btn {
+    background: none;
+    border: none;
+    color: var(--ink-faint);
+    font-size: 12.5px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 3px 6px;
+    white-space: nowrap;
+  }
+  .built-row .remove-btn { font-size: 16px; }
+  .built-row .edit-btn:hover { color: var(--accent-ink); }
+  .built-row .remove-btn:hover { color: var(--accent-2); }
+  .built-row .camera-badge { color: var(--accent-ink); display: inline-flex; }
+
+  /* Photo placeholder */
+  .photo-placeholder {
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    padding: 26px 22px;
+    text-align: center;
+    background: var(--surface-sunk);
+    color: var(--ink-soft);
+  }
+  .photo-placeholder svg { stroke: var(--ink-faint); margin-bottom: 10px; }
+  .photo-placeholder .ph-title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .photo-placeholder .ph-note {
+    font-size: 12px;
+    max-width: 42ch;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* Step templates */
+  .template-group { margin-bottom: 14px; }
+  .template-group .tg-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  .template-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .template-chip {
+    border: 1px solid var(--line);
+    background: var(--surface-sunk);
+    color: var(--ink-soft);
+    border-radius: 999px;
+    padding: 5px 11px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .template-chip:hover { border-color: var(--accent); color: var(--ink); }
+
+  .key-step-toggle {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin: 10px 0 14px;
+  }
+  .key-step-toggle input { accent-color: var(--accent); }
+
+  .step-list { display: flex; flex-direction: column; gap: 6px; margin-top: 18px; }
+  .step-row {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    gap: 10px;
+    align-items: start;
+    padding: 9px 12px;
+    background: var(--surface-sunk);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 13.5px;
+  }
+  .step-row.is-editing { border-color: var(--accent); background: var(--info-bg); }
+  .step-row .snum {
+    font-family: var(--font-sans);
+    color: var(--ink-faint);
+    font-size: 12px;
+    padding-top: 1px;
+  }
+  .step-row .stext { line-height: 1.45; }
+  .step-row-actions { display: flex; gap: 2px; align-items: center; flex-wrap: nowrap; }
+  .reorder-btn, .step-row-actions .edit-btn, .step-row-actions .remove-btn {
+    background: none;
+    border: none;
+    color: var(--ink-faint);
+    cursor: pointer;
+    line-height: 1;
+    padding: 3px 5px;
+  }
+  .reorder-btn { font-size: 12px; }
+  .reorder-btn:hover { color: var(--accent-ink); }
+  .reorder-btn:disabled { opacity: 0.25; cursor: default; }
+  .step-row-actions .edit-btn { font-size: 12.5px; }
+  .step-row-actions .edit-btn:hover { color: var(--accent-ink); }
+  .step-row-actions .remove-btn { font-size: 16px; }
+  .step-row-actions .remove-btn:hover { color: var(--accent-2); }
+
+  /* Method step: two-column layout with a live ingredient sidebar */
+  .method-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(230px, 1fr);
+    gap: 30px;
+    align-items: start;
+  }
+  @media (max-width: 780px) {
+    .method-layout { grid-template-columns: 1fr; }
+  }
+  .method-sidebar {
+    position: sticky;
+    top: 16px;
+    background: var(--surface-sunk);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    max-height: 76vh;
+    overflow-y: auto;
+  }
+  .method-sidebar h3 {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .sidebar-hint {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .sidebar-group-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-faintest);
+    font-weight: 600;
+    margin: 10px 0 4px;
+  }
+  .sidebar-group-title:first-child { margin-top: 0; }
+  .sidebar-group-title-end {
+    margin: 2px 0 12px;
+    opacity: 0.55;
+    border-top: 1px dashed var(--line);
+    padding-top: 4px;
+  }
+  .sidebar-ing {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 6px;
+    border-radius: 7px;
+    font-size: 12.5px;
+  }
+  .sidebar-ing .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--ink-faintest);
+    flex-shrink: 0;
+  }
+  .sidebar-ing.used .dot { background: var(--produce-fg); }
+  .sidebar-ing .sname { flex: 1; }
+  .sidebar-ing.used .sname { color: var(--ink-faint); }
+  .sidebar-ing .sremove {
+    background: none;
+    border: none;
+    color: var(--ink-faint);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0 3px;
+    line-height: 1;
+  }
+  .sidebar-ing .sremove:hover { color: var(--accent-2); }
+  .technique-picker {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .technique-picker label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-bottom: 5px;
+  }
+  .technique-picker select {
+    width: 100%;
+    padding: 7px 9px;
+    border-radius: 7px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-size: 12.5px;
+    margin-bottom: 9px;
+  }
+  .technique-picker button {
+    width: 100%;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    border-radius: 7px;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .technique-picker button:hover { background: var(--accent-ink); }
+  .technique-picker button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Review */
+  .notice-banner {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--info-bg);
+    color: var(--info-fg);
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+  .notice-banner svg { flex-shrink: 0; margin-top: 2px; }
+  .notice-banner strong { font-weight: 600; }
+
+  .review-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+  }
+  .btn-primary, .btn-secondary {
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--ink); color: var(--bg); }
+  .btn-primary:hover { background: var(--accent-ink); }
+  .btn-secondary { background: none; border-color: var(--line); color: var(--ink-soft); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--ink); }
+
+  .json-pre {
+    margin-top: 14px;
+    background: var(--surface-sunk);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: var(--font-mono-system);
+    font-size: 11.5px;
+    line-height: 1.55;
+    overflow-x: auto;
+    max-height: 340px;
+    overflow-y: auto;
+    white-space: pre;
+  }
+
+  .wizard-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 28px;
+  }
+  .wizard-nav .spacer { flex: 1; }
+  .field-error {
+    font-size: 12px;
+    color: var(--accent-2);
+    margin-top: -10px;
+    margin-bottom: 16px;
+  }
+</style>
+
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="wordmark">
+        <span class="mark">Oppidu <em>Recipes</em></span>
+      </div>
+      <p class="tagline" id="tagline">A seed database for Oppidu's recipe search — local index first, external sources later.</p>
+    </div>
+    <div class="header-top-right">
+      <div class="lang-toggle" id="lang-toggle">
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="de">DE</button>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><span class="n" id="stat-recipes">—</span><span class="lbl" id="lbl-recipes">Recipes</span></div>
+        <div class="stat"><span class="n" id="stat-cuisines">—</span><span class="lbl" id="lbl-cuisines">Cuisines</span></div>
+        <div class="stat"><span class="n" id="stat-source">AI</span><span class="lbl" id="lbl-generated">Generated</span></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="browse" id="tab-btn-browse">Browse</button>
+    <button class="tab-btn" data-tab="submit" id="tab-btn-submit">Submit a Recipe</button>
+  </div>
+
+  <section id="view-browse">
+    <div class="hero">
+      <button class="btn-hero-submit" id="hero-submit-btn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>
+        <span id="hero-submit-label">Submit a Recipe</span>
+      </button>
+      <div class="search-card">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input id="search" type="text" placeholder="Search by dish, ingredient, or tag…" autocomplete="off">
+        </div>
+      </div>
+      <div class="quick-rows" id="quick-rows"></div>
+    </div>
+
+    <div class="discover">
+      <div class="discover-header">
+        <span class="discover-label" id="discover-label">Recipes popping up now</span>
+        <div class="discover-controls">
+          <button class="carousel-btn" id="carousel-prev" type="button" aria-label="Scroll left">‹</button>
+          <button class="carousel-btn" id="carousel-next" type="button" aria-label="Scroll right">›</button>
+        </div>
+      </div>
+      <div class="carousel-viewport" id="carousel-viewport">
+        <div class="carousel-track" id="carousel-track"></div>
+      </div>
+    </div>
+
+    <div class="detail-wrap" id="detail-wrap" hidden>
+      <button class="detail-close" id="detail-close" type="button">✕ Close</button>
+      <div class="detail" id="detail"></div>
+    </div>
+
+    <div class="legend" id="legend"></div>
+
+    <footer class="foot">
+      <span id="footer-schema">Schema: title · cuisine · ingredients (qty, unit, grocery category) · instructions · dietary tags</span>
+      <span id="footer-build">Preview build — data mirrors <code>data/recipes/*.json</code></span>
+    </footer>
+  </section>
+
+  <section id="view-submit" hidden>
+    <div class="wizard" id="wizard">
+      <div class="wizard-progress">
+        <span class="step-label" id="wizard-step-label">Step 1 of 6</span>
+        <div class="track"><div class="fill" id="wizard-fill"></div></div>
+      </div>
+      <div class="step-card" id="step-card"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const SEED_RECIPES = /*__RECIPES_JSON__*/;
+
+  /* =================================================================
+     Local persistence for user-submitted recipes.
+
+     No accounts or backend exist yet (see README), so a submitted recipe
+     has nowhere durable to go except this browser. RecipeStore wraps that
+     in a small, swappable interface — list()/save()/remove() — so that a
+     later Supabase-backed version is a drop-in replacement for the body of
+     THIS OBJECT ONLY; nothing else in the app talks to localStorage
+     directly. See the README's "Local persistence today, Supabase later"
+     section for the intended swap.
+     ================================================================= */
+  const RECIPE_STORE_KEY = "recipe-creator:submissions:v1";
+  const RecipeStore = {
+    list() {
+      try {
+        const raw = localStorage.getItem(RECIPE_STORE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (err) {
+        return [];
+      }
+    },
+    save(recipe) {
+      try {
+        const all = RecipeStore.list();
+        const idx = all.findIndex(r => r.id === recipe.id);
+        if (idx >= 0) all[idx] = recipe; else all.push(recipe);
+        localStorage.setItem(RECIPE_STORE_KEY, JSON.stringify(all));
+        return true;
+      } catch (err) {
+        return false;
+      }
+    },
+    remove(id) {
+      try {
+        const all = RecipeStore.list().filter(r => r.id !== id);
+        localStorage.setItem(RECIPE_STORE_KEY, JSON.stringify(all));
+        return true;
+      } catch (err) {
+        return false;
+      }
+    },
+  };
+
+  // The working recipe pool = the curated seed set + whatever this browser
+  // has saved locally. Reassigned (not mutated in place) after every
+  // save/remove so every function that reads RECIPES picks up the change.
+  let RECIPES = SEED_RECIPES.concat(RecipeStore.list());
+
+  function uniqueRecipeId(baseId) {
+    const existing = new Set(RECIPES.map(r => r.id));
+    if (!existing.has(baseId)) return baseId;
+    let n = 2;
+    while (existing.has(`${baseId}-${n}`)) n++;
+    return `${baseId}-${n}`;
+  }
+
+  /* =================================================================
+     i18n — English / German UI toggle.
+
+     `uiLang` drives two independent things: (1) STR/t() for every
+     static piece of interface chrome, and (2) the loc*() helpers below
+     for RECIPE CONTENT, which read the recipe's optional
+     `translations.de` block (title/description/ingredient_names/
+     instructions) when present and fall back to English otherwise.
+     Enum-backed values (category, dietary, difficulty, cuisine,
+     grocery_category) are never translated in the data itself — only
+     their on-screen label is, via the *_LABELS maps — so the
+     underlying JSON stays schema-valid regardless of language.
+     ================================================================= */
+  let uiLang = "en";
+
+  const STR = {
+    en: {
+      tagline: "A seed database for Oppidu's recipe search — local index first, external sources later.",
+      statRecipesLbl: "Recipes", statCuisinesLbl: "Cuisines", statGeneratedLbl: "Generated", statGeneratedVal: "AI",
+      tabBrowse: "Browse", tabSubmit: "Submit a Recipe", heroSubmit: "Submit a Recipe",
+      searchPlaceholder: "Search by dish, ingredient, or tag…",
+      quickCuisineLbl: "Cuisine", quickDietLbl: "Diet", resetFilters: "Reset filters",
+      discoverDefault: "Recipes popping up now",
+      recipeFoundOne: "recipe found", recipeFoundMany: "recipes found",
+      emptyStateNoMatch: "No recipes match. Try clearing a filter.",
+      detailClose: "✕ Close",
+      blockIngredients: "Ingredients", blockMethod: "Method",
+      blockNutrition: "Nutrition (estimated)",
+      lblCalories: "Calories", lblFat: "Fat", lblCarbs: "Carbs", lblProtein: "Protein",
+      nutritionEstimateNote: "Estimated from the ingredient list — not a lab analysis.",
+      nutritionPartialCoverage: "Based on {covered}/{total} ingredients; the rest had no nutrition data on file.",
+      nutritionNone: "Not enough ingredients had nutrition data to estimate this.",
+      legendGroceryMapping: "Grocery mapping:",
+      footerSchema: "Schema: title · cuisine · ingredients (qty, unit, grocery category) · instructions · dietary tags",
+      footerBuild: 'Preview build — data mirrors <code>data/recipes/*.json</code>',
+      actionDownload: "Download", actionPrint: "Print", actionCompare: "Compare & buy ingredients",
+      actionCompareStatus: "Coming soon — this will compare grocery prices via Oppidu.",
+      sourceLbl: "source", dietaryNone: "None specified",
+      lblServings: "Servings", lblPrep: "Prep", lblCook: "Cook", minLbl: "min",
+
+      step: "Step", of: "of",
+      stepTitleServings: "Servings", stepTitleBasics: "Basics", stepTitleIngredients: "Ingredients",
+      stepTitlePhoto: "Ingredients photo", stepTitleMethod: "Method", stepTitleReview: "Review & submit",
+      navBack: "Back", navNext: "Next",
+
+      s1Eyebrow: "Before anything else",
+      s1Heading: "How many people are you cooking for?",
+      s1Help: "This sets the baseline every ingredient quantity gets scaled from — you can fine-tune individual amounts later.",
+      servingsLbl: "servings",
+
+      s2Heading: "What are you making?",
+      s2Help: "Cooking for {n}. The basics — title, cuisine, category — help this slot into the same browsable index as everything else.",
+      lblDishName: "Dish name", placeholderDishName: "e.g. My Grandmother's Rajma",
+      lblShortDesc: "Short description", placeholderShortDesc: "One or two sentences — what makes this dish worth making?",
+      lblKitchenName: "Your kitchen name (optional)", placeholderKitchenName: "e.g. Nina's Kitchen",
+      kitchenNameHint: "Groups your submissions under a name of your choosing — no account needed.",
+      lblCuisine: "Cuisine", placeholderCuisine: "e.g. Punjabi",
+      cuisineSuggestedHint: "Guessed from the dish name — change it anytime.",
+      lblCategory: "Category", lblPrepTime: "Prep time (minutes)", lblCookTime: "Cook time (minutes)",
+      lblDifficulty: "Difficulty", lblDietary: "Dietary",
+      lblTags: "Tags", tagsHint: "(comma-separated)", placeholderTags: "e.g. weeknight, one-pot, family recipe",
+      popularTagsLbl: "Popular tags:",
+      errGiveName: "Give the dish a name before continuing.",
+
+      s3Heading: "What goes into it?",
+      s3Help: "Start typing an ingredient — matches from the recipe database autofill a suggested quantity for {n} servings. Not found? Just type the amount yourself. Keep the name plain (\"tomato\", not \"tomato, diced\") — cutting/prep details belong in the steps, next.",
+      lblIngredient: "Ingredient", placeholderIngredient: "e.g. chicken breast",
+      lblQty: "Qty", lblUnit: "Unit", placeholderUnit: "g, tbsp…",
+      lblOptionalIngredient: "Optional", optionalIngredientHint: "Won't be required for this dish",
+      optionalNote: "(optional)",
+      btnAdd: "Add", btnSaveChanges: "Save changes", btnCancel: "Cancel", btnEdit: "Edit",
+      errAddIngredient: "Add at least one ingredient to continue.",
+      descriptorCaughtNote: 'Noted "{descriptor}" for {ingredient} — added as a step suggestion in the next step.',
+
+      s4Heading: "Ingredients, laid out",
+      s4Help: "Once everything's listed, the plan is a single photo of all {n} ingredients measured into bowls or onto plates — the classic mise-en-place shot — generated automatically from your list.",
+      navNextPhoto: "Next: add steps",
+      phTitle: "Mise en place photo — not generated yet",
+      phNote: 'This is a placeholder. No image-generation pipeline is connected in this preview — once one is, it will render "{dish}"\'s {n} ingredients here automatically.',
+      defaultDish: "your dish",
+
+      s5Heading: "How's it made?",
+      s5Help: "Tap a phrase to drop it in, or write your own. Steps like roasting or searing get auto-flagged for their own photo later — untick the box if this one doesn't need one. Use the arrows to move a step, so you can always slot a forgotten one in between.",
+      tgSaved: "Your saved phrases", tgFromIngredients: "From your ingredients",
+      tgKnife: "Knife work", tgHeat: "Heat", tgAssembly: "Assembly",
+      lblStepText: "Step text", placeholderStepText: "e.g. Roast the whole spices until fragrant.",
+      keyStepToggleLbl: "This step should get its own photo",
+      btnAddStep: "Add step", errAddStep: "Add at least one step to continue.",
+      navReview: "Review submission",
+      sidebarTitle: "Your ingredients",
+      sidebarHint: "So nothing gets forgotten — a filled dot means it's already mentioned in a step below.",
+      sidebarEmpty: "No ingredients yet — add some back in step 3.",
+      sidebarUnusedOne: "1 ingredient isn't mentioned in any step yet.",
+      sidebarUnusedMany: "{n} ingredients aren't mentioned in any step yet.",
+      lblTechIngredient: "Ingredient", lblTechChoice: "Prep technique", btnInsertStep: "Insert into step text",
+
+      unusedWarningTitle: "Before you submit:",
+      unusedWarningBody: "These ingredients aren't mentioned in any step — double-check they're not forgotten: {list}",
+
+      s6NoticeStrong: "Sign-in isn't built yet.",
+      s6Notice: "Submitting a recipe will require an account once that exists — for now this is a preview of exactly what your submission would produce, ready to copy out.",
+      untitledRecipe: "Untitled recipe",
+      blockIngredientsPhoto: "Ingredients photo", blockFinalPhoto: "Final dish photo",
+      misePlaceholder: "Mise en place placeholder for {n} ingredients — not generated yet",
+      finalPlaceholder: "Completed-dish placeholder — not generated yet",
+      stepPhotoPlaceholder: "Photo placeholder for this step — not generated yet",
+      sourceDraftPreview: "source: user-submitted (draft preview)",
+      btnStartOver: "Start over", btnCopyJson: "Copy recipe JSON",
+      copiedStatus: "Copied.", copyFailStatus: "Couldn't copy automatically — select the text below.",
+      btnSaveRecipe: "Save recipe", savedBtnLabel: "Saved ✓",
+      saveHint: "No accounts exist yet, so saving keeps this recipe in this browser only (not shared with anyone else viewing this page). A real database will replace this once one is wired up.",
+      savedStatus: "Saved to this browser — it'll show up under Browse and stay there until this device's local storage is cleared.",
+      saveFailedStatus: "Couldn't save — this browser may be blocking local storage.",
+      actionRemoveLocal: "Remove from this device",
+      localBadge: "Saved on this device — not yet in a shared database",
+      localBadgeShort: "saved locally",
+
+      pdfImportOr: "or",
+      btnImportPdf: "Upload a PDF instead",
+      pdfImportHint: "Works with typed or exported PDFs (printed from a website, or from Word/Google Docs) — not scanned photos of a page. You'll get to review and edit everything before saving.",
+      pdfImportReading: "Reading your PDF…",
+      pdfImportParsing: "Looking for a title, ingredients, and steps…",
+      pdfImportErrorType: "Please choose a PDF file.",
+      pdfImportErrorSize: "That PDF is larger than 20 MB — try a smaller file.",
+      pdfImportErrorNoText: "This PDF doesn't seem to contain selectable text — it may be a scanned photo. This importer only reads typed or exported PDFs (no OCR yet). Try a different file, or enter the recipe manually below.",
+      pdfImportErrorLoad: "Couldn't read that PDF — check your connection and try again, or enter the recipe manually below.",
+      pdfImportBannerText: "Imported from {file} — this is a best-effort reading, so please check every field, especially quantities and units, before saving.",
+    },
+    de: {
+      tagline: "Eine Rezeptdatenbank für die Oppidu-Suche — zunächst der lokale Index, externe Quellen folgen später.",
+      statRecipesLbl: "Rezepte", statCuisinesLbl: "Küchen", statGeneratedLbl: "Erstellt von", statGeneratedVal: "KI",
+      tabBrowse: "Durchsuchen", tabSubmit: "Rezept einreichen", heroSubmit: "Rezept einreichen",
+      searchPlaceholder: "Suche nach Gericht, Zutat oder Schlagwort…",
+      quickCuisineLbl: "Küche", quickDietLbl: "Ernährung", resetFilters: "Filter zurücksetzen",
+      discoverDefault: "Aktuell beliebte Rezepte",
+      recipeFoundOne: "Rezept gefunden", recipeFoundMany: "Rezepte gefunden",
+      emptyStateNoMatch: "Keine passenden Rezepte. Versuchen Sie, einen Filter zu entfernen.",
+      detailClose: "✕ Schließen",
+      blockIngredients: "Zutaten", blockMethod: "Zubereitung",
+      blockNutrition: "Nährwerte (geschätzt)",
+      lblCalories: "Kalorien", lblFat: "Fett", lblCarbs: "Kohlenhydrate", lblProtein: "Eiweiß",
+      nutritionEstimateNote: "Geschätzt aus der Zutatenliste — keine Laboranalyse.",
+      nutritionPartialCoverage: "Basiert auf {covered}/{total} Zutaten; für die übrigen lagen keine Nährwertdaten vor.",
+      nutritionNone: "Zu wenige Zutaten hatten Nährwertdaten für eine Schätzung.",
+      legendGroceryMapping: "Einkaufskategorien:",
+      footerSchema: "Schema: Titel · Küche · Zutaten (Menge, Einheit, Einkaufskategorie) · Zubereitung · Ernährungshinweise",
+      footerBuild: 'Vorschau-Build — Daten entsprechen <code>data/recipes/*.json</code>',
+      actionDownload: "Herunterladen", actionPrint: "Drucken", actionCompare: "Zutaten vergleichen & kaufen",
+      actionCompareStatus: "Demnächst verfügbar — vergleicht Lebensmittelpreise über Oppidu.",
+      sourceLbl: "Quelle", dietaryNone: "Keine Angabe",
+      lblServings: "Portionen", lblPrep: "Vorb.", lblCook: "Koch.", minLbl: "Min.",
+
+      step: "Schritt", of: "von",
+      stepTitleServings: "Portionen", stepTitleBasics: "Grunddaten", stepTitleIngredients: "Zutaten",
+      stepTitlePhoto: "Zutatenfoto", stepTitleMethod: "Zubereitung", stepTitleReview: "Prüfen & einreichen",
+      navBack: "Zurück", navNext: "Weiter",
+
+      s1Eyebrow: "Bevor es losgeht",
+      s1Heading: "Für wie viele Personen kochen Sie?",
+      s1Help: "Darauf werden alle Zutatenmengen skaliert — einzelne Mengen können Sie später noch anpassen.",
+      servingsLbl: "Portionen",
+
+      s2Heading: "Was kochen Sie?",
+      s2Help: "Für {n} Personen. Die Grunddaten — Titel, Küche, Kategorie — sorgen dafür, dass sich das Rezept in den durchsuchbaren Index einreiht.",
+      lblDishName: "Name des Gerichts", placeholderDishName: "z. B. Omas Rajma",
+      lblShortDesc: "Kurzbeschreibung", placeholderShortDesc: "Ein bis zwei Sätze — was macht dieses Gericht besonders?",
+      lblKitchenName: "Ihr Küchenname (optional)", placeholderKitchenName: "z. B. Ninas Küche",
+      kitchenNameHint: "Fasst Ihre Einreichungen unter einem Namen Ihrer Wahl zusammen — kein Konto nötig.",
+      lblCuisine: "Küche", placeholderCuisine: "z. B. Punjabi",
+      cuisineSuggestedHint: "Aus dem Gerichtnamen erraten — jederzeit änderbar.",
+      lblCategory: "Kategorie", lblPrepTime: "Vorbereitungszeit (Minuten)", lblCookTime: "Kochzeit (Minuten)",
+      lblDifficulty: "Schwierigkeit", lblDietary: "Ernährung",
+      lblTags: "Schlagwörter", tagsHint: "(durch Komma getrennt)", placeholderTags: "z. B. Feierabend, Ein-Topf-Gericht, Familienrezept",
+      popularTagsLbl: "Beliebte Schlagwörter:",
+      errGiveName: "Geben Sie dem Gericht einen Namen, um fortzufahren.",
+
+      s3Heading: "Was kommt hinein?",
+      s3Help: "Beginnen Sie, eine Zutat einzutippen — Treffer aus der Rezeptdatenbank schlagen automatisch eine Menge für {n} Portionen vor. Nicht gefunden? Geben Sie die Menge einfach selbst ein. Halten Sie den Namen einfach („Tomate“, nicht „Tomate, gewürfelt“) — Schnitt-/Zubereitungsdetails gehören in die Schritte, als Nächstes.",
+      lblIngredient: "Zutat", placeholderIngredient: "z. B. Hähnchenbrust",
+      lblQty: "Menge", lblUnit: "Einheit", placeholderUnit: "g, EL…",
+      lblOptionalIngredient: "Optional", optionalIngredientHint: "Wird für dieses Gericht nicht benötigt",
+      optionalNote: "(optional)",
+      btnAdd: "Hinzufügen", btnSaveChanges: "Änderungen speichern", btnCancel: "Abbrechen", btnEdit: "Bearbeiten",
+      errAddIngredient: "Fügen Sie mindestens eine Zutat hinzu, um fortzufahren.",
+      descriptorCaughtNote: '„{descriptor}“ für {ingredient} vermerkt — als Schrittvorschlag im nächsten Schritt hinzugefügt.',
+
+      s4Heading: "Zutaten im Überblick",
+      s4Help: "Sobald alles gelistet ist, entsteht ein einziges Foto aller {n} Zutaten, abgemessen in Schüsseln oder auf Tellern — das klassische Mise-en-Place-Foto — automatisch aus Ihrer Liste generiert.",
+      navNextPhoto: "Weiter: Schritte hinzufügen",
+      phTitle: "Mise-en-Place-Foto — noch nicht erstellt",
+      phNote: 'Dies ist ein Platzhalter. In dieser Vorschau ist noch keine Bilderzeugung angebunden — sobald das der Fall ist, werden hier automatisch die {n} Zutaten von "{dish}" angezeigt.',
+      defaultDish: "Ihr Gericht",
+
+      s5Heading: "Wie wird es zubereitet?",
+      s5Help: "Tippen Sie auf eine Phrase, um sie einzufügen, oder schreiben Sie Ihren eigenen Text. Schritte wie Rösten oder Anbraten werden automatisch für ein eigenes Foto vorgemerkt — entfernen Sie das Häkchen, falls hier keins nötig ist. Mit den Pfeilen lässt sich ein Schritt verschieben, falls ein vergessener noch dazwischen soll.",
+      tgSaved: "Ihre gespeicherten Formulierungen", tgFromIngredients: "Aus Ihren Zutaten",
+      tgKnife: "Messerarbeit", tgHeat: "Hitze", tgAssembly: "Fertigstellung",
+      lblStepText: "Schritttext", placeholderStepText: "z. B. Die ganzen Gewürze rösten, bis sie duften.",
+      keyStepToggleLbl: "Dieser Schritt soll ein eigenes Foto bekommen",
+      btnAddStep: "Schritt hinzufügen", errAddStep: "Fügen Sie mindestens einen Schritt hinzu, um fortzufahren.",
+      navReview: "Einreichung prüfen",
+      sidebarTitle: "Ihre Zutaten",
+      sidebarHint: "Damit nichts vergessen wird — ein gefüllter Punkt bedeutet, die Zutat wird bereits in einem Schritt unten erwähnt.",
+      sidebarEmpty: "Noch keine Zutaten — fügen Sie welche in Schritt 3 hinzu.",
+      sidebarUnusedOne: "1 Zutat wird in keinem Schritt erwähnt.",
+      sidebarUnusedMany: "{n} Zutaten werden in keinem Schritt erwähnt.",
+      lblTechIngredient: "Zutat", lblTechChoice: "Zubereitungstechnik", btnInsertStep: "In Schritttext einfügen",
+
+      unusedWarningTitle: "Vor dem Einreichen:",
+      unusedWarningBody: "Diese Zutaten werden in keinem Schritt erwähnt — bitte prüfen, ob sie vergessen wurden: {list}",
+
+      s6NoticeStrong: "Die Anmeldung ist noch nicht eingerichtet.",
+      s6Notice: "Sobald es Konten gibt, wird für das Einreichen eines Rezepts eines benötigt — bis dahin zeigt dies genau, was Ihre Einreichung ergeben würde, bereit zum Kopieren.",
+      untitledRecipe: "Unbenanntes Rezept",
+      blockIngredientsPhoto: "Zutatenfoto", blockFinalPhoto: "Foto des fertigen Gerichts",
+      misePlaceholder: "Mise-en-Place-Platzhalter für {n} Zutaten — noch nicht erstellt",
+      finalPlaceholder: "Platzhalter für das fertige Gericht — noch nicht erstellt",
+      stepPhotoPlaceholder: "Fotoplatzhalter für diesen Schritt — noch nicht erstellt",
+      sourceDraftPreview: "Quelle: von Nutzer eingereicht (Entwurfsvorschau)",
+      btnStartOver: "Neu beginnen", btnCopyJson: "Rezept-JSON kopieren",
+      copiedStatus: "Kopiert.", copyFailStatus: "Automatisches Kopieren fehlgeschlagen — Text unten markieren.",
+      btnSaveRecipe: "Rezept speichern", savedBtnLabel: "Gespeichert ✓",
+      saveHint: "Es gibt noch keine Konten, daher bleibt ein gespeichertes Rezept nur in diesem Browser (nicht sichtbar für andere, die diese Seite besuchen). Eine echte Datenbank ersetzt das, sobald sie angebunden ist.",
+      savedStatus: "In diesem Browser gespeichert — erscheint unter „Durchsuchen“ und bleibt dort, bis der lokale Speicher dieses Geräts gelöscht wird.",
+      saveFailedStatus: "Speichern nicht möglich — dieser Browser blockiert eventuell den lokalen Speicher.",
+      actionRemoveLocal: "Von diesem Gerät entfernen",
+      localBadge: "Auf diesem Gerät gespeichert — noch nicht in einer gemeinsamen Datenbank",
+      localBadgeShort: "lokal gespeichert",
+
+      pdfImportOr: "oder",
+      btnImportPdf: "Stattdessen ein PDF hochladen",
+      pdfImportHint: "Funktioniert mit getippten oder exportierten PDFs (von einer Website gedruckt oder aus Word/Google Docs) — nicht mit eingescannten Fotos einer Seite. Sie können vor dem Speichern alles überprüfen und bearbeiten.",
+      pdfImportReading: "PDF wird gelesen…",
+      pdfImportParsing: "Suche nach Titel, Zutaten und Schritten…",
+      pdfImportErrorType: "Bitte wählen Sie eine PDF-Datei aus.",
+      pdfImportErrorSize: "Dieses PDF ist größer als 20 MB — bitte eine kleinere Datei versuchen.",
+      pdfImportErrorNoText: "Dieses PDF scheint keinen auswählbaren Text zu enthalten — es könnte ein eingescanntes Foto sein. Dieser Import liest nur getippte oder exportierte PDFs (noch keine Texterkennung/OCR). Versuchen Sie eine andere Datei oder geben Sie das Rezept unten manuell ein.",
+      pdfImportErrorLoad: "Dieses PDF konnte nicht gelesen werden — prüfen Sie Ihre Verbindung und versuchen Sie es erneut, oder geben Sie das Rezept unten manuell ein.",
+      pdfImportBannerText: "Importiert aus {file} — dies ist eine automatische Bestmöglich-Erkennung, bitte prüfen Sie vor dem Speichern jedes Feld, besonders Mengen und Einheiten.",
+    },
+  };
+
+  function t(key) { return (STR[uiLang] && STR[uiLang][key]) || STR.en[key] || key; }
+  function tf(key, vars) {
+    let s = t(key);
+    Object.keys(vars || {}).forEach(k => { s = s.split("{" + k + "}").join(esc(vars[k])); });
+    return s;
+  }
+  // Same substitution as tf(), without HTML-escaping the values — for the
+  // handful of call sites assigning to `.textContent` (never `.innerHTML`),
+  // where escaping would corrupt the plain text (e.g. "&" showing up as
+  // literal "&amp;").
+  function tfPlain(key, vars) {
+    let s = t(key);
+    Object.keys(vars || {}).forEach(k => { s = s.split("{" + k + "}").join(vars[k]); });
+    return s;
+  }
+
+  // Escapes a value for safe interpolation into innerHTML — every recipe
+  // field (title, description, ingredient names/units/notes, steps, tags)
+  // is free-text that can come from a user submission or a parsed PDF, so
+  // it must never be trusted as HTML. Safe for both text-node and
+  // "attr" contexts.
+  function esc(value) {
+    return String(value).replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    }[c]));
+  }
+
+  // Display-label maps: translate what the user SEES, never the stored
+  // enum value used for search/matching/CSS bucketing/schema validity.
+  const GROCERY_CATEGORY_ORDER = [
+    "meat-poultry", "seafood", "dairy", "vegetables", "fruits", "herbs-fresh",
+    "grains-rice", "lentils-pulses", "flour-baking", "spices", "condiments-sauces",
+    "oils-fats", "nuts-seeds", "canned-jarred", "frozen", "bakery", "beverages", "other"
+  ];
+  const GROCERY_CATEGORY_LABELS = {
+    en: {
+      "meat-poultry": "Poultry & Meat", "seafood": "Seafood", "dairy": "Dairy",
+      "vegetables": "Fresh Vegetables", "fruits": "Fruits", "herbs-fresh": "Fresh Herbs",
+      "grains-rice": "Grains & Rice", "lentils-pulses": "Lentils & Pulses", "flour-baking": "Flour & Baking",
+      "spices": "Spices", "condiments-sauces": "Condiments & Sauces", "oils-fats": "Oils & Fats",
+      "nuts-seeds": "Nuts & Seeds", "canned-jarred": "Canned & Jarred", "frozen": "Frozen",
+      "bakery": "Bakery", "beverages": "Beverages", "other": "Other",
+    },
+    de: {
+      "meat-poultry": "Geflügel & Fleisch", "seafood": "Meeresfrüchte", "dairy": "Milchprodukte",
+      "vegetables": "Frisches Gemüse", "fruits": "Obst", "herbs-fresh": "Frische Kräuter",
+      "grains-rice": "Getreide & Reis", "lentils-pulses": "Linsen & Hülsenfrüchte", "flour-baking": "Mehl & Backzutaten",
+      "spices": "Gewürze", "condiments-sauces": "Saucen & Würzmittel", "oils-fats": "Öle & Fette",
+      "nuts-seeds": "Nüsse & Samen", "canned-jarred": "Konserven", "frozen": "Tiefkühlware",
+      "bakery": "Backwaren", "beverages": "Getränke", "other": "Sonstiges",
+    },
+  };
+  function groceryCategoryLabel(cat) { return (GROCERY_CATEGORY_LABELS[uiLang] && GROCERY_CATEGORY_LABELS[uiLang][cat]) || cat; }
+
+  const CATEGORY_LABELS = {
+    en: { breakfast: "Breakfast", main: "Main", side: "Side", soup: "Soup", salad: "Salad", dessert: "Dessert", snack: "Snack", beverage: "Beverage", bread: "Bread", condiment: "Condiment" },
+    de: { breakfast: "Frühstück", main: "Hauptgericht", side: "Beilage", soup: "Suppe", salad: "Salat", dessert: "Dessert", snack: "Snack", beverage: "Getränk", bread: "Brot", condiment: "Würzsoße" },
+  };
+  function categoryLabel(cat) { return (CATEGORY_LABELS[uiLang] && CATEGORY_LABELS[uiLang][cat]) || cat; }
+
+  const DIETARY_LABELS = {
+    en: { vegetarian: "Vegetarian", vegan: "Vegan", "gluten-free": "Gluten-Free", "dairy-free": "Dairy-Free", "nut-free": "Nut-Free", halal: "Halal", kosher: "Kosher", "non-vegetarian": "Non-Vegetarian", eggless: "Eggless" },
+    de: { vegetarian: "Vegetarisch", vegan: "Vegan", "gluten-free": "Glutenfrei", "dairy-free": "Milchfrei", "nut-free": "Nussfrei", halal: "Halal", kosher: "Koscher", "non-vegetarian": "Nicht-vegetarisch", eggless: "Ohne Ei" },
+  };
+  function dietaryLabel(d) { return (DIETARY_LABELS[uiLang] && DIETARY_LABELS[uiLang][d]) || d; }
+
+  const DIFFICULTY_LABELS = {
+    en: { easy: "Easy", medium: "Medium", hard: "Hard" },
+    de: { easy: "Einfach", medium: "Mittel", hard: "Schwer" },
+  };
+  function difficultyLabel(d) { return (DIFFICULTY_LABELS[uiLang] && DIFFICULTY_LABELS[uiLang][d]) || d; }
+
+  const CUISINE_LABELS = {
+    en: {},
+    de: { American: "Amerikanisch", Chinese: "Chinesisch", French: "Französisch", Greek: "Griechisch", Indian: "Indisch", Italian: "Italienisch", Japanese: "Japanisch", Korean: "Koreanisch", Mexican: "Mexikanisch", "Middle Eastern": "Nahöstlich", Thai: "Thailändisch" },
+  };
+  function cuisineLabel(c) { return (CUISINE_LABELS[uiLang] && CUISINE_LABELS[uiLang][c]) || c; }
+
+  const BUCKET_LABEL_I18N = {
+    en: { produce: "Produce", protein: "Protein & Dairy", pantry: "Pantry & Spice", other: "Other" },
+    de: { produce: "Frischware", protein: "Eiweiß & Milchprodukte", pantry: "Vorrat & Gewürze", other: "Sonstiges" },
+  };
+
+  // Recipe-content localization — reads the optional translations.de
+  // block on a seed/browse recipe; falls back to English for anything a
+  // translation omits (or for a recipe with no translation at all, such
+  // as a fresh user submission, which is always shown as typed).
+  function locTitle(r) {
+    const de = r.translations && r.translations.de;
+    return (uiLang === "de" && de && de.title) ? de.title : r.title;
+  }
+  function locDescription(r) {
+    const de = r.translations && r.translations.de;
+    return (uiLang === "de" && de && de.description) ? de.description : r.description;
+  }
+  function locIngredientName(r, idx) {
+    const de = r.translations && r.translations.de && r.translations.de.ingredient_names;
+    if (uiLang === "de" && de && de[idx]) return de[idx];
+    return r.ingredients[idx].name;
+  }
+  function locInstructions(r) {
+    const de = r.translations && r.translations.de && r.translations.de.instructions;
+    if (uiLang === "de" && de && de.length === r.instructions.length) return de;
+    return r.instructions;
+  }
+
+  // Group an array's indices by a category drawn from each item, in
+  // GROCERY_CATEGORY_ORDER order, skipping empty groups, with each group's
+  // indices sorted alphabetically by item name so a long list reads the
+  // same way every render (not insertion order). Shared by the Browse
+  // detail table, the wizard's built ingredient list, the review step,
+  // and the Method-step sidebar — one grouping rule, four places.
+  function groupIndicesByCategory(items, categoryOf) {
+    const byCat = {};
+    items.forEach((item, i) => {
+      const cat = categoryOf(item) || "other";
+      (byCat[cat] = byCat[cat] || []).push(i);
+    });
+    Object.keys(byCat).forEach(cat => {
+      byCat[cat].sort((a, b) => items[a].name.localeCompare(items[b].name, undefined, { sensitivity: "base" }));
+    });
+    const order = GROCERY_CATEGORY_ORDER.filter(c => byCat[c] && byCat[c].length);
+    Object.keys(byCat).forEach(c => { if (!order.includes(c)) order.push(c); });
+    return order.map(cat => ({ category: cat, indices: byCat[cat] }));
+  }
+
+  const CAT_BUCKET = {
+    "vegetables": "produce", "fruits": "produce", "herbs-fresh": "produce",
+    "meat-poultry": "protein", "seafood": "protein", "dairy": "protein", "nuts-seeds": "protein",
+    "spices": "pantry", "oils-fats": "pantry", "condiments-sauces": "pantry",
+    "grains-rice": "pantry", "flour-baking": "pantry", "lentils-pulses": "pantry", "canned-jarred": "pantry",
+    "frozen": "other", "bakery": "other", "beverages": "other", "other": "other"
+  };
+
+  // One emoji per grocery category — always available, even for an
+  // ingredient this app has never seen before.
+  const CATEGORY_EMOJI = {
+    "meat-poultry": "🍗", "seafood": "🐟", "dairy": "🧀", "vegetables": "🥦",
+    "fruits": "🍎", "herbs-fresh": "🌿", "grains-rice": "🌾", "lentils-pulses": "🫘",
+    "flour-baking": "🌾", "spices": "🌶️", "condiments-sauces": "🧂", "oils-fats": "🫒",
+    "nuts-seeds": "🥜", "canned-jarred": "🥫", "frozen": "🧊", "bakery": "🍞",
+    "beverages": "🥤", "other": "🍽️",
+  };
+  // A closer-to-specific emoji for common ingredients, keyed by the same
+  // clean base name the reference DB and autocomplete use — falls back to
+  // CATEGORY_EMOJI for anything not listed here.
+  const INGREDIENT_EMOJI = {
+    tomato: "🍅", "cherry tomatoes": "🍅", "canned san marzano tomatoes": "🍅",
+    onion: "🧅", "red onion": "🧅", "green onion": "🧅", "spring onion": "🧅", shallot: "🧅",
+    garlic: "🧄", potato: "🥔", potatoes: "🥔", carrot: "🥕", cucumber: "🥒",
+    "bell pepper": "🫑", "bell peppers": "🫑", "green chili": "🌶️", chili: "🌶️", "chili flakes": "🌶️",
+    cauliflower: "🥦", broccoli: "🥦", spinach: "🥬", cabbage: "🥬", lettuce: "🥬",
+    corn: "🌽", avocado: "🥑", eggplant: "🍆", mushroom: "🍄", mushrooms: "🍄",
+    lemon: "🍋", "lemon juice": "🍋", lime: "🍋", "lime juice": "🍋",
+    ginger: "🫚", cilantro: "🌿", parsley: "🌿", basil: "🌿", mint: "🌿",
+    "chicken breast": "🍗", "chicken thighs": "🍗", chicken: "🍗",
+    "beef sirloin": "🥩", beef: "🥩", pork: "🥩", lamb: "🥩", bacon: "🥓",
+    fish: "🐟", shrimp: "🍤", prawns: "🍤",
+    egg: "🥚", eggs: "🥚",
+    "fresh mozzarella": "🧀", cheese: "🧀", parmesan: "🧀", feta: "🧀",
+    milk: "🥛", cream: "🥛", yogurt: "🥣", butter: "🧈",
+    "basmati rice": "🍚", rice: "🍚", "all-purpose flour": "🌾", flour: "🌾",
+    "dried chickpeas": "🫘", chickpeas: "🫘", lentils: "🫘", beans: "🫘",
+    "olive oil": "🫒", "vegetable oil": "🛢️", "soy sauce": "🧴",
+    honey: "🍯", sugar: "🧂", salt: "🧂", "black pepper": "🧂",
+    "peanuts": "🥜", almonds: "🥜", cashews: "🥜", walnuts: "🥜",
+    water: "💧", wine: "🍷", beer: "🍺", bread: "🍞",
+  };
+  function ingredientEmoji(rawName, groceryCategory) {
+    const base = ingBaseName(rawName);
+    return INGREDIENT_EMOJI[base] || CATEGORY_EMOJI[groceryCategory] || CATEGORY_EMOJI.other;
+  }
+
+  // Curated dish-word → cuisine hints, so the cuisine field can be guessed
+  // the moment someone types a recognizable dish name — even for a cuisine
+  // this local seed database happens not to have an example of yet. Merged
+  // at runtime with a frequency table built from RECIPES itself (see
+  // suggestCuisine()), so the guess also improves as the database grows.
+  const CUISINE_KEYWORDS = {
+    Indian: ["curry", "masala", "tikka", "paneer", "dal", "daal", "biryani", "tandoori", "samosa", "chutney", "naan", "gobi", "paratha", "rajma", "chana", "aloo", "korma", "vindaloo", "saag", "idli", "dosa"],
+    Italian: ["pasta", "pizza", "risotto", "lasagna", "carbonara", "bruschetta", "gnocchi", "parmigiana", "margherita", "tiramisu", "ravioli", "aglio", "olio", "bolognese", "pesto"],
+    Mexican: ["taco", "tacos", "burrito", "quesadilla", "guacamole", "salsa", "enchilada", "fajita", "churro", "tamale", "nachos", "pastor"],
+    Thai: ["pad", "satay", "curry", "larb", "tom", "yum", "panang", "thai"],
+    Chinese: ["kung", "pao", "dumpling", "dumplings", "chow", "mein", "wonton", "dim", "sum", "szechuan", "sichuan", "mapo", "fried rice"],
+    Japanese: ["sushi", "ramen", "teriyaki", "tempura", "miso", "udon", "yakitori", "katsu", "onigiri", "donburi"],
+    Korean: ["kimchi", "bibimbap", "bulgogi", "gochujang", "japchae", "tteokbokki", "korean"],
+    "Middle Eastern": ["falafel", "hummus", "shawarma", "tabbouleh", "baba", "ganoush", "kebab", "pita", "tahini"],
+    Greek: ["moussaka", "tzatziki", "souvlaki", "gyro", "horiatiki", "spanakopita", "greek"],
+    French: ["ratatouille", "quiche", "crepe", "baguette", "croissant", "bouillabaisse", "gratin", "confit"],
+    American: ["burger", "bbq", "cornbread", "meatloaf", "buttermilk"],
+  };
+  function suggestCuisine(titleText) {
+    const words = titleText.toLowerCase().split(/[^a-zà-öø-ÿ]+/).filter(Boolean);
+    if (!words.length) return "";
+    const scores = {};
+    words.forEach(w => {
+      Object.keys(CUISINE_KEYWORDS).forEach(cui => {
+        if (CUISINE_KEYWORDS[cui].includes(w)) scores[cui] = (scores[cui] || 0) + 2;
+      });
+    });
+    // Frequency table from the live recipe pool — same words, weighted
+    // lower than the curated list since a single seed recipe shouldn't
+    // outrank an unambiguous keyword like "sushi".
+    RECIPES.forEach(r => {
+      const titleWords = (r.title || "").toLowerCase().split(/[^a-zà-öø-ÿ]+/).filter(Boolean);
+      words.forEach(w => { if (titleWords.includes(w)) scores[r.cuisine] = (scores[r.cuisine] || 0) + 1; });
+    });
+    let best = "", bestScore = 0;
+    Object.keys(scores).forEach(cui => { if (scores[cui] > bestScore) { best = cui; bestScore = scores[cui]; } });
+    return best;
+  }
+
+  // Most-used tags across the current recipe pool (seed + saved), so a
+  // submitter can pick a familiar one instead of guessing free text.
+  function computePopularTags(limit) {
+    const counts = {};
+    RECIPES.forEach(r => (r.tags || []).forEach(tg => { counts[tg] = (counts[tg] || 0) + 1; }));
+    return Object.keys(counts).sort((a, b) => counts[b] - counts[a]).slice(0, limit || 12);
+  }
+
+  // Splits a typed/picked ingredient name into a clean base ("tomato") and
+  // whatever prep descriptor followed a comma or parenthetical ("diced") —
+  // the descriptor is never stored on the ingredient itself (cutting/prep
+  // detail belongs in the steps, not the shopping-list name); instead it
+  // seeds a one-click step suggestion in renderStepMethod().
+  function stripDescriptor(raw) {
+    const noParen = raw.replace(/\([^)]*\)/g, "").trim();
+    const idx = noParen.indexOf(",");
+    if (idx === -1) return { clean: noParen, descriptor: "" };
+    return { clean: noParen.slice(0, idx).trim(), descriptor: noParen.slice(idx + 1).trim() };
+  }
+
+  // Before the ingredient category was a field the user could set directly
+  // (see the "Category" dropdown in renderStepIngredients), the only way to
+  // correct a wrong autocomplete guess was to type the category as if it
+  // were part of the name — "potatoes vegetables", "cumin seeds spices" —
+  // which then failed to match the reference DB and landed in "Other"
+  // anyway. This catches that exact pattern (name ends in a bare, exact
+  // category key) so re-editing an old entry heals it automatically, and
+  // feeds the same guess into the dropdown while typing a new one.
+  function stripCategoryHintFromName(name) {
+    const words = name.trim().split(/\s+/);
+    if (words.length < 2) return { name, category: null };
+    const last = words[words.length - 1].toLowerCase();
+    if (GROCERY_CATEGORY_ORDER.includes(last)) {
+      return { name: words.slice(0, -1).join(" "), category: last };
+    }
+    return { name, category: null };
+  }
+
+  const DESCRIPTOR_VERB_MAP = [
+    { re: /dice|cube/i, en: n => `Dice the ${n} into cubes.`, de: n => `${n} in Würfel schneiden.` },
+    { re: /slice/i, en: n => `Thinly slice the ${n}.`, de: n => `${n} dünn in Scheiben schneiden.` },
+    { re: /chop/i, en: n => `Finely chop the ${n}.`, de: n => `${n} fein hacken.` },
+    { re: /minc/i, en: n => `Mince the ${n}.`, de: n => `${n} fein zerkleinern.` },
+    { re: /julienn/i, en: n => `Julienne the ${n} into thin strips.`, de: n => `${n} in feine Streifen (Julienne) schneiden.` },
+    { re: /grat/i, en: n => `Grate the ${n}.`, de: n => `${n} reiben.` },
+    { re: /crush/i, en: n => `Crush the ${n}.`, de: n => `${n} zerdrücken.` },
+    { re: /peel/i, en: n => `Peel the ${n}.`, de: n => `${n} schälen.` },
+    { re: /halv/i, en: n => `Cut the ${n} in half.`, de: n => `${n} halbieren.` },
+    { re: /quarter/i, en: n => `Cut the ${n} into quarters.`, de: n => `${n} vierteln.` },
+    { re: /torn|tear/i, en: n => `Tear the ${n} into pieces.`, de: n => `${n} in Stücke reißen.` },
+    { re: /soak/i, en: n => `Soak the ${n} in water.`, de: n => `${n} in Wasser einweichen.` },
+    { re: /crumbl/i, en: n => `Crumble the ${n}.`, de: n => `${n} zerbröckeln.` },
+    { re: /melt/i, en: n => `Melt the ${n} gently.`, de: n => `${n} sanft schmelzen.` },
+  ];
+  function phraseFromDescriptor(name, descriptor, lang) {
+    const rule = DESCRIPTOR_VERB_MAP.find(r => r.re.test(descriptor));
+    if (rule) return lang === "de" ? rule.de(name) : rule.en(name);
+    return lang === "de" ? `${name} vorbereiten: ${descriptor}.` : `Prepare the ${name}: ${descriptor}.`;
+  }
+
+  // Free-text steps the person has actually submitted before, remembered
+  // per-browser (see RecipeStore above for the same pattern) so a repeat
+  // submitter's own common phrasing resurfaces as a quick-insert instead
+  // of being retyped every time.
+  const SAVED_STEPS_KEY = "recipe-creator:savedSteps:v1";
+  function loadSavedSteps() {
+    try {
+      const raw = localStorage.getItem(SAVED_STEPS_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (err) { return []; }
+  }
+  function rememberStep(text) {
+    try {
+      let list = loadSavedSteps().filter(s => s.toLowerCase() !== text.toLowerCase());
+      list.unshift(text);
+      localStorage.setItem(SAVED_STEPS_KEY, JSON.stringify(list.slice(0, 40)));
+    } catch (err) { /* best-effort — a full/blocked localStorage just skips remembering */ }
+  }
+
+  const LAST_KITCHEN_KEY = "recipe-creator:lastKitchen:v1";
+  function loadLastKitchenName() {
+    try { return localStorage.getItem(LAST_KITCHEN_KEY) || ""; } catch (err) { return ""; }
+  }
+  function rememberKitchenName(name) {
+    try {
+      if (name) localStorage.setItem(LAST_KITCHEN_KEY, name);
+      else localStorage.removeItem(LAST_KITCHEN_KEY);
+    } catch (err) { /* best-effort */ }
+  }
+
+  // Ingredients that never turn up in any step's text — surfaced as a
+  // non-blocking warning so nothing gets forgotten before submitting.
+  function findUnusedIngredients(ingredients, instructions) {
+    const combined = instructions.join(" ").toLowerCase();
+    return ingredients.filter(ing => {
+      const disp = displayIngredientName(ing.name).toLowerCase();
+      const base = ingBaseName(ing.name);
+      return combined.indexOf(disp) === -1 && combined.indexOf(base) === -1;
+    });
+  }
+
+  const state = { query: "", cuisine: "All", dietary: null, selected: null, shuffledOrder: [] };
+
+  let cuisines = [];
+  let dietaryTags = [];
+  function recomputeIndexes() {
+    cuisines = ["All", ...Array.from(new Set(RECIPES.map(r => r.cuisine))).sort()];
+    dietaryTags = Array.from(new Set(RECIPES.flatMap(r => r.dietary))).sort();
+    document.getElementById("stat-recipes").textContent = RECIPES.length;
+    document.getElementById("stat-cuisines").textContent = cuisines.length - 1;
+  }
+  recomputeIndexes();
+
+  function shuffleArray(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function isBrowsingDefault() {
+    return !state.query && state.cuisine === "All" && !state.dietary;
+  }
+
+  function buildQuickRows() {
+    const wrap = document.getElementById("quick-rows");
+    wrap.innerHTML = "";
+
+    function makeRow(label, options, labelFor, isActive, onPick) {
+      const row = document.createElement("div");
+      row.className = "quick-row";
+      const lbl = document.createElement("span");
+      lbl.className = "quick-label";
+      lbl.textContent = label;
+      row.appendChild(lbl);
+      const track = document.createElement("div");
+      track.className = "quick-chip-track";
+      options.forEach(opt => {
+        const b = document.createElement("button");
+        b.className = "filter-chip" + (isActive(opt) ? " active" : "");
+        b.textContent = labelFor(opt);
+        b.onclick = () => onPick(opt);
+        track.appendChild(b);
+      });
+      row.appendChild(track);
+      wrap.appendChild(row);
+    }
+
+    makeRow(t("quickCuisineLbl"), cuisines, c => c === "All" ? cuisines[0] === c ? (uiLang === "de" ? "Alle" : "All") : c : cuisineLabel(c), c => state.cuisine === c, c => { state.cuisine = c; render(); });
+    makeRow(t("quickDietLbl"), dietaryTags, dietaryLabel, d => state.dietary === d, d => { state.dietary = (state.dietary === d ? null : d); render(); });
+
+    const clear = document.createElement("button");
+    clear.className = "clear-btn";
+    clear.textContent = t("resetFilters");
+    clear.onclick = () => { state.cuisine = "All"; state.dietary = null; state.query = ""; document.getElementById("search").value = ""; render(); };
+    wrap.appendChild(clear);
+  }
+
+  function matches(r) {
+    if (state.cuisine !== "All" && r.cuisine !== state.cuisine) return false;
+    if (state.dietary && !r.dietary.includes(state.dietary)) return false;
+    if (!state.query) return true;
+    const q = state.query.toLowerCase();
+    const haystack = [
+      r.title, r.cuisine, r.category, r.description, r.submitted_kitchen || "",
+      ...(r.tags || []), ...(r.dietary || []),
+      ...r.ingredients.map(i => i.name),
+      locTitle(r), locDescription(r), ...r.ingredients.map((i, idx) => locIngredientName(r, idx)),
+    ].join(" ").toLowerCase();
+    return haystack.includes(q);
+  }
+
+  function scoreForSort(r) {
+    const q = state.query.toLowerCase();
+    if (!q) return 0;
+    if (r.title.toLowerCase().includes(q) || locTitle(r).toLowerCase().includes(q)) return 0;
+    if ((r.tags || []).some(t => t.toLowerCase().includes(q))) return 1;
+    return 2;
+  }
+
+  function diffDots(level) {
+    const n = level === "easy" ? 1 : level === "medium" ? 2 : 3;
+    let out = '<span class="diff-dots" title="' + t("lblDifficulty") + ': ' + difficultyLabel(level) + '">';
+    for (let i = 0; i < 3; i++) out += '<i class="' + (i < n ? "filled" : "") + '"></i>';
+    return out + "</span>";
+  }
+
+  function currentResults() {
+    const filtered = RECIPES.filter(matches);
+    if (isBrowsingDefault()) {
+      return state.shuffledOrder.map(id => filtered.find(r => r.id === id)).filter(Boolean);
+    }
+    return filtered.sort((a, b) => scoreForSort(a) - scoreForSort(b) || locTitle(a).localeCompare(locTitle(b)));
+  }
+
+  function renderCarousel() {
+    const track = document.getElementById("carousel-track");
+    const results = currentResults();
+
+    document.getElementById("discover-label").textContent = isBrowsingDefault()
+      ? t("discoverDefault")
+      : results.length + " " + (results.length === 1 ? t("recipeFoundOne") : t("recipeFoundMany"));
+
+    track.innerHTML = "";
+    if (results.length === 0) {
+      track.innerHTML = '<div class="empty-state">' + t("emptyStateNoMatch") + '</div>';
+      return;
+    }
+
+    results.forEach((r, i) => {
+      const card = document.createElement("button");
+      card.className = "recipe-card";
+      card.style.animationDelay = Math.min(i * 45, 450) + "ms";
+      const total = r.prep_time_minutes + r.cook_time_minutes;
+      card.innerHTML = `
+        <span class="rc-cuisine">${cuisineLabel(r.cuisine)} · ${categoryLabel(r.category)}${r.source === "user-submitted" ? " · " + t("localBadgeShort") : ""}${r.submitted_kitchen ? " · 🍳 " + esc(r.submitted_kitchen) : ""}</span>
+        <span class="rc-title">${esc(locTitle(r))}</span>
+        <div class="rc-meta">
+          <span>${total} ${t("minLbl")}</span>
+          <span>·</span>
+          <span>${r.servings} ${t("servingsLbl")}</span>
+          <span>·</span>
+          ${diffDots(r.difficulty)}
+        </div>`;
+      card.onclick = () => selectRecipe(r.id);
+      track.appendChild(card);
+    });
+  }
+
+  function selectRecipe(id) {
+    state.selected = id;
+    history.replaceState(null, "", "#" + id);
+    document.getElementById("detail-wrap").hidden = false;
+    renderDetail();
+    document.getElementById("detail-wrap").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function closeDetail() {
+    state.selected = null;
+    history.replaceState(null, "", location.pathname + location.search);
+    document.getElementById("detail-wrap").hidden = true;
+  }
+
+  document.getElementById("detail-close").onclick = closeDetail;
+  document.getElementById("hero-submit-btn").onclick = () => switchTab("submit");
+  document.getElementById("carousel-prev").onclick = () => {
+    document.getElementById("carousel-viewport").scrollBy({ left: -260, behavior: "smooth" });
+  };
+  document.getElementById("carousel-next").onclick = () => {
+    document.getElementById("carousel-viewport").scrollBy({ left: 260, behavior: "smooth" });
+  };
+
+  /* ---------- Shared recipe actions: download / print / compare&buy ----------
+     "Compare & buy ingredients" is intentionally just a button for now — no
+     grocery-price wiring yet (see README's Oppidu integration path). Download
+     produces a plain-text recipe card via a Blob + <a download>; this works
+     when the page runs standalone (e.g. from the project zip, or once this
+     becomes a real Oppidu page) — a hosted preview's sandbox can prevent a
+     page from triggering its own downloads, in which case Print (which also
+     offers "Save as PDF" in most browsers' print dialog) is the reliable
+     fallback. */
+  const DOWNLOAD_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>';
+  const PRINT_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>';
+  const CART_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>';
+
+  function recipeToText(r) {
+    const title = locTitle(r), desc = locDescription(r), steps = locInstructions(r);
+    const lines = [title, `${cuisineLabel(r.cuisine)} · ${categoryLabel(r.category)}`];
+    if (desc) lines.push("", desc);
+    lines.push("", `${t("lblServings")}: ${r.servings}    ${t("lblPrep")}: ${r.prep_time_minutes}${t("minLbl")}    ${t("lblCook")}: ${r.cook_time_minutes}${t("minLbl")}    ${t("lblDifficulty")}: ${difficultyLabel(r.difficulty)}`);
+    if (r.dietary && r.dietary.length) lines.push(`${t("lblDietary")}: ${r.dietary.map(dietaryLabel).join(", ")}`);
+    lines.push("", t("blockIngredients").toUpperCase());
+    r.ingredients.forEach((i, idx) => {
+      let row = `  - ${i.quantity} ${i.unit}  ${locIngredientName(r, idx)}`;
+      if (i.notes) row += ` (${i.notes})`;
+      if (i.optional) row += "  [optional]";
+      lines.push(row);
+    });
+    lines.push("", t("blockMethod").toUpperCase());
+    steps.forEach((s, idx) => lines.push(`  ${idx + 1}. ${s}`));
+    if (r.tags && r.tags.length) lines.push("", "Tags: " + r.tags.map(tg => "#" + tg).join(" "));
+    lines.push("", `${t("sourceLbl")}: ${r.source}`);
+    return lines.join("\n");
+  }
+
+  // When running inside the published Artifact viewer, offer the file
+  // through its `downloads` capability (window.claude.use) — the viewer's
+  // sandbox silently blocks a page's own <a download>/Blob saves, so this
+  // is the only way a viewer there actually gets the file. Kick off the
+  // resolution once, up front, so a click doesn't have to wait on it.
+  const claudeDownloadsPromise = (window.claude && typeof window.claude.use === "function")
+    ? window.claude.use("downloads").catch(() => null)
+    : Promise.resolve(null);
+
+  async function downloadRecipe(r) {
+    const text = recipeToText(r);
+    const filename = (r.id || slugify(r.title || "recipe")) + ".txt";
+
+    const downloads = await claudeDownloadsPromise;
+    if (downloads) {
+      try {
+        await downloads.save({ filename, data: text });
+        return;
+      } catch (err) {
+        if (err && err.code === "declined") return; // viewer said no — don't fall back
+        // otherwise (unavailable, not_granted, ...) fall through to the plain browser download
+      }
+    }
+
+    // Standalone fallback — running from the project zip, or once this is a
+    // real page outside the artifact sandbox (e.g. inside Oppidu).
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function printRecipe(el) {
+    document.querySelectorAll(".print-target").forEach(e => e.classList.remove("print-target"));
+    el.classList.add("print-target");
+    window.print();
+  }
+  window.addEventListener("afterprint", () => {
+    document.querySelectorAll(".print-target").forEach(e => e.classList.remove("print-target"));
+  });
+
+  function recipeActionsHtml(opts) {
+    opts = opts || {};
+    return `
+      <div class="recipe-actions no-print">
+        <button class="action-btn" data-act="download" type="button">${DOWNLOAD_ICON} ${t("actionDownload")}</button>
+        <button class="action-btn" data-act="print" type="button">${PRINT_ICON} ${t("actionPrint")}</button>
+        <button class="action-btn action-btn-accent" data-act="compare" type="button">${CART_ICON} ${t("actionCompare")}</button>
+        ${opts.showRemove ? `<button class="action-btn" data-act="remove-local" type="button">${t("actionRemoveLocal")}</button>` : ""}
+        <span class="action-status" data-role="action-status"></span>
+      </div>`;
+  }
+
+  function wireRecipeActions(container, r, printScopeEl, opts) {
+    opts = opts || {};
+    const status = container.querySelector('[data-role="action-status"]');
+    const dl = container.querySelector('[data-act="download"]');
+    const pr = container.querySelector('[data-act="print"]');
+    const cmp = container.querySelector('[data-act="compare"]');
+    const rm = container.querySelector('[data-act="remove-local"]');
+    if (dl) dl.onclick = () => downloadRecipe(r);
+    if (pr) pr.onclick = () => printRecipe(printScopeEl);
+    if (cmp) cmp.onclick = () => {
+      if (!status) return;
+      status.textContent = t("actionCompareStatus");
+      setTimeout(() => { status.textContent = ""; }, 3500);
+    };
+    if (rm) rm.onclick = () => {
+      RecipeStore.remove(r.id);
+      RECIPES = SEED_RECIPES.concat(RecipeStore.list());
+      recomputeIndexes();
+      closeDetail();
+      render();
+    };
+  }
+
+  function ingredientTableRowsGrouped(r, nameFor) {
+    const groups = groupIndicesByCategory(r.ingredients, ing => ing.grocery_category);
+    return groups.map(g => {
+      const rows = g.indices.map(idx => {
+        const i = r.ingredients[idx];
+        const bucket = CAT_BUCKET[i.grocery_category] || "other";
+        return `<tr>
+          <td class="ing-qty">${i.quantity} ${esc(i.unit)}</td>
+          <td class="ing-name">${ingredientEmoji(i.name, i.grocery_category)} ${esc(nameFor(r, idx))}${i.notes ? ' <span class="note">— ' + esc(i.notes) + '</span>' : ''}${i.optional ? ` <span class="note">${t("optionalNote")}</span>` : ''}</td>
+          <td class="ing-cat"><span class="cat-chip cat-${bucket}">${groceryCategoryLabel(i.grocery_category)}</span></td>
+        </tr>`;
+      }).join("");
+      const label = `${CATEGORY_EMOJI[g.category] || CATEGORY_EMOJI.other} ${groceryCategoryLabel(g.category)}`;
+      return `<tr><td colspan="3" class="ing-group-title">${label}</td></tr>${rows}<tr><td colspan="3" class="ing-group-title ing-group-title-end">${label}</td></tr>`;
+    }).join("");
+  }
+
+  // Shared by the Browse detail view and the wizard's review step — one
+  // recipe-shaped object (id/servings/ingredients aren't needed, just
+  // `ingredients` + `servings`) in, one "Nutrition (estimated)" block out.
+  function nutritionBlockHtml(recipe) {
+    if (!recipe.ingredients.length) return "";
+    const est = estimateRecipeNutrition(recipe);
+    if (est.ingredientsCovered === 0) {
+      return `
+        <div class="block-title">${t("blockNutrition")}</div>
+        <p class="field-hint" style="margin-bottom:24px;">${t("nutritionNone")}</p>`;
+    }
+    const ps = est.perServing;
+    const coverageNote = est.ingredientsCovered < est.ingredientsTotal
+      ? " " + tf("nutritionPartialCoverage", { covered: est.ingredientsCovered, total: est.ingredientsTotal })
+      : "";
+    return `
+      <div class="block-title">${t("blockNutrition")}</div>
+      <div class="meta-strip" style="margin-bottom:8px;">
+        <div class="meta-item"><span class="n">${Math.round(ps.kcal)}</span><span class="lbl">${t("lblCalories")}</span></div>
+        <div class="meta-item"><span class="n">${ps.fat_g}g</span><span class="lbl">${t("lblFat")}</span></div>
+        <div class="meta-item"><span class="n">${ps.carbs_g}g</span><span class="lbl">${t("lblCarbs")}</span></div>
+        <div class="meta-item"><span class="n">${ps.protein_g}g</span><span class="lbl">${t("lblProtein")}</span></div>
+      </div>
+      <p class="field-hint" style="margin:0 0 24px;">${t("nutritionEstimateNote")}${coverageNote}</p>`;
+  }
+
+  function renderDetail() {
+    const el = document.getElementById("detail");
+    const r = RECIPES.find(x => x.id === state.selected);
+    if (!r) {
+      el.innerHTML = '<div class="empty-state">Select a recipe to see the full record.</div>';
+      return;
+    }
+
+    const ingredientRows = ingredientTableRowsGrouped(r, locIngredientName);
+    const steps = locInstructions(r).map(s => `<li>${esc(s)}</li>`).join("");
+    const dietary = r.dietary.map(d => `<span class="pill">${dietaryLabel(d)}</span>`).join("");
+    const tags = (r.tags || []).map(tg => `<span class="tag">${esc(tg)}</span>`).join("");
+
+    el.innerHTML = `
+      <div class="detail-eyebrow">${cuisineLabel(r.cuisine)} · ${categoryLabel(r.category)}</div>
+      <h2>${esc(locTitle(r))}</h2>
+      ${r.source === "user-submitted" ? `<span class="pill" style="margin-top:8px;display:inline-block;">${t("localBadge")}</span>` : ""}
+      ${r.submitted_kitchen ? `<span class="pill" style="margin-top:8px;margin-left:6px;display:inline-block;">🍳 ${esc(r.submitted_kitchen)}</span>` : ""}
+      ${locDescription(r) ? `<p class="detail-desc">${esc(locDescription(r))}</p>` : ""}
+      ${recipeActionsHtml({ showRemove: r.source === "user-submitted" })}
+
+      <div class="meta-strip">
+        <div class="meta-item"><span class="n">${r.servings}</span><span class="lbl">${t("lblServings")}</span></div>
+        <div class="meta-item"><span class="n">${r.prep_time_minutes}${t("minLbl")}</span><span class="lbl">${t("lblPrep")}</span></div>
+        <div class="meta-item"><span class="n">${r.cook_time_minutes}${t("minLbl")}</span><span class="lbl">${t("lblCook")}</span></div>
+        <div class="meta-item">${diffDots(r.difficulty)}<span class="lbl">${t("lblDifficulty")}</span></div>
+      </div>
+
+      <div class="dietary-row">${dietary}</div>
+
+      ${nutritionBlockHtml(r)}
+
+      <div class="detail-cols">
+        <div>
+          <div class="block-title">${t("blockIngredients")}</div>
+          <table class="ingredients"><tbody>${ingredientRows}</tbody></table>
+        </div>
+        <div>
+          <div class="block-title">${t("blockMethod")}</div>
+          <ol class="steps">${steps}</ol>
+        </div>
+      </div>
+
+      <div class="tags-footer">
+        ${tags}
+        <span class="source-note">${t("sourceLbl")}: ${r.source}</span>
+      </div>
+    `;
+    wireRecipeActions(el, r, el, { showRemove: r.source === "user-submitted" });
+  }
+
+  function buildLegend() {
+    const el = document.getElementById("legend");
+    const buckets = ["produce", "protein", "pantry", "other"];
+    el.innerHTML = '<span>' + t("legendGroceryMapping") + '</span>' + buckets.map(b =>
+      `<span class="key"><span class="swatch cat-${b}"></span>${BUCKET_LABEL_I18N[uiLang][b]}</span>`
+    ).join("");
+  }
+
+  function render() {
+    buildQuickRows();
+    renderCarousel();
+  }
+
+  document.getElementById("search").addEventListener("input", (e) => {
+    state.query = e.target.value.trim();
+    render();
+  });
+
+  // Deep link support via URL hash — no storage involved, just reads the URL.
+  state.shuffledOrder = shuffleArray(RECIPES.map(r => r.id));
+  if (location.hash) {
+    const id = location.hash.slice(1);
+    if (RECIPES.some(r => r.id === id)) state.selected = id;
+  }
+
+  buildLegend();
+  render();
+  if (state.selected) {
+    document.getElementById("detail-wrap").hidden = false;
+    renderDetail();
+  }
+
+  /* ---------- Language toggle ---------- */
+  function applyStaticText() {
+    document.documentElement.lang = uiLang;
+    document.getElementById("tagline").textContent = t("tagline");
+    document.getElementById("lbl-recipes").textContent = t("statRecipesLbl");
+    document.getElementById("lbl-cuisines").textContent = t("statCuisinesLbl");
+    document.getElementById("lbl-generated").textContent = t("statGeneratedLbl");
+    document.getElementById("stat-source").textContent = t("statGeneratedVal");
+    document.getElementById("tab-btn-browse").textContent = t("tabBrowse");
+    document.getElementById("tab-btn-submit").textContent = t("tabSubmit");
+    document.getElementById("hero-submit-label").textContent = t("heroSubmit");
+    document.getElementById("search").placeholder = t("searchPlaceholder");
+    document.getElementById("detail-close").textContent = t("detailClose");
+    document.getElementById("footer-schema").textContent = t("footerSchema");
+    document.getElementById("footer-build").innerHTML = t("footerBuild");
+    document.querySelectorAll("#lang-toggle button").forEach(b => b.classList.toggle("active", b.dataset.lang === uiLang));
+  }
+
+  function setLanguage(lang) {
+    if (lang !== "en" && lang !== "de") return;
+    uiLang = lang;
+    applyStaticText();
+    buildLegend();
+    render();
+    if (state.selected) renderDetail();
+    if (!document.getElementById("view-submit").hidden) renderStepCard();
+  }
+
+  document.getElementById("lang-toggle").addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-lang]");
+    if (btn) setLanguage(btn.dataset.lang);
+  });
+
+  applyStaticText();
+
+  /* =================================================================
+     Submit a Recipe — prototype wizard.
+
+     No account system exists yet, so this never actually publishes
+     anything (see the notice banner on the review step) — it produces
+     the exact record a real submission would, so the flow and the
+     data shape can be evaluated end to end. Mirrors the logic in
+     scripts/ingredients_db.py and scripts/submit_recipe.py; keep the
+     two in sync if either changes.
+
+     Photo generation is explicitly out of scope for this pass: steps
+     that would need one are just flagged (photos_needed), shown as
+     plain labeled placeholders — never a fake image.
+
+     A submission is always authored (and shown back) in whatever
+     language the person typed it in — translations.de only exists on
+     the seed/browse recipes — but every piece of *chrome* around the
+     wizard (labels, hints, the technique picker, error messages)
+     follows the EN/DE toggle like the rest of the page.
+     ================================================================= */
+
+  const INGREDIENTS = /*__INGREDIENTS_JSON__*/;
+
+  // Hand-kept JS twin of scripts/nutrition.py's estimate_recipe_nutrition()
+  // — same relationship as suggestQuantity() has with ingredients_db.py.
+  // NUTRITION_DATA itself lives in one place (scripts/nutrition_data.py)
+  // and is bundled in here by build_preview.py, so only the *calculation*
+  // is duplicated, never the numbers.
+  const NUTRITION_DATA = /*__NUTRITION_JSON__*/;
+
+  const STEP_TEMPLATE_GROUPS = [
+    { labelKey: "tgKnife", phrases: [
+      { en: "Finely chop the {ingredient}.", de: "{ingredient} fein hacken." },
+      { en: "Dice the {ingredient} into even cubes.", de: "{ingredient} in gleichmäßige Würfel schneiden." },
+      { en: "Julienne the {ingredient} into thin strips.", de: "{ingredient} in feine Streifen (Julienne) schneiden." },
+      { en: "Mince the {ingredient}.", de: "{ingredient} fein zerkleinern." },
+      { en: "Thinly slice the {ingredient}.", de: "{ingredient} dünn in Scheiben schneiden." },
+    ]},
+    { labelKey: "tgHeat", phrases: [
+      { en: "Dry-roast the {ingredient} until fragrant, 1-2 minutes.", de: "{ingredient} ohne Öl rösten, bis es duftet, 1-2 Minuten." },
+      { en: "Temper the {ingredient} in hot oil until it crackles.", de: "{ingredient} in heißem Öl anbraten, bis es knistert." },
+      { en: "Saute the {ingredient} until golden.", de: "{ingredient} anbraten, bis es goldbraun ist." },
+      { en: "Sear the {ingredient} on high heat until browned on all sides.", de: "{ingredient} bei hoher Hitze von allen Seiten anbraten, bis es braun ist." },
+      { en: "Simmer gently, stirring occasionally.", de: "Sanft köcheln lassen, gelegentlich umrühren." },
+      { en: "Bring to a boil, then reduce to a simmer.", de: "Aufkochen, dann auf köcheln reduzieren." },
+    ]},
+    { labelKey: "tgAssembly", phrases: [
+      { en: "Fold in gently to combine.", de: "Vorsichtig unterheben, bis alles vermengt ist." },
+      { en: "Let rest for 10 minutes before serving.", de: "Vor dem Servieren 10 Minuten ruhen lassen." },
+      { en: "Garnish with {ingredient}.", de: "Mit {ingredient} garnieren." },
+      { en: "Adjust seasoning to taste.", de: "Nach Geschmack abschmecken." },
+      { en: "Transfer to a serving dish.", de: "In eine Servierschüssel umfüllen." },
+    ]},
+  ];
+
+  // Category-aware prep-technique picker (reqs: knife work varies by
+  // ingredient type — produce vs. meat/seafood vs. dairy get different
+  // cut/prep options — and every ingredient gets *some* set of helper
+  // phrases, even pantry items, via the generic "pantry" bucket).
+  const PREP_TECHNIQUES = {
+    produce: [
+      { key: "fineChop", label: { en: "Chop → fine", de: "Hacken → fein" }, make: (n, l) => l === "de" ? `${n} fein hacken.` : `Finely chop the ${n}.` },
+      { key: "roughChop", label: { en: "Chop → rough", de: "Hacken → grob" }, make: (n, l) => l === "de" ? `${n} grob hacken.` : `Roughly chop the ${n}.` },
+      { key: "diceSmall", label: { en: "Dice → small", de: "Würfeln → klein" }, make: (n, l) => l === "de" ? `${n} in kleine Würfel schneiden.` : `Dice the ${n} into small cubes.` },
+      { key: "diceLarge", label: { en: "Dice → large", de: "Würfeln → groß" }, make: (n, l) => l === "de" ? `${n} in große Würfel schneiden.` : `Dice the ${n} into large cubes.` },
+      { key: "slice", label: { en: "Cut → thin slices", de: "Schneiden → dünne Scheiben" }, make: (n, l) => l === "de" ? `${n} dünn in Scheiben schneiden.` : `Thinly slice the ${n}.` },
+      { key: "julienne", label: { en: "Cut → julienne", de: "Schneiden → Julienne" }, make: (n, l) => l === "de" ? `${n} in feine Streifen (Julienne) schneiden.` : `Julienne the ${n} into thin strips.` },
+      { key: "mince", label: { en: "Mince", de: "Fein zerkleinern" }, make: (n, l) => l === "de" ? `${n} fein zerkleinern.` : `Mince the ${n}.` },
+      { key: "grate", label: { en: "Grate", de: "Reiben" }, make: (n, l) => l === "de" ? `${n} reiben.` : `Grate the ${n}.` },
+      { key: "peel", label: { en: "Peel", de: "Schälen" }, make: (n, l) => l === "de" ? `${n} schälen.` : `Peel the ${n}.` },
+    ],
+    meat: [
+      { key: "diceSmall", label: { en: "Dice → small", de: "Würfeln → klein" }, make: (n, l) => l === "de" ? `${n} in kleine Würfel schneiden.` : `Dice the ${n} into small cubes.` },
+      { key: "diceLarge", label: { en: "Cut → large chunks", de: "Schneiden → große Stücke" }, make: (n, l) => l === "de" ? `${n} in große Stücke schneiden.` : `Cut the ${n} into large chunks.` },
+      { key: "sliceThin", label: { en: "Slice → thin, against grain", de: "Schneiden → dünn, gegen die Faser" }, make: (n, l) => l === "de" ? `${n} dünn gegen die Faser schneiden.` : `Slice the ${n} thinly against the grain.` },
+      { key: "sliceThick", label: { en: "Cut → thick slices", de: "Schneiden → dicke Scheiben" }, make: (n, l) => l === "de" ? `${n} in dicke Scheiben schneiden.` : `Cut the ${n} into thick slices.` },
+      { key: "mince", label: { en: "Mince", de: "Fein hacken" }, make: (n, l) => l === "de" ? `${n} fein hacken.` : `Mince the ${n}.` },
+      { key: "butterfly", label: { en: "Butterfly", de: "Schmetterlingsschnitt" }, make: (n, l) => l === "de" ? `${n} schmetterlingsartig aufschneiden, damit er gleichmäßig dick ist.` : `Butterfly the ${n} to an even thickness.` },
+      { key: "poundFlat", label: { en: "Pound flat", de: "Flach klopfen" }, make: (n, l) => l === "de" ? `${n} gleichmäßig flach klopfen.` : `Pound the ${n} to an even thickness.` },
+      { key: "trimFat", label: { en: "Trim excess fat", de: "Fett zuschneiden" }, make: (n, l) => l === "de" ? `Überschüssiges Fett von ${n} entfernen.` : `Trim excess fat from the ${n}.` },
+    ],
+    dairy: [
+      { key: "grate", label: { en: "Grate", de: "Reiben" }, make: (n, l) => l === "de" ? `${n} reiben.` : `Grate the ${n}.` },
+      { key: "sliceThin", label: { en: "Slice → thin", de: "Schneiden → dünn" }, make: (n, l) => l === "de" ? `${n} dünn in Scheiben schneiden.` : `Slice the ${n} thinly.` },
+      { key: "cube", label: { en: "Cut → small cubes", de: "Schneiden → kleine Würfel" }, make: (n, l) => l === "de" ? `${n} in kleine Würfel schneiden.` : `Cut the ${n} into small cubes.` },
+      { key: "crumble", label: { en: "Crumble", de: "Zerbröckeln" }, make: (n, l) => l === "de" ? `${n} zerbröckeln.` : `Crumble the ${n}.` },
+      { key: "melt", label: { en: "Melt gently", de: "Sanft schmelzen" }, make: (n, l) => l === "de" ? `${n} sanft schmelzen.` : `Melt the ${n} gently.` },
+    ],
+    pantry: [
+      { key: "toast", label: { en: "Dry-roast until fragrant", de: "Ohne Öl rösten" }, make: (n, l) => l === "de" ? `${n} ohne Öl rösten, bis es duftet, 1-2 Minuten.` : `Dry-roast the ${n} until fragrant, 1-2 minutes.` },
+      { key: "grind", label: { en: "Grind to a powder", de: "Fein mahlen" }, make: (n, l) => l === "de" ? `${n} fein mahlen.` : `Grind the ${n} to a fine powder.` },
+      { key: "soak", label: { en: "Soak in warm water", de: "In warmem Wasser einweichen" }, make: (n, l) => l === "de" ? `${n} in warmem Wasser einweichen.` : `Soak the ${n} in warm water.` },
+      { key: "measure", label: { en: "Measure out", de: "Abmessen" }, make: (n, l) => l === "de" ? `${n} abmessen.` : `Measure out the ${n}.` },
+    ],
+  };
+
+  function techniqueGroupFor(groceryCategory) {
+    if (groceryCategory === "vegetables" || groceryCategory === "fruits" || groceryCategory === "herbs-fresh") return "produce";
+    if (groceryCategory === "meat-poultry" || groceryCategory === "seafood") return "meat";
+    if (groceryCategory === "dairy") return "dairy";
+    return "pantry";
+  }
+
+  const KEY_STEP_KEYWORDS = ["roast", "sear", "fry", "grill", "temper", "caramelize", "caramelise", "bake", "flambe", "char", "toast", "brown"];
+  // German compound verbs (e.g. "anbraten", "anrösten") don't start with
+  // the bare stem, so the English path's word-boundary regex wouldn't
+  // match — a plain substring test on German stems does the job instead.
+  const KEY_STEP_KEYWORDS_DE = ["röst", "brat", "frittier", "grill", "karamellis", "back", "flambier", "toast", "anbräun", "schmor", "räuchr"];
+  const CATEGORIES = ["breakfast", "main", "side", "soup", "salad", "dessert", "snack", "beverage", "bread", "condiment"];
+  const DIETARY_OPTIONS = ["vegetarian", "vegan", "gluten-free", "dairy-free", "nut-free", "halal", "kosher", "non-vegetarian", "eggless"];
+  const CAMERA_ICON = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>';
+
+  function ingBaseName(raw) {
+    return raw.replace(/\([^)]*\)/g, "").split(",")[0].trim().toLowerCase();
+  }
+
+  // Best on-screen name for a wizard ingredient in the current language:
+  // German mode looks up the reference database's name_de (built into
+  // data/ingredients.json), falling back to whatever the person typed.
+  function displayIngredientName(rawName) {
+    const base = ingBaseName(rawName);
+    const entry = INGREDIENTS.find(e => e.name === base);
+    if (uiLang === "de" && entry && entry.name_de) return entry.name_de;
+    return rawName.split(",")[0].trim();
+  }
+
+  const NUTRITION_MACROS = ["kcal", "fat_g", "carbs_g", "protein_g"];
+
+  // JS twin of scripts/nutrition.py's grams_for() — see the note on
+  // NUTRITION_DATA above for why only the logic, not the numbers, is
+  // duplicated.
+  function gramsFor(ingredient) {
+    const unit = (ingredient.unit || "").trim().toLowerCase();
+    const qty = ingredient.quantity;
+    if (unit === "piece") {
+      const base = ingBaseName(ingredient.name);
+      const perPiece = NUTRITION_DATA.pieceGrams[base] != null ? NUTRITION_DATA.pieceGrams[base] : NUTRITION_DATA.pieceGramsDefault;
+      return qty * perPiece;
+    }
+    const gramsPerUnit = NUTRITION_DATA.unitToGrams[unit];
+    if (gramsPerUnit == null) return null;
+    return qty * gramsPerUnit;
+  }
+
+  // JS twin of scripts/nutrition.py's estimate_recipe_nutrition(). Always
+  // an ESTIMATE — see that file's docstring for why (hand-curated per-100g
+  // figures, averaged "piece" weights, silently-excluded unconvertible
+  // units) — never presented to the user as anything more precise than one.
+  function estimateRecipeNutrition(recipe) {
+    const servings = recipe.servings || 1;
+    const totals = { kcal: 0, fat_g: 0, carbs_g: 0, protein_g: 0 };
+    let covered = 0;
+
+    recipe.ingredients.forEach((ing) => {
+      const base = ingBaseName(ing.name);
+      const profile = NUTRITION_DATA.per100g[base];
+      const grams = gramsFor(ing);
+      if (!profile || grams == null) return;
+      covered += 1;
+      const factor = grams / 100;
+      NUTRITION_MACROS.forEach((m) => { totals[m] += profile[m] * factor; });
+    });
+
+    const round1 = (v) => Math.round(v * 10) / 10;
+    const total = {}, perServing = {};
+    NUTRITION_MACROS.forEach((m) => { total[m] = round1(totals[m]); perServing[m] = round1(totals[m] / servings); });
+
+    return { total, perServing, ingredientsCovered: covered, ingredientsTotal: recipe.ingredients.length };
+  }
+
+  function ingredientAutocomplete(prefix, limit) {
+    prefix = prefix.trim().toLowerCase();
+    if (!prefix) return [];
+    const starts = INGREDIENTS.filter(e => e.name.startsWith(prefix));
+    const contains = INGREDIENTS.filter(e => e.name.includes(prefix) && !e.name.startsWith(prefix));
+    return starts.concat(contains).slice(0, limit || 8);
+  }
+
+  function suggestQuantity(name, servings) {
+    const base = ingBaseName(name);
+    const entry = INGREDIENTS.find(e => e.name === base);
+    if (!entry) return { qty: null, unit: null, category: "other" };
+    if (entry.qty_per_serving == null) return { qty: null, unit: entry.default_unit, category: entry.grocery_category };
+    let qty = entry.qty_per_serving * servings;
+    if (entry.default_unit === "g" || entry.default_unit === "ml") {
+      qty = Math.round(qty / 5) * 5 || Math.round(qty * 10) / 10;
+    } else if (entry.default_unit === "piece") {
+      qty = Math.max(1, Math.round(qty));
+    } else {
+      qty = Math.round(qty * 4) / 4;
+    }
+    return { qty, unit: entry.default_unit, category: entry.grocery_category };
+  }
+
+  function looksLikeKeyStep(text) {
+    const lowered = text.toLowerCase();
+    if (uiLang === "de") return KEY_STEP_KEYWORDS_DE.some(kw => lowered.indexOf(kw) !== -1);
+    return KEY_STEP_KEYWORDS.some(kw => new RegExp("\\b" + kw + "\\w*").test(lowered));
+  }
+
+  function slugify(text) {
+    return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "untitled-recipe";
+  }
+
+  /* =================================================================
+     PDF import — client-side only, typed/exported PDFs only (a real
+     text layer, no OCR). Everything below runs entirely in the
+     browser: the file never leaves the device, and nothing is
+     uploaded anywhere.
+
+     Approach, and why: pdfjs-dist is loaded lazily from cdnjs (only
+     when the person actually picks a file) via a dynamic import() of
+     its ES module build — that's a script-src load, which is the one
+     externally-hosted-script category this page is allowed to use.
+     pdf.js normally offloads parsing to a Web Worker; if creating that
+     worker is blocked for any reason it falls back on its own to an
+     in-page "fake worker" (same code, main thread) — verified working
+     end to end here, so no extra fallback logic is needed for that.
+
+     Text extraction only gives flat items with positions, not lines —
+     extractPdfLines() reconstructs line breaks by grouping items with
+     matching baselines. parseRecipeFromLines() then applies plain
+     heuristics (an "Ingredients"/"Instructions" heading, a leading
+     qty+unit on each ingredient line, a leading number/bullet on each
+     step) to fill in the wizard. Recipe PDFs vary a lot in layout, so
+     this is deliberately best-effort — the person reviews and edits
+     every field via the normal wizard steps before saving, same as a
+     recipe entered by hand.
+     ================================================================= */
+
+  const PDFJS_CDN_BASE = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/";
+  const PDF_MAX_BYTES = 20 * 1024 * 1024; // 20 MB
+  const PDF_MAX_PAGES = 25; // recipe PDFs are short; caps pathological files
+
+  let pdfjsModulePromise = null;
+  function loadPdfJs() {
+    if (!pdfjsModulePromise) {
+      pdfjsModulePromise = import(PDFJS_CDN_BASE + "pdf.min.mjs").then((mod) => {
+        mod.GlobalWorkerOptions.workerSrc = PDFJS_CDN_BASE + "pdf.worker.min.mjs";
+        return mod;
+      });
+    }
+    return pdfjsModulePromise;
+  }
+
+  async function extractPdfLines(arrayBuffer) {
+    const pdfjsLib = await loadPdfJs();
+    const doc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const lines = [];
+    const pageCount = Math.min(doc.numPages, PDF_MAX_PAGES);
+    for (let p = 1; p <= pageCount; p++) {
+      const page = await doc.getPage(p);
+      const content = await page.getTextContent();
+      const rows = [];
+      for (const item of content.items) {
+        if (!item.str || !item.str.trim()) continue;
+        const y = item.transform[5];
+        let row = rows.find((r) => Math.abs(r.y - y) <= 2);
+        if (!row) { row = { y, items: [] }; rows.push(row); }
+        row.items.push({ x: item.transform[4], str: item.str });
+      }
+      rows.sort((a, b) => b.y - a.y); // top of page first
+      for (const row of rows) {
+        row.items.sort((a, b) => a.x - b.x);
+        const text = row.items.map((i) => i.str).join(" ").replace(/\s+/g, " ").trim();
+        if (text) lines.push(text);
+      }
+    }
+    return lines;
+  }
+
+  const PDF_UNIT_MAP = {
+    g: "g", gram: "g", grams: "g",
+    kg: "kg", kilogram: "kg", kilograms: "kg",
+    mg: "mg", milligram: "mg", milligrams: "mg",
+    ml: "ml", milliliter: "ml", milliliters: "ml", millilitre: "ml", millilitres: "ml",
+    l: "l", liter: "l", liters: "l", litre: "l", litres: "l",
+    cup: "cup", cups: "cup",
+    tbsp: "tbsp", tbs: "tbsp", tablespoon: "tbsp", tablespoons: "tbsp",
+    tsp: "tsp", teaspoon: "tsp", teaspoons: "tsp",
+    oz: "oz", ounce: "oz", ounces: "oz",
+    lb: "lb", lbs: "lb", pound: "lb", pounds: "lb",
+    clove: "clove", cloves: "clove",
+    slice: "slice", slices: "slice",
+    piece: "piece", pieces: "piece", pc: "piece", pcs: "piece",
+    pinch: "pinch", pinches: "pinch",
+    can: "can", cans: "can",
+    stick: "stick", sticks: "stick",
+    bunch: "bunch", bunches: "bunch",
+    sprig: "sprig", sprigs: "sprig",
+    head: "head", heads: "head",
+  };
+  const PDF_UNIT_RE = new RegExp("^(" + Object.keys(PDF_UNIT_MAP).join("|") + ")\\.?$", "i");
+  const PDF_UNICODE_FRACTIONS = { "¼": "1/4", "½": "1/2", "¾": "3/4", "⅓": "1/3", "⅔": "2/3", "⅛": "1/8", "⅜": "3/8", "⅝": "5/8", "⅞": "7/8" };
+
+  function pdfParseQuantity(token) {
+    let s = token.trim();
+    Object.keys(PDF_UNICODE_FRACTIONS).forEach((u) => { s = s.split(u).join(" " + PDF_UNICODE_FRACTIONS[u]); });
+    s = s.trim();
+    const mixed = s.match(/^(\d+)\s+(\d+)\s*\/\s*(\d+)$/); // "1 1/2"
+    if (mixed) return parseInt(mixed[1], 10) + parseInt(mixed[2], 10) / parseInt(mixed[3], 10);
+    const frac = s.match(/^(\d+)\s*\/\s*(\d+)$/); // "1/2"
+    if (frac) return parseInt(frac[1], 10) / parseInt(frac[2], 10);
+    const range = s.match(/^(\d+(?:\.\d+)?)\s*-\s*\d+(?:\.\d+)?$/); // "1-2" -> lower bound
+    if (range) return parseFloat(range[1]);
+    const plain = s.match(/^\d+(?:\.\d+)?$/);
+    if (plain) return parseFloat(s);
+    return null;
+  }
+
+  function parseIngredientLine(raw) {
+    let line = raw.replace(/^\s*[-*•·▪]\s*/, "").trim();
+    if (!line) return null;
+    let normalized = line;
+    Object.keys(PDF_UNICODE_FRACTIONS).forEach((u) => { normalized = normalized.split(u).join(" " + PDF_UNICODE_FRACTIONS[u] + " "); });
+    normalized = normalized.replace(/\s+/g, " ").trim();
+
+    const qtyRe = /^(\d+\s+\d+\s*\/\s*\d+|\d+\s*\/\s*\d+|\d+(?:\.\d+)?\s*-\s*\d+(?:\.\d+)?|\d+(?:\.\d+)?)\s*/;
+    let quantity = "", rest = normalized;
+    const qm = normalized.match(qtyRe);
+    if (qm) {
+      const parsed = pdfParseQuantity(qm[1]);
+      if (parsed != null) {
+        quantity = Math.round(parsed * 100) / 100;
+        rest = normalized.slice(qm[0].length).trim();
+      }
+    }
+
+    let unit = "";
+    const parts = rest.split(" ");
+    if (parts.length > 1 && PDF_UNIT_RE.test(parts[0])) {
+      unit = PDF_UNIT_MAP[parts[0].toLowerCase().replace(/\.$/, "")] || parts[0];
+      rest = parts.slice(1).join(" ");
+    }
+
+    const name = rest.replace(/^of\s+/i, "").replace(/^[,:-]\s*/, "").trim();
+    if (!name) return null;
+    return { quantity, unit, name };
+  }
+
+  function parseRecipeFromLines(lines) {
+    const nonEmpty = lines.map((l) => l.trim()).filter(Boolean);
+    const ingredientsHeadingRe = /^(ingredients?)\s*[:\-]?\s*$/i;
+    const instructionsHeadingRe = /^(instructions?|directions?|method|steps?|preparation)\s*[:\-]?\s*$/i;
+    const metaLineRe = /(serv(?:ing)?s?|prep(?:aration)?\s*time|cook(?:ing)?\s*time|total\s*time|yield)\s*[:\-]/i;
+
+    let ingIdx = nonEmpty.findIndex((l) => ingredientsHeadingRe.test(l));
+    let insIdx = nonEmpty.findIndex((l) => instructionsHeadingRe.test(l));
+
+    const title = nonEmpty[0] || "";
+    const joined = nonEmpty.join("\n");
+    const numFrom = (re) => { const m = joined.match(re); return m ? parseInt(m[1], 10) : null; };
+    const servings = numFrom(/serv(?:ing)?s?\s*[:\-]?\s*(\d+)/i) || numFrom(/yield[:\-]?\s*(\d+)/i);
+    const prepMin = numFrom(/prep(?:aration)?\s*time\s*[:\-]?\s*(\d+)/i);
+    const cookMin = numFrom(/cook(?:ing)?\s*time\s*[:\-]?\s*(\d+)/i);
+
+    const descEnd = ingIdx >= 0 ? ingIdx : Math.min(nonEmpty.length, 8);
+    const descLines = [];
+    for (let i = 1; i < descEnd; i++) {
+      if (!metaLineRe.test(nonEmpty[i]) && !instructionsHeadingRe.test(nonEmpty[i])) descLines.push(nonEmpty[i]);
+    }
+    const description = descLines.join(" ").trim();
+
+    let ingredients = [];
+    if (ingIdx >= 0) {
+      const end = insIdx > ingIdx ? insIdx : nonEmpty.length;
+      ingredients = nonEmpty.slice(ingIdx + 1, end).map(parseIngredientLine).filter(Boolean);
+    }
+
+    let instructions = [];
+    if (insIdx >= 0) {
+      instructions = nonEmpty.slice(insIdx + 1)
+        .map((l) => l.replace(/^\s*(?:[-*•·▪]|\d+\s*[\.\)])\s*/, "").trim())
+        .filter((l) => l && !metaLineRe.test(l));
+    }
+
+    return { title, description, servings, prepMin, cookMin, ingredients, instructions };
+  }
+
+  let pdfImportBanner = null; // filename of the last successful import, shown once on step 2
+
+  function applyParsedRecipeToWizard(parsed, filename) {
+    if (parsed.title) {
+      wiz.title = parsed.title;
+      if (!wiz.cuisine) wiz.cuisine = suggestCuisine(parsed.title);
+    }
+    if (parsed.description) wiz.description = parsed.description;
+    if (parsed.servings) wiz.servings = Math.max(1, Math.min(24, parsed.servings));
+    if (parsed.prepMin != null) wiz.prepMin = parsed.prepMin;
+    if (parsed.cookMin != null) wiz.cookMin = parsed.cookMin;
+    if (parsed.ingredients.length) {
+      wiz.ingredients = [];
+      wiz.ingredientPrepHints = [];
+      parsed.ingredients.forEach((ing) => {
+        const { clean: afterDescriptor, descriptor } = stripDescriptor(ing.name);
+        // A PDF ingredient table with a category column can flatten into
+        // a line like "300 g Potatoes vegetables" once pdf.js merges the
+        // columns — catch that the same way a hand-typed one is caught.
+        const hint = stripCategoryHintFromName(afterDescriptor);
+        const name = hint.name;
+        const s = suggestQuantity(name, wiz.servings);
+        wiz.ingredients.push({
+          name,
+          quantity: ing.quantity !== "" ? ing.quantity : (s.qty != null ? s.qty : 0),
+          unit: ing.unit || s.unit || "piece",
+          grocery_category: hint.category || s.category || "other",
+          optional: false,
+        });
+        wiz.ingredientPrepHints.push(descriptor);
+      });
+    }
+    if (parsed.instructions.length) {
+      wiz.instructions = parsed.instructions;
+      wiz.keySteps = parsed.instructions.map((text) => looksLikeKeyStep(text));
+    }
+    pdfImportBanner = filename;
+  }
+
+  function wireImportPdf(card) {
+    const btn = card.querySelector("#pdf-import-btn");
+    const input = card.querySelector("#pdf-import-input");
+    const status = card.querySelector("#pdf-import-status");
+    if (!btn || !input) return;
+
+    btn.onclick = () => input.click();
+
+    input.onchange = async () => {
+      const file = input.files && input.files[0];
+      input.value = "";
+      if (!file) return;
+
+      if (!/\.pdf$/i.test(file.name) && file.type !== "application/pdf") {
+        status.textContent = t("pdfImportErrorType");
+        return;
+      }
+      if (file.size > PDF_MAX_BYTES) {
+        status.textContent = t("pdfImportErrorSize");
+        return;
+      }
+
+      btn.disabled = true;
+      status.textContent = t("pdfImportReading");
+      try {
+        const buffer = await file.arrayBuffer();
+        status.textContent = t("pdfImportParsing");
+        const lines = await extractPdfLines(buffer);
+        const totalChars = lines.join("").length;
+        if (totalChars < 20) {
+          status.textContent = t("pdfImportErrorNoText");
+          btn.disabled = false;
+          return;
+        }
+        const parsed = parseRecipeFromLines(lines);
+        applyParsedRecipeToWizard(parsed, file.name);
+        wiz.step = 2;
+        renderStepCard();
+      } catch (err) {
+        status.textContent = t("pdfImportErrorLoad");
+        btn.disabled = false;
+      }
+    };
+  }
+
+  const wiz = {
+    step: 1,
+    servings: 4,
+    kitchenName: loadLastKitchenName(),
+    title: "",
+    description: "",
+    cuisine: "",
+    category: "main",
+    difficulty: "medium",
+    prepMin: 15,
+    cookMin: 20,
+    dietary: [],
+    tags: "",
+    ingredients: [],
+    ingredientPrepHints: [], // parallel to `ingredients` — stripped prep descriptor per index, or ""
+    instructions: [],
+    keySteps: [],
+  };
+
+  // In-progress edit trackers for Step 3 (ingredients) and Step 5 (steps).
+  // null means "not editing" — the Add button acts as a plain append.
+  let editingIngIndex = null;
+  let editingStepIndex = null;
+  // Set right before renderStepIngredients(card) re-renders the whole card
+  // (a plain DOM update on the note span would be wiped out by that same
+  // re-render) — read once into the freshly-built HTML, then cleared.
+  let lastDescriptorNote = "";
+
+  function switchTab(tab) {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+    document.getElementById("view-browse").hidden = tab !== "browse";
+    document.getElementById("view-submit").hidden = tab !== "submit";
+    if (tab === "submit") renderStepCard();
+  }
+
+  document.getElementById("tabs").addEventListener("click", (e) => {
+    const btn = e.target.closest(".tab-btn");
+    if (btn) switchTab(btn.dataset.tab);
+  });
+
+  function wizardNavHtml(opts) {
+    return `
+      <div class="wizard-nav no-print">
+        ${opts.showBack ? `<button class="btn-secondary" id="wizard-back">${t("navBack")}</button>` : `<span></span>`}
+        <span class="spacer"></span>
+        ${opts.showNext ? `<button class="btn-primary" id="wizard-next" ${opts.nextDisabled ? "disabled" : ""}>${opts.nextLabel || t("navNext")}</button>` : ""}
+      </div>`;
+  }
+
+  function attachNav(onNext) {
+    const back = document.getElementById("wizard-back");
+    const next = document.getElementById("wizard-next");
+    if (back) back.onclick = () => { wiz.step -= 1; renderStepCard(); };
+    if (next) next.onclick = () => { if (onNext) onNext(); };
+  }
+
+  function renderStepCard() {
+    const titleKeys = ["stepTitleServings", "stepTitleBasics", "stepTitleIngredients", "stepTitlePhoto", "stepTitleMethod", "stepTitleReview"];
+    document.getElementById("wizard-step-label").textContent = `${t("step")} ${wiz.step} ${t("of")} 6 — ${t(titleKeys[wiz.step - 1])}`;
+    document.getElementById("wizard-fill").style.width = (wiz.step / 6 * 100) + "%";
+    document.getElementById("wizard").classList.toggle("wizard-wide", wiz.step === 5);
+    const card = document.getElementById("step-card");
+
+    if (wiz.step === 1) renderStepServings(card);
+    else if (wiz.step === 2) renderStepBasics(card);
+    else if (wiz.step === 3) renderStepIngredients(card);
+    else if (wiz.step === 4) renderStepIngredientsPhoto(card);
+    else if (wiz.step === 5) renderStepMethod(card);
+    else renderStepReview(card);
+  }
+
+  function renderStepServings(card) {
+    card.innerHTML = `
+      <div class="step-eyebrow">${t("s1Eyebrow")}</div>
+      <h2>${t("s1Heading")}</h2>
+      <p class="step-help">${t("s1Help")}</p>
+      <div class="servings-hero">
+        <div class="stepper">
+          <button id="serv-minus" aria-label="Decrease servings" type="button">−</button>
+          <span class="count" id="serv-count">${wiz.servings}</span>
+          <button id="serv-plus" aria-label="Increase servings" type="button">+</button>
+        </div>
+        <span class="servings-lbl">${t("servingsLbl")}</span>
+      </div>
+      <div class="pdf-import-divider"><span>${t("pdfImportOr")}</span></div>
+      <div class="pdf-import-row">
+        <button class="btn-secondary" id="pdf-import-btn" type="button">${t("btnImportPdf")}</button>
+        <input type="file" id="pdf-import-input" accept="application/pdf,.pdf" hidden>
+        <span class="field-hint" id="pdf-import-status" style="margin:0;"></span>
+      </div>
+      <p class="field-hint">${t("pdfImportHint")}</p>
+      ${wizardNavHtml({ showBack: false, showNext: true })}
+    `;
+    document.getElementById("serv-minus").onclick = () => { wiz.servings = Math.max(1, wiz.servings - 1); document.getElementById("serv-count").textContent = wiz.servings; };
+    document.getElementById("serv-plus").onclick = () => { wiz.servings = Math.min(24, wiz.servings + 1); document.getElementById("serv-count").textContent = wiz.servings; };
+    wireImportPdf(card);
+    attachNav(() => { wiz.step = 2; renderStepCard(); });
+  }
+
+  function renderStepBasics(card) {
+    const cuisineOptions = cuisines.filter(c => c !== "All").map(c => `<option value="${c}">`).join("");
+    const popularTags = computePopularTags(12);
+    const currentTags = wiz.tags.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
+    card.innerHTML = `
+      <div class="step-eyebrow">${t("step")} 2 ${t("of")} 6</div>
+      <h2>${t("s2Heading")}</h2>
+      <p class="step-help">${tf("s2Help", { n: wiz.servings })}</p>
+      ${pdfImportBanner ? `
+        <div class="notice-banner no-print" id="pdf-import-banner">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="13"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          <span>${tf("pdfImportBannerText", { file: pdfImportBanner })}</span>
+          <button type="button" id="pdf-import-banner-dismiss" aria-label="${t("btnCancel")}" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:16px;line-height:1;">×</button>
+        </div>` : ""}
+      <div class="field">
+        <label for="f-kitchen">${t("lblKitchenName")}</label>
+        <input type="text" id="f-kitchen" value="${esc(wiz.kitchenName)}" placeholder="${t("placeholderKitchenName")}">
+        <p class="field-hint">${t("kitchenNameHint")}</p>
+      </div>
+      <div class="field">
+        <label for="f-title">${t("lblDishName")}</label>
+        <input type="text" id="f-title" value="${esc(wiz.title)}" placeholder="${t("placeholderDishName")}">
+      </div>
+      <div class="field">
+        <label for="f-desc">${t("lblShortDesc")}</label>
+        <textarea id="f-desc" placeholder="${t("placeholderShortDesc")}">${esc(wiz.description)}</textarea>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="f-cuisine">${t("lblCuisine")}</label>
+          <input type="text" id="f-cuisine" list="cuisine-options" value="${esc(wiz.cuisine)}" placeholder="${t("placeholderCuisine")}">
+          <datalist id="cuisine-options">${cuisineOptions}</datalist>
+          <p class="field-hint" id="cuisine-suggested-hint" hidden>${t("cuisineSuggestedHint")}</p>
+        </div>
+        <div class="field">
+          <label for="f-category">${t("lblCategory")}</label>
+          <select id="f-category">
+            ${CATEGORIES.map(c => `<option value="${c}" ${c === wiz.category ? "selected" : ""}>${categoryLabel(c)}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="f-prep">${t("lblPrepTime")}</label>
+          <input type="number" id="f-prep" min="0" value="${wiz.prepMin}">
+        </div>
+        <div class="field">
+          <label for="f-cook">${t("lblCookTime")}</label>
+          <input type="number" id="f-cook" min="0" value="${wiz.cookMin}">
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-difficulty">${t("lblDifficulty")}</label>
+        <select id="f-difficulty">
+          ${["easy", "medium", "hard"].map(d => `<option value="${d}" ${d === wiz.difficulty ? "selected" : ""}>${difficultyLabel(d)}</option>`).join("")}
+        </select>
+      </div>
+      <div class="field">
+        <label>${t("lblDietary")}</label>
+        <div class="chip-select" id="dietary-chips">
+          ${DIETARY_OPTIONS.map(d => `<button type="button" class="filter-chip${wiz.dietary.includes(d) ? " active" : ""}" data-diet="${d}">${dietaryLabel(d)}</button>`).join("")}
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-tags">${t("lblTags")} <span style="font-weight:400;color:var(--ink-faint)">${t("tagsHint")}</span></label>
+        <input type="text" id="f-tags" value="${esc(wiz.tags)}" placeholder="${t("placeholderTags")}">
+        ${popularTags.length ? `
+          <p class="field-hint" style="margin-bottom:6px;">${t("popularTagsLbl")}</p>
+          <div class="chip-select" id="tag-chips">
+            ${popularTags.map(tg => `<button type="button" class="filter-chip${currentTags.includes(tg.toLowerCase()) ? " active" : ""}" data-tag="${esc(tg)}">${esc(tg)}</button>`).join("")}
+          </div>` : ""}
+      </div>
+      <div class="field-error" id="basics-error" style="${wiz.title.trim() ? "display:none" : ""}">${t("errGiveName")}</div>
+      ${wizardNavHtml({ showBack: true, showNext: true })}
+    `;
+    const pdfBannerDismiss = document.getElementById("pdf-import-banner-dismiss");
+    if (pdfBannerDismiss) pdfBannerDismiss.onclick = () => { pdfImportBanner = null; renderStepBasics(card); };
+    document.getElementById("f-kitchen").addEventListener("input", (e) => {
+      wiz.kitchenName = e.target.value;
+      rememberKitchenName(wiz.kitchenName.trim());
+    });
+    document.getElementById("f-title").addEventListener("input", (e) => {
+      wiz.title = e.target.value;
+      if (!cuisineTouched) {
+        const guess = suggestCuisine(wiz.title);
+        const cuisineInput = document.getElementById("f-cuisine");
+        const hint = document.getElementById("cuisine-suggested-hint");
+        if (guess && !wiz.cuisine) { cuisineInput.value = guess; wiz.cuisine = guess; hint.hidden = false; }
+        else if (!wiz.title.trim()) { hint.hidden = true; }
+      }
+    });
+    document.getElementById("f-desc").addEventListener("input", (e) => { wiz.description = e.target.value; });
+    let cuisineTouched = !!wiz.cuisine;
+    document.getElementById("f-cuisine").addEventListener("input", (e) => {
+      wiz.cuisine = e.target.value;
+      cuisineTouched = true;
+      document.getElementById("cuisine-suggested-hint").hidden = true;
+    });
+    document.getElementById("f-category").addEventListener("change", (e) => { wiz.category = e.target.value; });
+    document.getElementById("f-prep").addEventListener("input", (e) => { wiz.prepMin = parseInt(e.target.value, 10) || 0; });
+    document.getElementById("f-cook").addEventListener("input", (e) => { wiz.cookMin = parseInt(e.target.value, 10) || 0; });
+    document.getElementById("f-difficulty").addEventListener("change", (e) => { wiz.difficulty = e.target.value; });
+    const tagsInput = document.getElementById("f-tags");
+    const tagChips = document.getElementById("tag-chips");
+    tagsInput.addEventListener("input", (e) => {
+      wiz.tags = e.target.value;
+      if (!tagChips) return;
+      const active = wiz.tags.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
+      tagChips.querySelectorAll("[data-tag]").forEach(btn => {
+        btn.classList.toggle("active", active.includes(btn.dataset.tag.toLowerCase()));
+      });
+    });
+    if (tagChips) {
+      tagChips.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-tag]");
+        if (!btn) return;
+        const tag = btn.dataset.tag;
+        const list = wiz.tags.split(",").map(s => s.trim()).filter(Boolean);
+        const idx = list.findIndex(x => x.toLowerCase() === tag.toLowerCase());
+        if (idx === -1) list.push(tag); else list.splice(idx, 1);
+        wiz.tags = list.join(", ");
+        tagsInput.value = wiz.tags;
+        btn.classList.toggle("active");
+      });
+    }
+    document.getElementById("dietary-chips").addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-diet]");
+      if (!btn) return;
+      const d = btn.dataset.diet;
+      wiz.dietary = wiz.dietary.includes(d) ? wiz.dietary.filter(x => x !== d) : [...wiz.dietary, d];
+      btn.classList.toggle("active");
+    });
+    attachNav(() => {
+      if (!wiz.title.trim()) { document.getElementById("basics-error").style.display = "block"; return; }
+      wiz.step = 3; renderStepCard();
+    });
+  }
+
+  function renderStepIngredients(card) {
+    const groups = groupIndicesByCategory(wiz.ingredients, ing => ing.grocery_category);
+    const rows = groups.map(g => {
+      const groupRows = g.indices.map(i => {
+        const ing = wiz.ingredients[i];
+        return `
+        <div class="built-row${editingIngIndex === i ? " is-editing" : ""}">
+          <span class="bqty">${ing.quantity} ${esc(ing.unit)}</span>
+          <span class="bname">${ingredientEmoji(ing.name, ing.grocery_category)} ${esc(ing.name)}${ing.optional ? ` <span class="note">${t("optionalNote")}</span>` : ""} <span class="cat-chip cat-${CAT_BUCKET[ing.grocery_category] || "other"}" style="margin-left:6px;">${groceryCategoryLabel(ing.grocery_category)}</span></span>
+          <button class="edit-btn" data-edit-ing="${i}" title="${t("btnEdit")}" type="button">✎ ${t("btnEdit")}</button>
+          <button class="remove-btn" data-remove-ing="${i}" title="${t("btnCancel")}" type="button">×</button>
+        </div>`;
+      }).join("");
+      const label = `${CATEGORY_EMOJI[g.category] || CATEGORY_EMOJI.other} ${groceryCategoryLabel(g.category)}`;
+      return `<div class="ing-group-title">${label}</div>${groupRows}<div class="ing-group-title ing-group-title-end">${label}</div>`;
+    }).join("");
+
+    const isEditing = editingIngIndex !== null && wiz.ingredients[editingIngIndex];
+    const editVals = isEditing ? wiz.ingredients[editingIngIndex] : null;
+
+    card.innerHTML = `
+      <div class="step-eyebrow">${t("step")} 3 ${t("of")} 6</div>
+      <h2>${t("s3Heading")}</h2>
+      <p class="step-help">${tf("s3Help", { n: wiz.servings })}</p>
+      ${isEditing ? `<div class="editing-flag">✎ ${t("btnEdit")}: ${esc(editVals.name)}</div>` : ""}
+      <div class="ingredient-add-row">
+        <div class="field autocomplete-wrap">
+          <label for="ing-name">${t("lblIngredient")}</label>
+          <input type="text" id="ing-name" placeholder="${t("placeholderIngredient")}" autocomplete="off" value="${isEditing ? esc(editVals.name) : ""}">
+          <div class="suggestion-list" id="ing-suggestions" hidden></div>
+        </div>
+        <div class="field">
+          <label for="ing-qty">${t("lblQty")}</label>
+          <input type="number" id="ing-qty" step="any" min="0" value="${isEditing ? editVals.quantity : ""}">
+        </div>
+        <div class="field">
+          <label for="ing-unit">${t("lblUnit")}</label>
+          <input type="text" id="ing-unit" placeholder="${t("placeholderUnit")}" value="${isEditing ? esc(editVals.unit) : ""}">
+        </div>
+        <div class="field">
+          <label for="ing-category">${t("lblCategory")}</label>
+          <select id="ing-category">
+            ${GROCERY_CATEGORY_ORDER.map(c => `<option value="${c}" ${isEditing && editVals.grocery_category === c ? "selected" : ""}>${groceryCategoryLabel(c)}</option>`).join("")}
+          </select>
+        </div>
+        <button class="add-btn" id="ing-add" type="button">${isEditing ? t("btnSaveChanges") : t("btnAdd")}</button>
+        ${isEditing ? `<button class="cancel-edit-btn" id="ing-cancel" type="button">${t("btnCancel")}</button>` : ""}
+      </div>
+      <label class="key-step-toggle" style="margin:-6px 0 14px;">
+        <input type="checkbox" id="ing-optional" ${isEditing && editVals.optional ? "checked" : ""}> ${t("lblOptionalIngredient")}
+        <span style="font-weight:400;color:var(--ink-faint);">— ${t("optionalIngredientHint")}</span>
+      </label>
+      <div class="built-list" id="ing-list">${rows}</div>
+      <span class="field-hint" id="ing-descriptor-note" style="${lastDescriptorNote ? "display:block" : "display:none"}">${esc(lastDescriptorNote)}</span>
+      <div class="field-error" id="ing-error" style="${wiz.ingredients.length ? "display:none" : ""}">${t("errAddIngredient")}</div>
+      ${wizardNavHtml({ showBack: true, showNext: true })}
+    `;
+
+    const nameInput = document.getElementById("ing-name");
+    const qtyInput = document.getElementById("ing-qty");
+    const unitInput = document.getElementById("ing-unit");
+    const categoryInput = document.getElementById("ing-category");
+    const optionalInput = document.getElementById("ing-optional");
+    const suggBox = document.getElementById("ing-suggestions");
+    let autoFilled = true;
+    // Whether the person has picked a category themselves this render —
+    // once true, typing in the name field stops overwriting their choice
+    // (same pattern as `autoFilled` for qty/unit, `cuisineTouched` in step 2).
+    let categoryTouched = isEditing;
+    // Separate from categoryTouched: only true after an actual dropdown
+    // pick THIS render (never just because we're editing). Lets clicking
+    // "Save changes" on an old broken entry still self-heal the category
+    // from a stray name-suffix hint, right up until the person overrides
+    // it themselves.
+    let categoryManualPick = false;
+
+    function showSuggestions() {
+      const matches = ingredientAutocomplete(nameInput.value, 8);
+      if (!matches.length) { suggBox.hidden = true; return; }
+      suggBox.innerHTML = matches.map(m => `<div class="suggestion-item" data-pick="${esc(m.name)}"><span>${ingredientEmoji(m.name, m.grocery_category)} ${esc(uiLang === "de" && m.name_de ? m.name_de : m.example_name)}</span><span class="cat">${groceryCategoryLabel(m.grocery_category)}</span></div>`).join("");
+      suggBox.hidden = false;
+    }
+
+    nameInput.addEventListener("input", () => {
+      showSuggestions();
+      if (autoFilled) {
+        const s = suggestQuantity(nameInput.value, wiz.servings);
+        if (s.qty != null) { qtyInput.value = s.qty; unitInput.value = s.unit; }
+        else if (s.unit) { unitInput.value = s.unit; }
+      }
+      if (!categoryTouched) {
+        const hint = stripCategoryHintFromName(stripDescriptor(nameInput.value).clean);
+        categoryInput.value = hint.category || suggestQuantity(nameInput.value, wiz.servings).category;
+      }
+    });
+    qtyInput.addEventListener("input", () => { autoFilled = false; });
+    unitInput.addEventListener("input", () => { autoFilled = false; });
+    categoryInput.addEventListener("change", () => { categoryTouched = true; categoryManualPick = true; });
+    nameInput.addEventListener("blur", () => setTimeout(() => { suggBox.hidden = true; }, 150));
+    suggBox.addEventListener("mousedown", (e) => {
+      const item = e.target.closest("[data-pick]");
+      if (!item) return;
+      const entry = INGREDIENTS.find(x => x.name === item.dataset.pick);
+      // Insert the clean reference name, not `example_name` (which often
+      // carries a prep descriptor like "cauliflower, cut into florets") —
+      // cutting/prep detail belongs in the steps, not the ingredient name.
+      nameInput.value = entry.name;
+      const s = suggestQuantity(entry.name, wiz.servings);
+      if (s.qty != null) qtyInput.value = s.qty;
+      unitInput.value = s.unit || "";
+      if (!categoryTouched) categoryInput.value = entry.grocery_category;
+      autoFilled = false;
+      suggBox.hidden = true;
+      qtyInput.focus();
+    });
+
+    document.getElementById("ing-add").onclick = () => {
+      const typed = nameInput.value.trim();
+      if (!typed) return;
+      const { clean: afterDescriptor, descriptor } = stripDescriptor(typed);
+      // Catches an ingredient typed like "potatoes vegetables" — a stray
+      // category word tacked onto the name, usually because there was no
+      // way to set the category directly before this dropdown existed.
+      // Re-editing an old entry like that runs it through here again, so
+      // saving it heals the name and (unless already changed by hand)
+      // the category too.
+      const hint = stripCategoryHintFromName(afterDescriptor);
+      const name = hint.name;
+      const s = suggestQuantity(name, wiz.servings);
+      const qty = qtyInput.value !== "" ? parseFloat(qtyInput.value) : (s.qty != null ? s.qty : 0);
+      const unit = unitInput.value.trim() || s.unit || "piece";
+      const category = (hint.category && !categoryManualPick) ? hint.category : categoryInput.value;
+      const optional = optionalInput.checked;
+      if (editingIngIndex !== null) {
+        wiz.ingredients[editingIngIndex] = { name, quantity: qty, unit, grocery_category: category, optional };
+        wiz.ingredientPrepHints[editingIngIndex] = descriptor;
+        editingIngIndex = null;
+      } else {
+        wiz.ingredients.push({ name, quantity: qty, unit, grocery_category: category, optional });
+        wiz.ingredientPrepHints.push(descriptor);
+      }
+      lastDescriptorNote = descriptor ? tfPlain("descriptorCaughtNote", { descriptor, ingredient: name }) : "";
+      renderStepIngredients(card);
+      document.getElementById("ing-name").focus();
+    };
+
+    const cancelBtn = document.getElementById("ing-cancel");
+    if (cancelBtn) cancelBtn.onclick = () => { editingIngIndex = null; renderStepIngredients(card); };
+
+    document.getElementById("ing-list").addEventListener("click", (e) => {
+      const editBtn = e.target.closest("[data-edit-ing]");
+      if (editBtn) {
+        editingIngIndex = parseInt(editBtn.dataset.editIng, 10);
+        renderStepIngredients(card);
+        return;
+      }
+      const removeBtn = e.target.closest("[data-remove-ing]");
+      if (removeBtn) {
+        const idx = parseInt(removeBtn.dataset.removeIng, 10);
+        wiz.ingredients.splice(idx, 1);
+        wiz.ingredientPrepHints.splice(idx, 1);
+        if (editingIngIndex === idx) editingIngIndex = null;
+        else if (editingIngIndex !== null && editingIngIndex > idx) editingIngIndex -= 1;
+        renderStepIngredients(card);
+      }
+    });
+
+    attachNav(() => {
+      if (!wiz.ingredients.length) { document.getElementById("ing-error").style.display = "block"; return; }
+      editingIngIndex = null;
+      wiz.step = 4; renderStepCard();
+    });
+  }
+
+  function renderStepIngredientsPhoto(card) {
+    card.innerHTML = `
+      <div class="step-eyebrow">${t("step")} 4 ${t("of")} 6</div>
+      <h2>${t("s4Heading")}</h2>
+      <p class="step-help">${tf("s4Help", { n: wiz.ingredients.length })}</p>
+      <div class="photo-placeholder">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+        <div class="ph-title">${t("phTitle")}</div>
+        <div class="ph-note">${tf("phNote", { dish: wiz.title || t("defaultDish"), n: wiz.ingredients.length })}</div>
+      </div>
+      ${wizardNavHtml({ showBack: true, showNext: true, nextLabel: t("navNextPhoto") })}
+    `;
+    attachNav(() => { wiz.step = 5; renderStepCard(); });
+  }
+
+  function stepsTextCombined() {
+    return wiz.instructions.join(" ").toLowerCase();
+  }
+
+  function renderMethodSidebarHtml() {
+    if (!wiz.ingredients.length) {
+      return `
+        <div class="method-sidebar">
+          <h3>${t("sidebarTitle")}</h3>
+          <p class="sidebar-hint">${t("sidebarEmpty")}</p>
+        </div>`;
+    }
+    const combined = stepsTextCombined();
+    const groups = groupIndicesByCategory(wiz.ingredients, ing => ing.grocery_category);
+    const groupsHtml = groups.map(g => {
+      const rows = g.indices.map(i => {
+        const ing = wiz.ingredients[i];
+        const dispName = displayIngredientName(ing.name);
+        const used = combined.indexOf(dispName.toLowerCase()) !== -1 || combined.indexOf(ingBaseName(ing.name)) !== -1;
+        return `
+        <div class="sidebar-ing${used ? " used" : ""}">
+          <span class="dot"></span>
+          <span class="sname">${ingredientEmoji(ing.name, ing.grocery_category)} ${esc(ing.name)}${ing.optional ? ` <span class="note">${t("optionalNote")}</span>` : ""}</span>
+          <button class="sremove" data-sidebar-remove="${i}" title="${t("btnCancel")}" type="button">×</button>
+        </div>`;
+      }).join("");
+      const label = `${CATEGORY_EMOJI[g.category] || CATEGORY_EMOJI.other} ${groceryCategoryLabel(g.category)}`;
+      return `<div class="sidebar-group-title">${label}</div>${rows}<div class="sidebar-group-title sidebar-group-title-end">${label}</div>`;
+    }).join("");
+
+    const unusedCount = findUnusedIngredients(wiz.ingredients, wiz.instructions).length;
+    const unusedNote = unusedCount ? `<p class="sidebar-hint" style="color:var(--warn,#b45309);">${unusedCount === 1 ? t("sidebarUnusedOne") : tf("sidebarUnusedMany", { n: unusedCount })}</p>` : "";
+
+    const techIngOptions = wiz.ingredients.map((ing, i) => `<option value="${i}">${esc(ing.name)}</option>`).join("");
+    const firstBucket = techniqueGroupFor(wiz.ingredients[0].grocery_category);
+    const techChoiceOptions = PREP_TECHNIQUES[firstBucket].map(tech => `<option value="${tech.key}">${tech.label[uiLang] || tech.label.en}</option>`).join("");
+
+    return `
+      <div class="method-sidebar">
+        <h3>${t("sidebarTitle")}</h3>
+        <p class="sidebar-hint">${t("sidebarHint")}</p>
+        ${unusedNote}
+        ${groupsHtml}
+        <div class="technique-picker">
+          <label for="tech-ing">${t("lblTechIngredient")}</label>
+          <select id="tech-ing">${techIngOptions}</select>
+          <label for="tech-choice">${t("lblTechChoice")}</label>
+          <select id="tech-choice">${techChoiceOptions}</select>
+          <button type="button" id="tech-insert">${t("btnInsertStep")}</button>
+        </div>
+      </div>`;
+  }
+
+  function wireMethodSidebar(card) {
+    const sidebar = card.querySelector(".method-sidebar");
+    if (!sidebar) return;
+
+    sidebar.querySelectorAll("[data-sidebar-remove]").forEach(btn => {
+      btn.onclick = () => {
+        const idx = parseInt(btn.dataset.sidebarRemove, 10);
+        wiz.ingredients.splice(idx, 1);
+        wiz.ingredientPrepHints.splice(idx, 1);
+        if (editingIngIndex === idx) editingIngIndex = null;
+        renderStepMethod(card);
+      };
+    });
+
+    const techIng = sidebar.querySelector("#tech-ing");
+    const techChoice = sidebar.querySelector("#tech-choice");
+    const techInsert = sidebar.querySelector("#tech-insert");
+    if (!techIng) return; // no ingredients yet
+
+    function refreshTechChoices() {
+      const ing = wiz.ingredients[parseInt(techIng.value, 10)];
+      if (!ing) return;
+      const bucket = techniqueGroupFor(ing.grocery_category);
+      techChoice.innerHTML = PREP_TECHNIQUES[bucket].map(tech => `<option value="${tech.key}">${tech.label[uiLang] || tech.label.en}</option>`).join("");
+    }
+    techIng.addEventListener("change", refreshTechChoices);
+
+    techInsert.onclick = () => {
+      const ing = wiz.ingredients[parseInt(techIng.value, 10)];
+      if (!ing) return;
+      const bucket = techniqueGroupFor(ing.grocery_category);
+      const tech = PREP_TECHNIQUES[bucket].find(x => x.key === techChoice.value) || PREP_TECHNIQUES[bucket][0];
+      const name = displayIngredientName(ing.name);
+      const phrase = tech.make(name, uiLang);
+      const textArea = document.getElementById("step-text");
+      textArea.value = textArea.value.trim() ? textArea.value.trim() + " " + phrase : phrase;
+      textArea.dispatchEvent(new Event("input"));
+      textArea.focus();
+    };
+  }
+
+  function moveStep(idx, dir, card) {
+    const j = idx + dir;
+    if (j < 0 || j >= wiz.instructions.length) return;
+    [wiz.instructions[idx], wiz.instructions[j]] = [wiz.instructions[j], wiz.instructions[idx]];
+    [wiz.keySteps[idx], wiz.keySteps[j]] = [wiz.keySteps[j], wiz.keySteps[idx]];
+    if (editingStepIndex === idx) editingStepIndex = j;
+    else if (editingStepIndex === j) editingStepIndex = idx;
+    renderStepMethod(card);
+  }
+
+  function renderStepMethod(card) {
+    const lastIngredient = wiz.ingredients.length ? displayIngredientName(wiz.ingredients[wiz.ingredients.length - 1].name) : (uiLang === "de" ? "der Zutat" : "ingredient");
+    const templateGroups = STEP_TEMPLATE_GROUPS.map(group => `
+      <div class="template-group">
+        <div class="tg-label">${t(group.labelKey)}</div>
+        <div class="template-chips">
+          ${group.phrases.map(p => `<button type="button" class="template-chip" data-tpl-en="${p.en.replace(/"/g, "&quot;")}" data-tpl-de="${p.de.replace(/"/g, "&quot;")}">${(uiLang === "de" ? p.de : p.en).replace("{ingredient}", esc(lastIngredient))}</button>`).join("")}
+        </div>
+      </div>
+    `).join("");
+
+    // Two extra quick-insert groups, rendered before the generic ones:
+    // phrases this person has submitted before (any recipe, any device
+    // session — see rememberStep()), and phrases derived from the prep
+    // descriptor stripped off an ingredient name back in step 3 (e.g.
+    // "chicken breast, diced" → a ready-made "Dice the chicken breast
+    // into cubes." suggestion, via phraseFromDescriptor()).
+    const savedSteps = loadSavedSteps().slice(0, 10);
+    const savedGroupHtml = savedSteps.length ? `
+      <div class="template-group">
+        <div class="tg-label">${t("tgSaved")}</div>
+        <div class="template-chips">
+          ${savedSteps.map(s => `<button type="button" class="template-chip" data-tpl-en="${esc(s)}" data-tpl-de="${esc(s)}">${esc(s)}</button>`).join("")}
+        </div>
+      </div>` : "";
+
+    const ingredientHints = wiz.ingredients
+      .map((ing, i) => ({ ing, descriptor: wiz.ingredientPrepHints[i] }))
+      .filter(x => x.descriptor);
+    const ingredientHintsHtml = ingredientHints.length ? `
+      <div class="template-group">
+        <div class="tg-label">${t("tgFromIngredients")}</div>
+        <div class="template-chips">
+          ${ingredientHints.map(({ ing, descriptor }) => {
+            const dispName = displayIngredientName(ing.name);
+            const phraseEn = phraseFromDescriptor(dispName, descriptor, "en");
+            const phraseDe = phraseFromDescriptor(dispName, descriptor, "de");
+            const label = uiLang === "de" ? phraseDe : phraseEn;
+            return `<button type="button" class="template-chip" data-tpl-en="${esc(phraseEn)}" data-tpl-de="${esc(phraseDe)}">${esc(label)}</button>`;
+          }).join("")}
+        </div>
+      </div>` : "";
+
+    const isEditingStep = editingStepIndex !== null && wiz.instructions[editingStepIndex] !== undefined;
+
+    const stepRows = wiz.instructions.map((text, i) => `
+      <div class="step-row${editingStepIndex === i ? " is-editing" : ""}">
+        <span class="snum">${i + 1}</span>
+        <span class="stext">${esc(text)} ${wiz.keySteps[i] ? `<span class="camera-badge" title="Flagged for a photo">${CAMERA_ICON}</span>` : ""}</span>
+        <div class="step-row-actions">
+          <button class="reorder-btn" data-move-up="${i}" title="↑" type="button" ${i === 0 ? "disabled" : ""}>↑</button>
+          <button class="reorder-btn" data-move-down="${i}" title="↓" type="button" ${i === wiz.instructions.length - 1 ? "disabled" : ""}>↓</button>
+          <button class="edit-btn" data-edit-step="${i}" title="${t("btnEdit")}" type="button">✎</button>
+          <button class="remove-btn" data-remove-step="${i}" title="${t("btnCancel")}" type="button">×</button>
+        </div>
+      </div>
+    `).join("");
+
+    card.innerHTML = `
+      <div class="step-eyebrow">${t("step")} 5 ${t("of")} 6</div>
+      <h2>${t("s5Heading")}</h2>
+      <p class="step-help">${t("s5Help")}</p>
+      <div class="method-layout">
+        <div class="method-main">
+          ${savedGroupHtml}
+          ${ingredientHintsHtml}
+          ${templateGroups}
+          ${isEditingStep ? `<div class="editing-flag">✎ ${t("btnEdit")} — ${t("step")} ${editingStepIndex + 1}</div>` : ""}
+          <div class="field" style="margin-top:16px;">
+            <label for="step-text">${t("lblStepText")}</label>
+            <textarea id="step-text" placeholder="${t("placeholderStepText")}">${isEditingStep ? esc(wiz.instructions[editingStepIndex]) : ""}</textarea>
+          </div>
+          <label class="key-step-toggle"><input type="checkbox" id="step-keyphoto" ${isEditingStep && wiz.keySteps[editingStepIndex] ? "checked" : ""}> ${t("keyStepToggleLbl")}</label>
+          <div>
+            <button class="add-btn" id="step-add" type="button">${isEditingStep ? t("btnSaveChanges") : t("btnAddStep")}</button>
+            ${isEditingStep ? `<button class="cancel-edit-btn" id="step-cancel" type="button">${t("btnCancel")}</button>` : ""}
+          </div>
+          <div class="step-list" id="step-list">${stepRows}</div>
+          <div class="field-error" id="step-error" style="${wiz.instructions.length ? "display:none" : ""}">${t("errAddStep")}</div>
+        </div>
+        ${renderMethodSidebarHtml()}
+      </div>
+      ${wizardNavHtml({ showBack: true, showNext: true, nextLabel: t("navReview") })}
+    `;
+
+    const textArea = document.getElementById("step-text");
+    const keyBox = document.getElementById("step-keyphoto");
+    let manualOverride = false;
+
+    document.querySelectorAll("[data-tpl-en]").forEach(chip => {
+      chip.onclick = () => {
+        const phrase = (uiLang === "de" ? chip.dataset.tplDe : chip.dataset.tplEn).replace("{ingredient}", lastIngredient);
+        textArea.value = phrase;
+        if (!manualOverride) keyBox.checked = looksLikeKeyStep(phrase);
+      };
+    });
+    textArea.addEventListener("input", () => { if (!manualOverride) keyBox.checked = looksLikeKeyStep(textArea.value); });
+    keyBox.addEventListener("change", () => { manualOverride = true; });
+
+    document.getElementById("step-add").onclick = () => {
+      const text = textArea.value.trim();
+      if (!text) return;
+      if (editingStepIndex !== null) {
+        wiz.instructions[editingStepIndex] = text;
+        wiz.keySteps[editingStepIndex] = keyBox.checked;
+        editingStepIndex = null;
+      } else {
+        wiz.instructions.push(text);
+        wiz.keySteps.push(keyBox.checked);
+      }
+      rememberStep(text);
+      renderStepMethod(card);
+    };
+    const stepCancelBtn = document.getElementById("step-cancel");
+    if (stepCancelBtn) stepCancelBtn.onclick = () => { editingStepIndex = null; renderStepMethod(card); };
+
+    document.getElementById("step-list").addEventListener("click", (e) => {
+      const upBtn = e.target.closest("[data-move-up]");
+      if (upBtn) { moveStep(parseInt(upBtn.dataset.moveUp, 10), -1, card); return; }
+      const downBtn = e.target.closest("[data-move-down]");
+      if (downBtn) { moveStep(parseInt(downBtn.dataset.moveDown, 10), 1, card); return; }
+      const editBtn = e.target.closest("[data-edit-step]");
+      if (editBtn) { editingStepIndex = parseInt(editBtn.dataset.editStep, 10); renderStepMethod(card); return; }
+      const removeBtn = e.target.closest("[data-remove-step]");
+      if (removeBtn) {
+        const idx = parseInt(removeBtn.dataset.removeStep, 10);
+        wiz.instructions.splice(idx, 1);
+        wiz.keySteps.splice(idx, 1);
+        if (editingStepIndex === idx) editingStepIndex = null;
+        else if (editingStepIndex !== null && editingStepIndex > idx) editingStepIndex -= 1;
+        renderStepMethod(card);
+      }
+    });
+
+    wireMethodSidebar(card);
+
+    attachNav(() => {
+      if (!wiz.instructions.length) { document.getElementById("step-error").style.display = "block"; return; }
+      editingStepIndex = null;
+      wiz.step = 6; renderStepCard();
+    });
+  }
+
+  function buildSubmission() {
+    const photosNeeded = ["ingredients"];
+    wiz.keySteps.forEach((flagged, i) => { if (flagged) photosNeeded.push(`step-${i + 1}`); });
+    photosNeeded.push("final");
+    return {
+      id: slugify(wiz.title),
+      title: wiz.title,
+      description: wiz.description,
+      cuisine: wiz.cuisine || "Unspecified",
+      category: wiz.category,
+      servings: wiz.servings,
+      prep_time_minutes: wiz.prepMin,
+      cook_time_minutes: wiz.cookMin,
+      difficulty: wiz.difficulty,
+      ingredients: wiz.ingredients,
+      instructions: wiz.instructions,
+      tags: wiz.tags.split(",").map(t => t.trim()).filter(Boolean),
+      dietary: wiz.dietary,
+      source: "user-submitted",
+      status: "submitted",
+      submitted_by: null,
+      photos_needed: photosNeeded,
+      ...(wiz.kitchenName.trim() ? { submitted_kitchen: wiz.kitchenName.trim() } : {}),
+    };
+  }
+
+  function renderStepReview(card) {
+    const r = buildSubmission();
+    const ingredientRows = ingredientTableRowsGrouped(r, (rr, idx) => rr.ingredients[idx].name);
+
+    const stepsHtml = r.instructions.map((text, i) => {
+      const key = r.photos_needed.includes(`step-${i + 1}`);
+      return `<li><div>${esc(text)}${key ? `<div class="photo-placeholder" style="margin-top:8px;padding:14px;"><span class="ph-note">${CAMERA_ICON} ${t("stepPhotoPlaceholder")}</span></div>` : ""}</div></li>`;
+    }).join("");
+
+    const dietary = r.dietary.map(d => `<span class="pill">${dietaryLabel(d)}</span>`).join("") || `<span class="field-hint" style="margin:0;">${t("dietaryNone")}</span>`;
+    const tags = r.tags.map(tg => `<span class="tag">${esc(tg)}</span>`).join("");
+    const jsonText = JSON.stringify(r, null, 2);
+    const unused = findUnusedIngredients(r.ingredients, r.instructions);
+
+    card.innerHTML = `
+      <div class="step-eyebrow no-print">${t("step")} 6 ${t("of")} 6</div>
+      <h2>${esc(r.title) || t("untitledRecipe")}</h2>
+      ${r.submitted_kitchen ? `<span class="pill" style="margin-bottom:8px;display:inline-block;">🍳 ${esc(r.submitted_kitchen)}</span>` : ""}
+      <div class="notice-banner no-print">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="13"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span><strong>${t("s6NoticeStrong")}</strong> ${t("s6Notice")}</span>
+      </div>
+      ${unused.length ? `
+      <div class="notice-banner no-print" style="border-color:var(--warn,#b45309);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        <span><strong>${t("unusedWarningTitle")}</strong> ${tf("unusedWarningBody", { list: unused.map(i => i.name).join(", ") })}</span>
+      </div>` : ""}
+      ${r.description ? `<p class="detail-desc" style="margin-bottom:20px;">${esc(r.description)}</p>` : ""}
+      ${recipeActionsHtml()}
+      <div class="meta-strip">
+        <div class="meta-item"><span class="n">${r.servings}</span><span class="lbl">${t("lblServings")}</span></div>
+        <div class="meta-item"><span class="n">${r.prep_time_minutes}${t("minLbl")}</span><span class="lbl">${t("lblPrep")}</span></div>
+        <div class="meta-item"><span class="n">${r.cook_time_minutes}${t("minLbl")}</span><span class="lbl">${t("lblCook")}</span></div>
+        <div class="meta-item"><span class="n">${difficultyLabel(r.difficulty)}</span><span class="lbl">${t("lblDifficulty")}</span></div>
+      </div>
+      <div class="dietary-row">${dietary}</div>
+
+      ${nutritionBlockHtml(r)}
+
+      <div class="block-title">${t("blockIngredientsPhoto")}</div>
+      <div class="photo-placeholder" style="margin-bottom:24px;">
+        <div class="ph-note">${CAMERA_ICON} ${tf("misePlaceholder", { n: r.ingredients.length })}</div>
+      </div>
+
+      <div class="block-title">${t("blockIngredients")}</div>
+      <table class="ingredients" style="margin-bottom:24px;"><tbody>${ingredientRows}</tbody></table>
+
+      <div class="block-title">${t("blockMethod")}</div>
+      <ol class="steps">${stepsHtml}</ol>
+
+      <div class="block-title" style="margin-top:24px;">${t("blockFinalPhoto")}</div>
+      <div class="photo-placeholder">
+        <div class="ph-note">${CAMERA_ICON} ${t("finalPlaceholder")}</div>
+      </div>
+
+      <div class="tags-footer">${tags}<span class="source-note">${t("sourceDraftPreview")}</span></div>
+
+      <p class="field-hint" style="margin:18px 0 0;">${t("saveHint")}</p>
+      <div class="review-actions no-print">
+        <button class="btn-secondary" id="wizard-restart" type="button">${t("btnStartOver")}</button>
+        <button class="btn-primary" id="save-recipe" type="button">${t("btnSaveRecipe")}</button>
+        <button class="btn-secondary" id="copy-json" type="button">${t("btnCopyJson")}</button>
+        <span id="review-status" class="field-hint" style="align-self:center;"></span>
+      </div>
+      <pre class="json-pre no-print">${jsonText.replace(/</g, "&lt;")}</pre>
+      ${wizardNavHtml({ showBack: true, showNext: false })}
+    `;
+    wireRecipeActions(card, r, card);
+
+    document.getElementById("wizard-restart").onclick = () => {
+      Object.assign(wiz, { step: 1, servings: 4, title: "", description: "", cuisine: "", category: "main", difficulty: "medium", prepMin: 15, cookMin: 20, dietary: [], tags: "", ingredients: [], ingredientPrepHints: [], instructions: [], keySteps: [] });
+      editingIngIndex = null;
+      editingStepIndex = null;
+      pdfImportBanner = null;
+      lastDescriptorNote = "";
+      renderStepCard();
+    };
+    const saveBtn = document.getElementById("save-recipe");
+    saveBtn.onclick = () => {
+      const status = document.getElementById("review-status");
+      if (RECIPES.some(x => x.id === r.id)) r.id = uniqueRecipeId(r.id);
+      const ok = RecipeStore.save(r);
+      if (ok) {
+        RECIPES = SEED_RECIPES.concat(RecipeStore.list());
+        state.shuffledOrder.push(r.id);
+        recomputeIndexes();
+        saveBtn.disabled = true;
+        saveBtn.textContent = t("savedBtnLabel");
+        status.textContent = t("savedStatus");
+        const savedId = r.id;
+        setTimeout(() => {
+          Object.assign(wiz, { step: 1, servings: 4, title: "", description: "", cuisine: "", category: "main", difficulty: "medium", prepMin: 15, cookMin: 20, dietary: [], tags: "", ingredients: [], ingredientPrepHints: [], instructions: [], keySteps: [] });
+          editingIngIndex = null;
+          editingStepIndex = null;
+          pdfImportBanner = null;
+          lastDescriptorNote = "";
+          switchTab("browse");
+          render();
+          selectRecipe(savedId);
+        }, 900);
+      } else {
+        status.textContent = t("saveFailedStatus");
+      }
+    };
+    document.getElementById("copy-json").onclick = async () => {
+      const status = document.getElementById("review-status");
+      try {
+        await navigator.clipboard.writeText(jsonText);
+        status.textContent = t("copiedStatus");
+      } catch (err) {
+        status.textContent = t("copyFailStatus");
+      }
+      setTimeout(() => { status.textContent = ""; }, 2500);
+    };
+    attachNav(null);
+  }
+</script>

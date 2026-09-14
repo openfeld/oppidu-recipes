@@ -1,0 +1,102 @@
+{
+  "id": "buttermilk-pancakes",
+  "title": "Fluffy Buttermilk Pancakes",
+  "description": "Classic breakfast pancakes, light and fluffy.",
+  "cuisine": "American",
+  "category": "breakfast",
+  "servings": 4,
+  "prep_time_minutes": 10,
+  "cook_time_minutes": 15,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "all-purpose flour",
+      "quantity": 250,
+      "unit": "g",
+      "grocery_category": "flour-baking"
+    },
+    {
+      "name": "baking powder",
+      "quantity": 2,
+      "unit": "tsp",
+      "grocery_category": "flour-baking"
+    },
+    {
+      "name": "baking soda",
+      "quantity": 0.5,
+      "unit": "tsp",
+      "grocery_category": "flour-baking"
+    },
+    {
+      "name": "sugar",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "other"
+    },
+    {
+      "name": "buttermilk",
+      "quantity": 400,
+      "unit": "ml",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "eggs",
+      "quantity": 2,
+      "unit": "piece",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "butter, melted",
+      "quantity": 40,
+      "unit": "g",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "maple syrup",
+      "quantity": 60,
+      "unit": "ml",
+      "grocery_category": "condiments-sauces",
+      "optional": true
+    }
+  ],
+  "instructions": [
+    "Whisk dry ingredients together in a bowl.",
+    "In another bowl, whisk buttermilk, eggs and melted butter.",
+    "Combine wet and dry ingredients, mixing just until no dry streaks remain (lumps are fine).",
+    "Cook 1/4-cup portions on a buttered griddle until bubbles form, flip and cook through.",
+    "Serve stacked with maple syrup and butter."
+  ],
+  "tags": [
+    "breakfast",
+    "weekend",
+    "kid-friendly"
+  ],
+  "dietary": [
+    "vegetarian"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Fluffige Buttermilch-Pancakes",
+      "description": "Klassische Frühstücks-Pancakes, leicht und fluffig.",
+      "ingredient_names": [
+        "Weizenmehl (Type 405)",
+        "Backpulver",
+        "Natron",
+        "Zucker",
+        "Buttermilch",
+        "Eier",
+        "Butter, geschmolzen",
+        "Ahornsirup"
+      ],
+      "instructions": [
+        "Trockene Zutaten in einer Schüssel verquirlen.",
+        "In einer weiteren Schüssel Buttermilch, Eier und geschmolzene Butter verquirlen.",
+        "Nasse und trockene Zutaten vermengen, nur bis keine trockenen Stellen mehr sichtbar sind (Klümpchen sind in Ordnung).",
+        "Portionen von 60 ml auf einer gebutterten Platte backen, bis Bläschen entstehen, wenden und fertig garen.",
+        "Gestapelt mit Ahornsirup und Butter servieren."
+      ]
+    }
+  }
+}

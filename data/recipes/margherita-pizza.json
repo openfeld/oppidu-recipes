@@ -1,0 +1,103 @@
+{
+  "id": "margherita-pizza",
+  "title": "Margherita Pizza",
+  "description": "Neapolitan-style pizza with tomato, mozzarella and basil.",
+  "cuisine": "Italian",
+  "category": "main",
+  "servings": 2,
+  "prep_time_minutes": 90,
+  "cook_time_minutes": 12,
+  "difficulty": "medium",
+  "ingredients": [
+    {
+      "name": "00 flour or bread flour",
+      "quantity": 300,
+      "unit": "g",
+      "grocery_category": "flour-baking"
+    },
+    {
+      "name": "active dry yeast",
+      "quantity": 3,
+      "unit": "g",
+      "grocery_category": "flour-baking"
+    },
+    {
+      "name": "water",
+      "quantity": 200,
+      "unit": "ml",
+      "grocery_category": "beverages"
+    },
+    {
+      "name": "salt",
+      "quantity": 6,
+      "unit": "g",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "canned San Marzano tomatoes, crushed",
+      "quantity": 200,
+      "unit": "g",
+      "grocery_category": "canned-jarred"
+    },
+    {
+      "name": "fresh mozzarella, torn",
+      "quantity": 150,
+      "unit": "g",
+      "grocery_category": "dairy"
+    },
+    {
+      "name": "fresh basil leaves",
+      "quantity": 10,
+      "unit": "piece",
+      "grocery_category": "herbs-fresh"
+    },
+    {
+      "name": "olive oil",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "oils-fats"
+    }
+  ],
+  "instructions": [
+    "Mix flour, yeast, water and salt into a dough; knead 10 minutes until smooth.",
+    "Let rise covered for 1-1.5 hours until doubled.",
+    "Preheat oven with a pizza stone or tray as hot as it will go (250C+).",
+    "Stretch dough into a round, top with crushed tomatoes, mozzarella and a drizzle of oil.",
+    "Bake 8-12 minutes until the crust is charred in spots.",
+    "Top with fresh basil before serving."
+  ],
+  "tags": [
+    "baking",
+    "weekend-project",
+    "crowd-pleaser"
+  ],
+  "dietary": [
+    "vegetarian"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Pizza Margherita",
+      "description": "Pizza nach neapolitanischer Art mit Tomate, Mozzarella und Basilikum.",
+      "ingredient_names": [
+        "00-Mehl oder Brotmehl",
+        "Trockenhefe",
+        "Wasser",
+        "Salz",
+        "San-Marzano-Tomaten aus der Dose, zerdrückt",
+        "frischer Mozzarella, zerzupft",
+        "frische Basilikumblätter",
+        "Olivenöl"
+      ],
+      "instructions": [
+        "Mehl, Hefe, Wasser und Salz zu einem Teig verkneten; 10 Minuten kneten, bis er glatt ist.",
+        "Zugedeckt 1-1,5 Stunden gehen lassen, bis sich der Teig verdoppelt hat.",
+        "Ofen mit Pizzastein oder Blech so heiß wie möglich vorheizen (250°C+).",
+        "Teig zu einem Rund ausziehen, mit zerdrückten Tomaten, Mozzarella und einem Schuss Öl belegen.",
+        "8-12 Minuten backen, bis der Rand stellenweise dunkle Flecken hat.",
+        "Vor dem Servieren mit frischem Basilikum belegen."
+      ]
+    }
+  }
+}

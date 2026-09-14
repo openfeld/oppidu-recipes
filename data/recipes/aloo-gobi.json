@@ -1,0 +1,103 @@
+{
+  "id": "aloo-gobi",
+  "title": "Aloo Gobi (Potato & Cauliflower Curry)",
+  "description": "Dry-spiced potato and cauliflower stir-fry, a North Indian staple.",
+  "cuisine": "Indian",
+  "category": "side",
+  "servings": 4,
+  "prep_time_minutes": 15,
+  "cook_time_minutes": 25,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "cauliflower, cut into florets",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "potatoes, cubed",
+      "quantity": 3,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "turmeric powder",
+      "quantity": 0.5,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "cumin seeds",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "coriander powder",
+      "quantity": 1,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "vegetable oil",
+      "quantity": 3,
+      "unit": "tbsp",
+      "grocery_category": "oils-fats"
+    },
+    {
+      "name": "green chili, slit",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "cilantro, chopped",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "herbs-fresh"
+    }
+  ],
+  "instructions": [
+    "Heat oil, temper cumin seeds.",
+    "Add potatoes, cook 5 minutes stirring occasionally.",
+    "Add cauliflower, turmeric, coriander powder and chili; mix well.",
+    "Cover and cook on low heat 15-18 minutes until tender, stirring occasionally.",
+    "Garnish with cilantro and serve with roti."
+  ],
+  "tags": [
+    "vegan",
+    "dry-curry",
+    "everyday"
+  ],
+  "dietary": [
+    "vegan",
+    "vegetarian",
+    "gluten-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Aloo Gobi (Kartoffel-Blumenkohl-Curry)",
+      "description": "Trocken gewürztes Kartoffel-Blumenkohl-Pfannengericht, ein nordindischer Klassiker.",
+      "ingredient_names": [
+        "Blumenkohl, in Röschen geschnitten",
+        "Kartoffeln, gewürfelt",
+        "Kurkumapulver",
+        "Kreuzkümmelsamen",
+        "Korianderpulver",
+        "Pflanzenöl",
+        "grüne Chili, eingeschnitten",
+        "Koriandergrün, gehackt"
+      ],
+      "instructions": [
+        "Öl erhitzen, Kreuzkümmelsamen darin anschwitzen.",
+        "Kartoffeln zugeben, 5 Minuten unter gelegentlichem Rühren braten.",
+        "Blumenkohl, Kurkuma, Korianderpulver und Chili zugeben; gut vermengen.",
+        "Zugedeckt bei niedriger Hitze 15-18 Minuten garen, bis alles weich ist, dabei gelegentlich umrühren.",
+        "Mit Koriandergrün garnieren und mit Roti servieren."
+      ]
+    }
+  }
+}

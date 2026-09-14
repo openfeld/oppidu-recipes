@@ -1,0 +1,93 @@
+{
+  "id": "hummus",
+  "title": "Classic Hummus",
+  "description": "Smooth chickpea and tahini dip from the Levant.",
+  "cuisine": "Middle Eastern",
+  "category": "snack",
+  "servings": 6,
+  "prep_time_minutes": 10,
+  "cook_time_minutes": 0,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "name": "canned chickpeas",
+      "quantity": 400,
+      "unit": "g",
+      "grocery_category": "canned-jarred"
+    },
+    {
+      "name": "tahini",
+      "quantity": 60,
+      "unit": "g",
+      "grocery_category": "condiments-sauces"
+    },
+    {
+      "name": "lemon juice",
+      "quantity": 3,
+      "unit": "tbsp",
+      "grocery_category": "fruits"
+    },
+    {
+      "name": "garlic clove",
+      "quantity": 1,
+      "unit": "piece",
+      "grocery_category": "vegetables"
+    },
+    {
+      "name": "olive oil",
+      "quantity": 2,
+      "unit": "tbsp",
+      "grocery_category": "oils-fats"
+    },
+    {
+      "name": "cumin powder",
+      "quantity": 0.5,
+      "unit": "tsp",
+      "grocery_category": "spices"
+    },
+    {
+      "name": "ice water",
+      "quantity": 3,
+      "unit": "tbsp",
+      "grocery_category": "beverages"
+    }
+  ],
+  "instructions": [
+    "Blend chickpeas, tahini, lemon juice, garlic and cumin until coarse.",
+    "Stream in ice water while blending until smooth and creamy.",
+    "Season with salt, drizzle with olive oil and serve with pita."
+  ],
+  "tags": [
+    "no-cook",
+    "dip",
+    "vegan",
+    "meal-prep"
+  ],
+  "dietary": [
+    "vegan",
+    "vegetarian",
+    "gluten-free"
+  ],
+  "source": "ai-generated",
+  "generated_by": "claude-sonnet-5",
+  "translations": {
+    "de": {
+      "title": "Klassischer Hummus",
+      "description": "Cremiger Kichererbsen-Tahini-Dip aus der Levante.",
+      "ingredient_names": [
+        "Kichererbsen aus der Dose",
+        "Tahini",
+        "Zitronensaft",
+        "Knoblauchzehe",
+        "Olivenöl",
+        "Kreuzkümmelpulver",
+        "Eiswasser"
+      ],
+      "instructions": [
+        "Kichererbsen, Tahini, Zitronensaft, Knoblauch und Kreuzkümmel grob pürieren.",
+        "Beim Pürieren nach und nach Eiswasser zugeben, bis alles glatt und cremig ist.",
+        "Mit Salz würzen, mit Olivenöl beträufeln und mit Pita servieren."
+      ]
+    }
+  }
+}

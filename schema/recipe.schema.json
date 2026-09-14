@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://recipe-creator.local/schema/recipe.schema.json",
+  "title": "Recipe",
+  "description": "A single structured recipe record. Designed so ingredients can later be matched against grocery-store catalogs (e.g. Oppidu) for price comparison.",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "cuisine",
+    "category",
+    "servings",
+    "prep_time_minutes",
+    "cook_time_minutes",
+    "difficulty",
+    "ingredients",
+    "instructions",
+    "tags",
+    "dietary",
+    "source"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable unique slug, e.g. 'butter-chicken'",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "cuisine": {
+      "type": "string",
+      "description": "Primary cuisine, e.g. 'Indian', 'Italian', 'Mexican'"
+    },
+    "category": {
+      "type": "string",
+      "description": "Meal/course category",
+      "enum": ["breakfast", "main", "side", "soup", "salad", "dessert", "snack", "beverage", "bread", "condiment"]
+    },
+    "servings": { "type": "integer", "minimum": 1 },
+    "prep_time_minutes": { "type": "integer", "minimum": 0 },
+    "cook_time_minutes": { "type": "integer", "minimum": 0 },
+    "difficulty": {
+      "type": "string",
+      "enum": ["easy", "medium", "hard"]
+    },
+    "ingredients": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "quantity", "unit", "grocery_category"],
+        "properties": {
+          "name": { "type": "string", "description": "Normalized ingredient name, e.g. 'basmati rice'" },
+          "quantity": { "type": "number", "minimum": 0 },
+          "unit": {
+            "type": "string",
+            "description": "Unit of measure, e.g. 'g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'piece', 'pinch'"
+          },
+          "grocery_category": {
+            "type": "string",
+            "description": "Category used to map this ingredient to a grocery store's catalog for price comparison",
+            "enum": [
+              "spices",
+              "vegetables",
+              "fruits",
+              "grains-rice",
+              "flour-baking",
+              "lentils-pulses",
+              "dairy",
+              "meat-poultry",
+              "seafood",
+              "condiments-sauces",
+              "oils-fats",
+              "herbs-fresh",
+              "nuts-seeds",
+              "canned-jarred",
+              "frozen",
+              "bakery",
+              "beverages",
+              "other"
+            ]
+          },
+          "notes": { "type": "string", "description": "Optional prep note, e.g. 'finely chopped', 'optional'" },
+          "optional": { "type": "boolean", "default": false }
+        }
+      }
+    },
+    "instructions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Free-form search tags, e.g. 'spicy', 'one-pot', 'weeknight', 'festive'"
+    },
+    "dietary": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["vegetarian", "vegan", "gluten-free", "dairy-free", "nut-free", "halal", "kosher", "non-vegetarian", "eggless"]
+      }
+    },
+    "source": {
+      "type": "string",
+      "description": "Provenance of this record",
+      "enum": ["ai-generated", "curated", "external-scraped", "user-submitted"]
+    },
+    "generated_by": {
+      "type": "string",
+      "description": "Model/agent that generated this recipe, if source is ai-generated"
+    },
+    "image_url": { "type": "string" },
+    "notes": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "submitted", "published"],
+      "description": "Workflow state. All 19 seed recipes are 'published'. A recipe coming out of the submission flow starts as 'draft' while being built and becomes 'submitted' once finalized — there is no account/review system yet to promote it to 'published'."
+    },
+    "submitted_by": {
+      "type": ["string", "null"],
+      "description": "User id, once user accounts exist. Always null today — login/accounts are intentionally not built yet; submissions are anonymous placeholders until then."
+    },
+    "submitted_kitchen": {
+      "type": "string",
+      "description": "Optional free-text name the submitter organizes their own recipes under, e.g. \"Nina's Kitchen\" — independent of accounts (see submitted_by); lets one person's submissions read as a recognizable little collection without needing a login."
+    },
+    "photos_needed": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "TODO markers for photos this recipe should eventually have — no image-generation pipeline is wired up yet. Values reference what the shot is: 'ingredients' (all ingredients measured out in bowls/plates), 'step-<n>' (a key step, 1-indexed into instructions — e.g. roasting spices, searing), or 'final' (the completed dish)."
+    },
+    "translations": {
+      "type": "object",
+      "description": "Optional hand-translated (or later, machine-translated) copies of the recipe's display text, keyed by language code. The English fields above (title, description, ingredients[].name, instructions) always remain the source of truth; a translation is used only when the UI's language toggle selects that language, and falls back to English for anything a translation omits.",
+      "properties": {
+        "de": {
+          "type": "object",
+          "description": "German translation.",
+          "properties": {
+            "title": { "type": "string" },
+            "description": { "type": "string" },
+            "ingredient_names": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Translated ingredient names, positionally aligned with the top-level `ingredients` array (same length, same order) — quantity/unit/grocery_category are not duplicated here."
+            },
+            "instructions": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Translated instructions, positionally aligned with the top-level `instructions` array."
+            }
+          }
+        }
+      }
+    }
+  }
+}
