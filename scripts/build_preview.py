@@ -60,8 +60,21 @@ def build():
 
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(template)
+
+    # index.html is served directly by GitHub Pages with no wrapper at
+    # all, unlike preview.html's Claude Artifact publish (which supplies
+    # its own <!doctype html>...<head>...<body> skeleton, charset meta
+    # included — deliberately NOT added to the template itself, since the
+    # Artifact platform wraps the content and asks that the source not
+    # include one). Without a leading doctype, a browser loading
+    # index.html directly falls back to Quirks Mode — confirmed live in
+    # real Firefox via Playwright
+    # ("This page is in Quirks Mode" console warning). Quirks Mode's
+    # layout differences are real but weren't reproduced causing the
+    # reported sign-in bug specifically in that same session; fixing it
+    # removes a genuine source of cross-browser inconsistency regardless.
     with open(PAGES_OUTPUT_PATH, "w", encoding="utf-8") as f:
-        f.write(template)
+        f.write('<!DOCTYPE html>\n<meta charset="utf-8">\n' + template)
 
     return recipes, ingredients, nutrition
 
