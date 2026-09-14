@@ -1328,8 +1328,8 @@
      unchanged, so the live site keeps working exactly as before until
      real credentials are added.
      ================================================================= */
-  const SUPABASE_URL = "";
-  const SUPABASE_ANON_KEY = "";
+  const SUPABASE_URL = "https://piobcmerhbdhgtyuaxgf.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpb2JjbWVyaGJkaGd0eXVheGdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MDc3OTgsImV4cCI6MjEwNDk4Mzc5OH0.q1Pk0fruTrKxtQf3JvyNDpqR_vIBph9U-4M95yVwACQ";
   const supa = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;
