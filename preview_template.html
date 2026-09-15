@@ -1501,7 +1501,7 @@
       saveFailedNotSignedIn: "Sign in to save your recipe.",
       tabBrowse: "Browse", tabSubmit: "Submit a Recipe", heroSubmit: "Submit a Recipe",
       searchPlaceholder: "Search by dish, ingredient, or tag…",
-      quickCuisineLbl: "Cuisine", quickDietLbl: "Diet", resetFilters: "Reset filters",
+      quickCuisineLbl: "Cuisine", quickDietLbl: "Diet", quickCategoryLbl: "Category", resetFilters: "Reset filters",
       discoverDefault: "Recipes popping up now",
       recipeFoundOne: "recipe found", recipeFoundMany: "recipes found",
       emptyStateNoMatch: "No recipes match. Try clearing a filter.",
@@ -1538,6 +1538,7 @@
       kitchenNameHint: "Groups your submissions under a name of your choosing — no account needed.",
       lblCuisine: "Cuisine", placeholderCuisine: "e.g. Punjabi",
       cuisineSuggestedHint: "Guessed from the dish name — change it anytime.",
+      cuisineMultiHint: "One primary cuisine — anything after a comma (e.g. \"Indian, Punjabi\") is kept as a searchable tag instead of its own filter.",
       lblCategory: "Category", lblPrepTime: "Prep time (minutes)", lblCookTime: "Cook time (minutes)",
       lblDifficulty: "Difficulty", lblDietary: "Dietary",
       lblTags: "Tags", tagsHint: "(comma-separated)", placeholderTags: "e.g. weeknight, one-pot, family recipe",
@@ -1639,7 +1640,7 @@
       saveFailedNotSignedIn: "Melden Sie sich an, um Ihr Rezept zu speichern.",
       tabBrowse: "Durchsuchen", tabSubmit: "Rezept einreichen", heroSubmit: "Rezept einreichen",
       searchPlaceholder: "Suche nach Gericht, Zutat oder Schlagwort…",
-      quickCuisineLbl: "Küche", quickDietLbl: "Ernährung", resetFilters: "Filter zurücksetzen",
+      quickCuisineLbl: "Küche", quickDietLbl: "Ernährung", quickCategoryLbl: "Kategorie", resetFilters: "Filter zurücksetzen",
       discoverDefault: "Aktuell beliebte Rezepte",
       recipeFoundOne: "Rezept gefunden", recipeFoundMany: "Rezepte gefunden",
       emptyStateNoMatch: "Keine passenden Rezepte. Versuchen Sie, einen Filter zu entfernen.",
@@ -1676,6 +1677,7 @@
       kitchenNameHint: "Fasst Ihre Einreichungen unter einem Namen Ihrer Wahl zusammen — kein Konto nötig.",
       lblCuisine: "Küche", placeholderCuisine: "z. B. Punjabi",
       cuisineSuggestedHint: "Aus dem Gerichtnamen erraten — jederzeit änderbar.",
+      cuisineMultiHint: "Eine Hauptküche — alles nach einem Komma (z. B. „Indisch, Punjabi“) wird als durchsuchbares Schlagwort statt als eigener Filter gespeichert.",
       lblCategory: "Kategorie", lblPrepTime: "Vorbereitungszeit (Minuten)", lblCookTime: "Kochzeit (Minuten)",
       lblDifficulty: "Schwierigkeit", lblDietary: "Ernährung",
       lblTags: "Schlagwörter", tagsHint: "(durch Komma getrennt)", placeholderTags: "z. B. Feierabend, Ein-Topf-Gericht, Familienrezept",
@@ -2068,13 +2070,15 @@
     });
   }
 
-  const state = { query: "", cuisine: "All", dietary: null, selected: null, shuffledOrder: [] };
+  const state = { query: "", cuisine: "All", category: "All", dietary: null, selected: null, shuffledOrder: [] };
 
   let cuisines = [];
   let dietaryTags = [];
+  let categoriesList = [];
   function recomputeIndexes() {
     cuisines = ["All", ...Array.from(new Set(RECIPES.map(r => r.cuisine))).sort()];
     dietaryTags = Array.from(new Set(RECIPES.flatMap(r => r.dietary))).sort();
+    categoriesList = ["All", ...Array.from(new Set(RECIPES.map(r => r.category))).sort()];
     document.getElementById("stat-recipes").textContent = RECIPES.length;
     document.getElementById("stat-cuisines").textContent = cuisines.length - 1;
   }
@@ -2090,7 +2094,7 @@
   }
 
   function isBrowsingDefault() {
-    return !state.query && state.cuisine === "All" && !state.dietary;
+    return !state.query && state.cuisine === "All" && state.category === "All" && !state.dietary;
   }
 
   function buildQuickRows() {
@@ -2118,17 +2122,19 @@
     }
 
     makeRow(t("quickCuisineLbl"), cuisines, c => c === "All" ? cuisines[0] === c ? (uiLang === "de" ? "Alle" : "All") : c : cuisineLabel(c), c => state.cuisine === c, c => { state.cuisine = c; render(); });
+    makeRow(t("quickCategoryLbl"), categoriesList, c => c === "All" ? (uiLang === "de" ? "Alle" : "All") : categoryLabel(c), c => state.category === c, c => { state.category = c; render(); });
     makeRow(t("quickDietLbl"), dietaryTags, dietaryLabel, d => state.dietary === d, d => { state.dietary = (state.dietary === d ? null : d); render(); });
 
     const clear = document.createElement("button");
     clear.className = "clear-btn";
     clear.textContent = t("resetFilters");
-    clear.onclick = () => { state.cuisine = "All"; state.dietary = null; state.query = ""; document.getElementById("search").value = ""; render(); };
+    clear.onclick = () => { state.cuisine = "All"; state.category = "All"; state.dietary = null; state.query = ""; document.getElementById("search").value = ""; render(); };
     wrap.appendChild(clear);
   }
 
   function matches(r) {
     if (state.cuisine !== "All" && r.cuisine !== state.cuisine) return false;
+    if (state.category !== "All" && r.category !== state.category) return false;
     if (state.dietary && !r.dietary.includes(state.dietary)) return false;
     if (!state.query) return true;
     const q = state.query.toLowerCase();
@@ -3312,6 +3318,7 @@
           <input type="text" id="f-cuisine" list="cuisine-options" value="${esc(wiz.cuisine)}" placeholder="${t("placeholderCuisine")}">
           <datalist id="cuisine-options">${cuisineOptions}</datalist>
           <p class="field-hint" id="cuisine-suggested-hint" hidden>${t("cuisineSuggestedHint")}</p>
+          <p class="field-hint">${t("cuisineMultiHint")}</p>
         </div>
         <div class="field">
           <label for="f-category">${t("lblCategory")}</label>
@@ -3857,11 +3864,24 @@
     const photosNeeded = ["ingredients"];
     wiz.keySteps.forEach((flagged, i) => { if (flagged) photosNeeded.push(`step-${i + 1}`); });
     photosNeeded.push("final");
+    // A cuisine field with more than one comma-separated value ("Indian,
+    // Punjabi") would otherwise become its own one-off cuisine — a new
+    // filter chip that only ever matches this single recipe, and one
+    // that silently stops matching "Indian" even though it plainly is
+    // Indian. Only the first part is kept as the recipe's actual
+    // `cuisine` (what the filter chips and search both match against);
+    // anything after that becomes a plain tag instead — still
+    // searchable, without needing its own chip in the cuisine row.
+    const cuisineParts = (wiz.cuisine || "").split(",").map(c => c.trim()).filter(Boolean);
+    const primaryCuisine = cuisineParts[0] || "Unspecified";
+    const extraCuisineTags = cuisineParts.slice(1).map(c => c.toLowerCase());
+    const explicitTags = wiz.tags.split(",").map(t => t.trim()).filter(Boolean);
+    const tags = Array.from(new Set([...explicitTags, ...extraCuisineTags]));
     return {
       id: slugify(wiz.title),
       title: wiz.title,
       description: wiz.description,
-      cuisine: wiz.cuisine || "Unspecified",
+      cuisine: primaryCuisine,
       category: wiz.category,
       servings: wiz.servings,
       prep_time_minutes: wiz.prepMin,
@@ -3869,7 +3889,7 @@
       difficulty: wiz.difficulty,
       ingredients: wiz.ingredients,
       instructions: wiz.instructions,
-      tags: wiz.tags.split(",").map(t => t.trim()).filter(Boolean),
+      tags,
       dietary: wiz.dietary,
       source: "user-submitted",
       status: "submitted",
