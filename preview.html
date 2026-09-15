@@ -1626,6 +1626,7 @@
       savedStatus: "Saved to this browser — it'll show up under Browse and stay there until this device's local storage is cleared.",
       savedStatusLive: "Saved — visible to everyone in Browse now.",
       saveFailedStatus: "Couldn't save — this browser may be blocking local storage.",
+      saveFailedLive: "Couldn't save: {message}",
       actionRemoveLocal: "Remove from this device",
       localBadge: "Saved on this device — not yet in a shared database",
       localBadgeShort: "saved locally",
@@ -1766,6 +1767,7 @@
       savedStatus: "In diesem Browser gespeichert — erscheint unter „Durchsuchen“ und bleibt dort, bis der lokale Speicher dieses Geräts gelöscht wird.",
       savedStatusLive: "Gespeichert — jetzt für alle unter „Durchsuchen“ sichtbar.",
       saveFailedStatus: "Speichern nicht möglich — dieser Browser blockiert eventuell den lokalen Speicher.",
+      saveFailedLive: "Speichern nicht möglich: {message}",
       actionRemoveLocal: "Von diesem Gerät entfernen",
       localBadge: "Auf diesem Gerät gespeichert — noch nicht in einer gemeinsamen Datenbank",
       localBadgeShort: "lokal gespeichert",
@@ -2591,11 +2593,14 @@
     panel.style.top = (rect.bottom + 8) + "px";
   }
 
-  // #auth-status's default .field-hint style is small, low-contrast gray
-  // — an error there ("wrong password", "email not confirmed") could
-  // easily read as nothing having happened at all. Errors get a bold,
-  // colored treatment instead; anything else (a "…" while working, a
-  // plain confirmation) keeps the quieter default look.
+  // Any status/error text using the default .field-hint style is small,
+  // low-contrast gray — a failure there ("wrong password", "couldn't
+  // save — RLS rejected it") could easily read as nothing having
+  // happened at all, which is exactly the shape of bug already found
+  // once in the auth panel. Used for #auth-status and #review-status
+  // alike. Errors get a bold, colored treatment instead; anything else
+  // (a "…" while working, a plain confirmation) keeps the quieter
+  // default look.
   function setAuthStatus(el, text, isError) {
     el.textContent = text;
     el.style.color = isError ? "var(--warn, #b45309)" : "";
@@ -4050,7 +4055,7 @@
         await refreshRecipes();
         state.shuffledOrder.push(r.id);
         saveBtn.textContent = t("savedBtnLabel");
-        status.textContent = supa ? t("savedStatusLive") : t("savedStatus");
+        setAuthStatus(status, supa ? t("savedStatusLive") : t("savedStatus"), false);
         const savedId = r.id;
         setTimeout(() => {
           Object.assign(wiz, { step: 1, servings: 4, title: "", description: "", cuisine: "", category: "main", difficulty: "medium", prepMin: 15, cookMin: 20, dietary: [], tags: "", ingredients: [], ingredientPrepHints: [], instructions: [], keySteps: [] });
@@ -4064,18 +4069,28 @@
         }, 900);
       } else {
         saveBtn.disabled = false;
-        status.textContent = result.reason === "not-signed-in" ? t("saveFailedNotSignedIn") : t("saveFailedStatus");
+        // "not-signed-in" and "id-conflict" (see RecipeStore.save()'s
+        // retry loop) get their own copy; any other failure against a
+        // real Supabase backend shows the actual error text (an RLS
+        // rejection, a constraint violation, ...) instead of the
+        // local-storage-mode message, which was actively misleading —
+        // it blamed the browser's storage for a server-side failure.
+        let message;
+        if (result.reason === "not-signed-in") message = t("saveFailedNotSignedIn");
+        else if (supa) message = tfPlain("saveFailedLive", { message: result.reason });
+        else message = t("saveFailedStatus");
+        setAuthStatus(status, message, true);
       }
     };
     document.getElementById("copy-json").onclick = async () => {
       const status = document.getElementById("review-status");
       try {
         await navigator.clipboard.writeText(jsonText);
-        status.textContent = t("copiedStatus");
+        setAuthStatus(status, t("copiedStatus"), false);
       } catch (err) {
-        status.textContent = t("copyFailStatus");
+        setAuthStatus(status, t("copyFailStatus"), true);
       }
-      setTimeout(() => { status.textContent = ""; }, 2500);
+      setTimeout(() => { setAuthStatus(status, "", false); }, 2500);
     };
     attachNav(null);
   }
