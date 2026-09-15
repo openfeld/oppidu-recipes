@@ -1373,6 +1373,33 @@
     currentProfile = data || null;
   }
 
+  // Every distinct submitted_kitchen this signed-in account has used
+  // before, most-recently-used first — so step 2 of the wizard can offer
+  // "add to one of your existing kitchens" instead of only ever
+  // remembering the single last-used name in this one browser's
+  // localStorage (loadLastKitchenName(), still the local-only fallback).
+  let myKitchenNames = [];
+  async function loadMyKitchenNames() {
+    if (!supa || !currentUser) { myKitchenNames = []; return; }
+    const { data, error } = await supa
+      .from("recipes")
+      .select("submitted_kitchen, created_at")
+      .eq("submitted_by", currentUser.id)
+      .order("created_at", { ascending: false });
+    if (error || !data) { myKitchenNames = []; return; }
+    const seen = new Set();
+    myKitchenNames = [];
+    data.forEach((row) => {
+      const name = row.submitted_kitchen;
+      if (name && !seen.has(name)) { seen.add(name); myKitchenNames.push(name); }
+    });
+    // Signed-in kitchen history is more authoritative than this one
+    // browser's localStorage guess (which won't follow the user across
+    // devices) — prefer it as the default, but don't clobber something
+    // already typed into the field this session.
+    if (myKitchenNames.length && !wiz.kitchenName.trim()) wiz.kitchenName = myKitchenNames[0];
+  }
+
   const RECIPE_STORE_KEY = "recipe-creator:submissions:v1";
   const RecipeStore = {
     // Every seed's own list() reader is used by save() too, so the shape
@@ -1536,6 +1563,7 @@
       lblShortDesc: "Short description", placeholderShortDesc: "One or two sentences — what makes this dish worth making?",
       lblKitchenName: "Your kitchen name (optional)", placeholderKitchenName: "e.g. Nina's Kitchen",
       kitchenNameHint: "Groups your submissions under a name of your choosing — no account needed.",
+      myKitchensLbl: "Add to one of your kitchens, or type a new name to start another:",
       lblCuisine: "Cuisine", placeholderCuisine: "e.g. Punjabi",
       cuisineSuggestedHint: "Guessed from the dish name — change it anytime.",
       cuisineMultiHint: "One primary cuisine — anything after a comma (e.g. \"Indian, Punjabi\") is kept as a searchable tag instead of its own filter.",
@@ -1675,6 +1703,7 @@
       lblShortDesc: "Kurzbeschreibung", placeholderShortDesc: "Ein bis zwei Sätze — was macht dieses Gericht besonders?",
       lblKitchenName: "Ihr Küchenname (optional)", placeholderKitchenName: "z. B. Ninas Küche",
       kitchenNameHint: "Fasst Ihre Einreichungen unter einem Namen Ihrer Wahl zusammen — kein Konto nötig.",
+      myKitchensLbl: "Zu einer Ihrer Küchen hinzufügen, oder einen neuen Namen eingeben, um eine weitere zu beginnen:",
       lblCuisine: "Küche", placeholderCuisine: "z. B. Punjabi",
       cuisineSuggestedHint: "Aus dem Gerichtnamen erraten — jederzeit änderbar.",
       cuisineMultiHint: "Eine Hauptküche — alles nach einem Komma (z. B. „Indisch, Punjabi“) wird als durchsuchbares Schlagwort statt als eigener Filter gespeichert.",
@@ -2483,6 +2512,7 @@
         const { data: { session } } = await supa.auth.getSession();
         currentUser = session ? session.user : null;
         await loadProfile();
+        await loadMyKitchenNames();
       } catch (err) {
         console.error("Supabase auth init failed:", err);
         currentUser = null;
@@ -2492,6 +2522,7 @@
         if (event === "PASSWORD_RECOVERY") { renderPasswordRecoveryWidget(); return; }
         currentUser = newSession ? newSession.user : null;
         await loadProfile();
+        await loadMyKitchenNames();
         renderAuthWidget();
         await refreshRecipes();
         render();
@@ -2656,6 +2687,16 @@
       });
       setAuthStatus(status, error ? tfPlain("authResetFailed", { message: error.message }) : t("authResetSent"), !!error);
     };
+
+    // Pressing Return in either field submits sign-in (the primary
+    // action here — Create account stays an explicit click, since Enter
+    // defaulting to account creation would be an easy way to sign
+    // someone up by accident).
+    [emailInput, passwordInput].forEach((input) => {
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); document.getElementById("auth-signin-btn").click(); }
+      });
+    });
   }
 
   // Shown in place of the normal sign-in/signed-in widget when the user
@@ -2687,6 +2728,9 @@
       setAuthStatus(status, t("authNewPasswordSuccess"), false);
       setTimeout(async () => { await loadProfile(); renderAuthWidget(); }, 1200);
     };
+    document.getElementById("auth-new-password-input").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); document.getElementById("auth-update-password-btn").click(); }
+    });
   }
 
   document.getElementById("lang-toggle").addEventListener("click", (e) => {
@@ -3303,6 +3347,11 @@
         <label for="f-kitchen">${t("lblKitchenName")}</label>
         <input type="text" id="f-kitchen" value="${esc(wiz.kitchenName)}" placeholder="${t("placeholderKitchenName")}">
         <p class="field-hint">${t("kitchenNameHint")}</p>
+        ${myKitchenNames.length ? `
+          <p class="field-hint" style="margin-top:8px;margin-bottom:6px;">${t("myKitchensLbl")}</p>
+          <div class="chip-select" id="kitchen-chips">
+            ${myKitchenNames.map(name => `<button type="button" class="filter-chip${wiz.kitchenName === name ? " active" : ""}" data-kitchen="${esc(name)}">${esc(name)}</button>`).join("")}
+          </div>` : ""}
       </div>
       <div class="field">
         <label for="f-title">${t("lblDishName")}</label>
@@ -3363,10 +3412,24 @@
     `;
     const pdfBannerDismiss = document.getElementById("pdf-import-banner-dismiss");
     if (pdfBannerDismiss) pdfBannerDismiss.onclick = () => { pdfImportBanner = null; renderStepBasics(card); };
-    document.getElementById("f-kitchen").addEventListener("input", (e) => {
+    const kitchenInput = document.getElementById("f-kitchen");
+    kitchenInput.addEventListener("input", (e) => {
       wiz.kitchenName = e.target.value;
       rememberKitchenName(wiz.kitchenName.trim());
+      const chips = document.getElementById("kitchen-chips");
+      if (chips) chips.querySelectorAll("[data-kitchen]").forEach(b => b.classList.toggle("active", b.dataset.kitchen === wiz.kitchenName));
     });
+    const kitchenChips = document.getElementById("kitchen-chips");
+    if (kitchenChips) {
+      kitchenChips.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-kitchen]");
+        if (!btn) return;
+        wiz.kitchenName = btn.dataset.kitchen;
+        kitchenInput.value = wiz.kitchenName;
+        rememberKitchenName(wiz.kitchenName);
+        kitchenChips.querySelectorAll("[data-kitchen]").forEach(b => b.classList.toggle("active", b === btn));
+      });
+    }
     document.getElementById("f-title").addEventListener("input", (e) => {
       wiz.title = e.target.value;
       if (!cuisineTouched) {
