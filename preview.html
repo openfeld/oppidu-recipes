@@ -1581,6 +1581,8 @@
 
       s6NoticeStrong: "Sign-in isn't built yet.",
       s6Notice: "Submitting a recipe will require an account once that exists — for now this is a preview of exactly what your submission would produce, ready to copy out.",
+      s6NoticeStrongLive: "This will be public.",
+      s6NoticeLive: "Saving shares this recipe with everyone browsing this page, under your signed-in account ({email}).",
       untitledRecipe: "Untitled recipe",
       blockIngredientsPhoto: "Ingredients photo", blockFinalPhoto: "Final dish photo",
       misePlaceholder: "Mise en place placeholder for {n} ingredients — not generated yet",
@@ -1591,11 +1593,15 @@
       copiedStatus: "Copied.", copyFailStatus: "Couldn't copy automatically — select the text below.",
       btnSaveRecipe: "Save recipe", savedBtnLabel: "Saved ✓",
       saveHint: "No accounts exist yet, so saving keeps this recipe in this browser only (not shared with anyone else viewing this page). A real database will replace this once one is wired up.",
+      saveHintLive: "Signed in as {email} — saving shares this recipe with everyone in Browse.",
       savedStatus: "Saved to this browser — it'll show up under Browse and stay there until this device's local storage is cleared.",
+      savedStatusLive: "Saved — visible to everyone in Browse now.",
       saveFailedStatus: "Couldn't save — this browser may be blocking local storage.",
       actionRemoveLocal: "Remove from this device",
       localBadge: "Saved on this device — not yet in a shared database",
       localBadgeShort: "saved locally",
+      communityBadge: "Community submission",
+      communityBadgeShort: "community",
 
       pdfImportOr: "or",
       btnImportPdf: "Upload a PDF instead",
@@ -1713,6 +1719,8 @@
 
       s6NoticeStrong: "Die Anmeldung ist noch nicht eingerichtet.",
       s6Notice: "Sobald es Konten gibt, wird für das Einreichen eines Rezepts eines benötigt — bis dahin zeigt dies genau, was Ihre Einreichung ergeben würde, bereit zum Kopieren.",
+      s6NoticeStrongLive: "Dies wird öffentlich sichtbar.",
+      s6NoticeLive: "Beim Speichern wird dieses Rezept mit allen geteilt, die diese Seite besuchen — unter Ihrem angemeldeten Konto ({email}).",
       untitledRecipe: "Unbenanntes Rezept",
       blockIngredientsPhoto: "Zutatenfoto", blockFinalPhoto: "Foto des fertigen Gerichts",
       misePlaceholder: "Mise-en-Place-Platzhalter für {n} Zutaten — noch nicht erstellt",
@@ -1723,11 +1731,15 @@
       copiedStatus: "Kopiert.", copyFailStatus: "Automatisches Kopieren fehlgeschlagen — Text unten markieren.",
       btnSaveRecipe: "Rezept speichern", savedBtnLabel: "Gespeichert ✓",
       saveHint: "Es gibt noch keine Konten, daher bleibt ein gespeichertes Rezept nur in diesem Browser (nicht sichtbar für andere, die diese Seite besuchen). Eine echte Datenbank ersetzt das, sobald sie angebunden ist.",
+      saveHintLive: "Angemeldet als {email} — beim Speichern wird dieses Rezept mit allen unter „Durchsuchen“ geteilt.",
       savedStatus: "In diesem Browser gespeichert — erscheint unter „Durchsuchen“ und bleibt dort, bis der lokale Speicher dieses Geräts gelöscht wird.",
+      savedStatusLive: "Gespeichert — jetzt für alle unter „Durchsuchen“ sichtbar.",
       saveFailedStatus: "Speichern nicht möglich — dieser Browser blockiert eventuell den lokalen Speicher.",
       actionRemoveLocal: "Von diesem Gerät entfernen",
       localBadge: "Auf diesem Gerät gespeichert — noch nicht in einer gemeinsamen Datenbank",
       localBadgeShort: "lokal gespeichert",
+      communityBadge: "Community-Beitrag",
+      communityBadgeShort: "Community",
 
       pdfImportOr: "oder",
       btnImportPdf: "Stattdessen ein PDF hochladen",
@@ -2172,7 +2184,7 @@
       card.style.animationDelay = Math.min(i * 45, 450) + "ms";
       const total = r.prep_time_minutes + r.cook_time_minutes;
       card.innerHTML = `
-        <span class="rc-cuisine">${cuisineLabel(r.cuisine)} · ${categoryLabel(r.category)}${r.source === "user-submitted" ? " · " + t("localBadgeShort") : ""}${r.submitted_kitchen ? " · 🍳 " + esc(r.submitted_kitchen) : ""}</span>
+        <span class="rc-cuisine">${cuisineLabel(r.cuisine)} · ${categoryLabel(r.category)}${r.source === "user-submitted" ? " · " + (supa ? t("communityBadgeShort") : t("localBadgeShort")) : ""}${r.submitted_kitchen ? " · 🍳 " + esc(r.submitted_kitchen) : ""}</span>
         <span class="rc-title">${esc(locTitle(r))}</span>
         <div class="rc-meta">
           <span>${total} ${t("minLbl")}</span>
@@ -2381,7 +2393,7 @@
     el.innerHTML = `
       <div class="detail-eyebrow">${cuisineLabel(r.cuisine)} · ${categoryLabel(r.category)}</div>
       <h2>${esc(locTitle(r))}</h2>
-      ${r.source === "user-submitted" ? `<span class="pill" style="margin-top:8px;display:inline-block;">${t("localBadge")}</span>` : ""}
+      ${r.source === "user-submitted" ? `<span class="pill" style="margin-top:8px;display:inline-block;">${supa ? t("communityBadge") : t("localBadge")}</span>` : ""}
       ${r.submitted_kitchen ? `<span class="pill" style="margin-top:8px;margin-left:6px;display:inline-block;">🍳 ${esc(r.submitted_kitchen)}</span>` : ""}
       ${locDescription(r) ? `<p class="detail-desc">${esc(locDescription(r))}</p>` : ""}
       ${recipeActionsHtml({ showRemove: canManageRecipe(r) })}
@@ -3887,7 +3899,7 @@
       ${r.submitted_kitchen ? `<span class="pill" style="margin-bottom:8px;display:inline-block;">🍳 ${esc(r.submitted_kitchen)}</span>` : ""}
       <div class="notice-banner no-print">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="13"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-        <span><strong>${t("s6NoticeStrong")}</strong> ${t("s6Notice")}</span>
+        <span><strong>${supa ? t("s6NoticeStrongLive") : t("s6NoticeStrong")}</strong> ${supa ? tf("s6NoticeLive", { email: currentUser.email }) : t("s6Notice")}</span>
       </div>
       ${unused.length ? `
       <div class="notice-banner no-print" style="border-color:var(--warn,#b45309);">
@@ -3924,7 +3936,7 @@
 
       <div class="tags-footer">${tags}<span class="source-note">${t("sourceDraftPreview")}</span></div>
 
-      <p class="field-hint" style="margin:18px 0 0;">${t("saveHint")}</p>
+      <p class="field-hint" style="margin:18px 0 0;">${supa ? tf("saveHintLive", { email: currentUser.email }) : t("saveHint")}</p>
       <div class="review-actions no-print">
         <button class="btn-secondary" id="wizard-restart" type="button">${t("btnStartOver")}</button>
         <button class="btn-primary" id="save-recipe" type="button">${t("btnSaveRecipe")}</button>
@@ -3955,7 +3967,7 @@
         await refreshRecipes();
         state.shuffledOrder.push(r.id);
         saveBtn.textContent = t("savedBtnLabel");
-        status.textContent = t("savedStatus");
+        status.textContent = supa ? t("savedStatusLive") : t("savedStatus");
         const savedId = r.id;
         setTimeout(() => {
           Object.assign(wiz, { step: 1, servings: 4, title: "", description: "", cuisine: "", category: "main", difficulty: "medium", prepMin: 15, cookMin: 20, dietary: [], tags: "", ingredients: [], ingredientPrepHints: [], instructions: [], keySteps: [] });
