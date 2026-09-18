@@ -376,6 +376,16 @@
   }
   .diff-dots i.filled { background: var(--accent-2); }
 
+  /* ---------- My Recipes (own submissions, grouped by kitchen) ---------- */
+  .my-recipes { margin-bottom: 28px; }
+  .my-recipes-group { margin-bottom: 16px; }
+  .my-recipes-group:last-child { margin-bottom: 0; }
+
+  /* ---------- Recommended stores (mock — no real storefront yet) ---------- */
+  .store-card { cursor: default; }
+  .store-card:hover { transform: none; box-shadow: none; border-color: var(--line); }
+  .store-buy-btn { align-self: flex-start; }
+
   .empty-state {
     padding: 40px 20px;
     text-align: center;
@@ -1277,6 +1287,10 @@
       <div class="quick-rows" id="quick-rows"></div>
     </div>
 
+    <div class="my-recipes" id="my-recipes-section" hidden>
+      <div id="my-recipes-groups"></div>
+    </div>
+
     <div class="discover">
       <div class="discover-header">
         <span class="discover-label" id="discover-label">Recipes popping up now</span>
@@ -1287,6 +1301,33 @@
       </div>
       <div class="carousel-viewport" id="carousel-viewport">
         <div class="carousel-track" id="carousel-track"></div>
+      </div>
+    </div>
+
+    <div class="discover" id="recommend-section" hidden>
+      <div class="discover-header">
+        <span class="discover-label" id="recommend-label">Recommended for you</span>
+        <div class="discover-controls">
+          <button class="carousel-btn" id="recommend-prev" type="button" aria-label="Scroll left">‹</button>
+          <button class="carousel-btn" id="recommend-next" type="button" aria-label="Scroll right">›</button>
+        </div>
+      </div>
+      <div class="carousel-viewport" id="recommend-viewport">
+        <div class="carousel-track" id="recommend-track"></div>
+      </div>
+    </div>
+
+    <div class="discover" id="stores-section">
+      <div class="discover-header">
+        <span class="discover-label" id="stores-label">Recommended stores</span>
+        <div class="discover-controls">
+          <button class="carousel-btn" id="stores-prev" type="button" aria-label="Scroll left">‹</button>
+          <button class="carousel-btn" id="stores-next" type="button" aria-label="Scroll right">›</button>
+        </div>
+      </div>
+      <p class="field-hint" id="stores-note">Sample stores — not yet connected to a real marketplace.</p>
+      <div class="carousel-viewport" id="stores-viewport">
+        <div class="carousel-track" id="stores-track"></div>
       </div>
     </div>
 
@@ -1378,21 +1419,23 @@
   // "add to one of your existing kitchens" instead of only ever
   // remembering the single last-used name in this one browser's
   // localStorage (loadLastKitchenName(), still the local-only fallback).
+  // Derived straight from the already-loaded RECIPES array (must be
+  // called after refreshRecipes(), not before) rather than a separate
+  // Supabase query — RecipeStore.list() already fetches submitted_by and
+  // submitted_kitchen for every recipe.
   let myKitchenNames = [];
-  async function loadMyKitchenNames() {
-    if (!supa || !currentUser) { myKitchenNames = []; return; }
-    const { data, error } = await supa
-      .from("recipes")
-      .select("submitted_kitchen, created_at")
-      .eq("submitted_by", currentUser.id)
-      .order("created_at", { ascending: false });
-    if (error || !data) { myKitchenNames = []; return; }
+  function computeMyKitchenNames() {
+    if (!currentUser) { myKitchenNames = []; return; }
     const seen = new Set();
     myKitchenNames = [];
-    data.forEach((row) => {
-      const name = row.submitted_kitchen;
-      if (name && !seen.has(name)) { seen.add(name); myKitchenNames.push(name); }
-    });
+    RECIPES
+      .filter(r => r.submitted_by === currentUser.id)
+      .slice()
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .forEach(r => {
+        const name = r.submitted_kitchen;
+        if (name && !seen.has(name)) { seen.add(name); myKitchenNames.push(name); }
+      });
     // Signed-in kitchen history is more authoritative than this one
     // browser's localStorage guess (which won't follow the user across
     // devices) — prefer it as the default, but don't clobber something
@@ -1532,6 +1575,12 @@
       discoverDefault: "Recipes popping up now",
       recipeFoundOne: "recipe found", recipeFoundMany: "recipes found",
       emptyStateNoMatch: "No recipes match. Try clearing a filter.",
+      myRecipesLbl: "My Recipes", myRecipesUnnamedKitchen: "Unsorted",
+      recommendLbl: "Recommended for you",
+      storesLbl: "Recommended stores",
+      storesNote: "Sample stores — not yet connected to a real marketplace.",
+      storeSampleTag: "Sample store",
+      actionCompareStore: "Compare & buy at Oppidu",
       detailClose: "✕ Close",
       blockIngredients: "Ingredients", blockMethod: "Method",
       blockNutrition: "Nutrition (estimated)",
@@ -1673,6 +1722,12 @@
       discoverDefault: "Aktuell beliebte Rezepte",
       recipeFoundOne: "Rezept gefunden", recipeFoundMany: "Rezepte gefunden",
       emptyStateNoMatch: "Keine passenden Rezepte. Versuchen Sie, einen Filter zu entfernen.",
+      myRecipesLbl: "Meine Rezepte", myRecipesUnnamedKitchen: "Unsortiert",
+      recommendLbl: "Für Sie empfohlen",
+      storesLbl: "Empfohlene Geschäfte",
+      storesNote: "Beispiel-Geschäfte — noch nicht mit einem echten Marktplatz verbunden.",
+      storeSampleTag: "Beispiel-Geschäft",
+      actionCompareStore: "Bei Oppidu vergleichen & kaufen",
       detailClose: "✕ Schließen",
       blockIngredients: "Zutaten", blockMethod: "Zubereitung",
       blockNutrition: "Nährwerte (geschätzt)",
@@ -2201,6 +2256,25 @@
     return filtered.sort((a, b) => scoreForSort(a) - scoreForSort(b) || locTitle(a).localeCompare(locTitle(b)));
   }
 
+  function makeRecipeCard(r, i) {
+    const card = document.createElement("button");
+    card.className = "recipe-card";
+    card.style.animationDelay = Math.min(i * 45, 450) + "ms";
+    const total = r.prep_time_minutes + r.cook_time_minutes;
+    card.innerHTML = `
+      <span class="rc-cuisine">${cuisineLabel(r.cuisine)} · ${categoryLabel(r.category)}${r.source === "user-submitted" ? " · " + (supa ? t("communityBadgeShort") : t("localBadgeShort")) : ""}${r.submitted_kitchen ? " · 🍳 " + esc(r.submitted_kitchen) : ""}</span>
+      <span class="rc-title">${esc(locTitle(r))}</span>
+      <div class="rc-meta">
+        <span>${total} ${t("minLbl")}</span>
+        <span>·</span>
+        <span>${r.servings} ${t("servingsLbl")}</span>
+        <span>·</span>
+        ${diffDots(r.difficulty)}
+      </div>`;
+    card.onclick = () => selectRecipe(r.id);
+    return card;
+  }
+
   function renderCarousel() {
     const track = document.getElementById("carousel-track");
     const results = currentResults();
@@ -2215,22 +2289,112 @@
       return;
     }
 
-    results.forEach((r, i) => {
-      const card = document.createElement("button");
-      card.className = "recipe-card";
+    results.forEach((r, i) => track.appendChild(makeRecipeCard(r, i)));
+  }
+
+  // Every recipe the signed-in user has submitted, grouped by kitchen
+  // name (most-recently-used kitchen first, newest recipe first within
+  // each group) — derived straight from the already-loaded RECIPES array,
+  // no separate query needed since RecipeStore.list() already fetches
+  // submitted_by/submitted_kitchen for every recipe.
+  function myRecipeGroups() {
+    if (!currentUser) return [];
+    const mine = RECIPES.filter(r => r.submitted_by === currentUser.id);
+    if (!mine.length) return [];
+    const byDateDesc = (a, b) => new Date(b.created_at) - new Date(a.created_at);
+    mine.sort(byDateDesc);
+    const order = [];
+    const seen = new Set();
+    mine.forEach(r => {
+      const name = r.submitted_kitchen || t("myRecipesUnnamedKitchen");
+      if (!seen.has(name)) { seen.add(name); order.push(name); }
+    });
+    return order.map(kitchen => ({
+      kitchen,
+      recipes: mine.filter(r => (r.submitted_kitchen || t("myRecipesUnnamedKitchen")) === kitchen),
+    }));
+  }
+
+  function renderMyRecipes() {
+    const section = document.getElementById("my-recipes-section");
+    const wrap = document.getElementById("my-recipes-groups");
+    const groups = myRecipeGroups();
+    if (!groups.length) { section.hidden = true; wrap.innerHTML = ""; return; }
+    section.hidden = false;
+    wrap.innerHTML = "";
+    groups.forEach(g => {
+      const block = document.createElement("div");
+      block.className = "discover my-recipes-group";
+      const header = document.createElement("div");
+      header.className = "discover-header";
+      const label = document.createElement("span");
+      label.className = "discover-label";
+      label.textContent = t("myRecipesLbl") + " › " + g.kitchen;
+      header.appendChild(label);
+      block.appendChild(header);
+      const viewport = document.createElement("div");
+      viewport.className = "carousel-viewport";
+      const track = document.createElement("div");
+      track.className = "carousel-track";
+      g.recipes.forEach((r, i) => track.appendChild(makeRecipeCard(r, i)));
+      viewport.appendChild(track);
+      block.appendChild(viewport);
+      wrap.appendChild(block);
+    });
+  }
+
+  // A fixed set of randomly-picked recipes shown as "Recommended for
+  // you" — reshuffled whenever the recipe list itself is (re)loaded, not
+  // on every keystroke/filter change, so the row doesn't jump around
+  // while someone is just searching or filtering.
+  let recommendedIds = [];
+  function reshuffleRecommended() {
+    recommendedIds = shuffleArray(RECIPES.map(r => r.id)).slice(0, 10);
+  }
+
+  function renderRecommended() {
+    const section = document.getElementById("recommend-section");
+    const track = document.getElementById("recommend-track");
+    document.getElementById("recommend-label").textContent = t("recommendLbl");
+    const recs = recommendedIds.map(id => RECIPES.find(r => r.id === id)).filter(Boolean);
+    if (recs.length < 2) { section.hidden = true; return; }
+    section.hidden = false;
+    track.innerHTML = "";
+    recs.forEach((r, i) => track.appendChild(makeRecipeCard(r, i)));
+  }
+
+  // Mock storefronts — no real marketplace integration yet (see README).
+  // Presented explicitly as samples (label + note) so this never reads as
+  // real store/product data.
+  const MOCK_STORES = [
+    { emoji: "🛒", name: "GreenBasket Market", blurb: "Fresh produce & pantry staples" },
+    { emoji: "🌶️", name: "SpiceRoute Traders", blurb: "Whole spices & specialty flours" },
+    { emoji: "🥩", name: "Corner Butchery", blurb: "Meat, poultry & fish" },
+    { emoji: "🧀", name: "Dairy & Co.", blurb: "Milk, cheese & eggs" },
+    { emoji: "🌍", name: "Global Pantry", blurb: "International & hard-to-find ingredients" },
+  ];
+
+  function renderStores() {
+    document.getElementById("stores-label").textContent = t("storesLbl");
+    document.getElementById("stores-note").textContent = t("storesNote");
+    const track = document.getElementById("stores-track");
+    track.innerHTML = "";
+    MOCK_STORES.forEach((s, i) => {
+      const card = document.createElement("div");
+      card.className = "recipe-card store-card";
       card.style.animationDelay = Math.min(i * 45, 450) + "ms";
-      const total = r.prep_time_minutes + r.cook_time_minutes;
       card.innerHTML = `
-        <span class="rc-cuisine">${cuisineLabel(r.cuisine)} · ${categoryLabel(r.category)}${r.source === "user-submitted" ? " · " + (supa ? t("communityBadgeShort") : t("localBadgeShort")) : ""}${r.submitted_kitchen ? " · 🍳 " + esc(r.submitted_kitchen) : ""}</span>
-        <span class="rc-title">${esc(locTitle(r))}</span>
-        <div class="rc-meta">
-          <span>${total} ${t("minLbl")}</span>
-          <span>·</span>
-          <span>${r.servings} ${t("servingsLbl")}</span>
-          <span>·</span>
-          ${diffDots(r.difficulty)}
-        </div>`;
-      card.onclick = () => selectRecipe(r.id);
+        <span class="rc-cuisine">${s.emoji} ${t("storeSampleTag")}</span>
+        <span class="rc-title">${esc(s.name)}</span>
+        <div class="rc-meta"><span>${esc(s.blurb)}</span></div>
+        <button class="action-btn action-btn-accent store-buy-btn" type="button">${CART_ICON} ${t("actionCompareStore")}</button>
+        <span class="action-status store-status"></span>`;
+      const btn = card.querySelector(".store-buy-btn");
+      const status = card.querySelector(".store-status");
+      btn.onclick = () => {
+        status.textContent = t("actionCompareStatus");
+        setTimeout(() => { status.textContent = ""; }, 3500);
+      };
       track.appendChild(card);
     });
   }
@@ -2251,12 +2415,17 @@
 
   document.getElementById("detail-close").onclick = closeDetail;
   document.getElementById("hero-submit-btn").onclick = () => switchTab("submit");
-  document.getElementById("carousel-prev").onclick = () => {
-    document.getElementById("carousel-viewport").scrollBy({ left: -260, behavior: "smooth" });
-  };
-  document.getElementById("carousel-next").onclick = () => {
-    document.getElementById("carousel-viewport").scrollBy({ left: 260, behavior: "smooth" });
-  };
+  function wireCarouselButtons(prevId, nextId, viewportId) {
+    document.getElementById(prevId).onclick = () => {
+      document.getElementById(viewportId).scrollBy({ left: -260, behavior: "smooth" });
+    };
+    document.getElementById(nextId).onclick = () => {
+      document.getElementById(viewportId).scrollBy({ left: 260, behavior: "smooth" });
+    };
+  }
+  wireCarouselButtons("carousel-prev", "carousel-next", "carousel-viewport");
+  wireCarouselButtons("recommend-prev", "recommend-next", "recommend-viewport");
+  wireCarouselButtons("stores-prev", "stores-next", "stores-viewport");
 
   /* ---------- Shared recipe actions: download / print / compare&buy ----------
      "Compare & buy ingredients" is intentionally just a button for now — no
@@ -2476,6 +2645,9 @@
   function render() {
     buildQuickRows();
     renderCarousel();
+    renderMyRecipes();
+    renderRecommended();
+    renderStores();
   }
 
   document.getElementById("search").addEventListener("input", (e) => {
@@ -2491,6 +2663,7 @@
   // actually loaded — a link straight to someone's submission still
   // resolves correctly, just a beat later.
   state.shuffledOrder = shuffleArray(RECIPES.map(r => r.id));
+  reshuffleRecommended();
   if (location.hash) {
     const id = location.hash.slice(1);
     if (RECIPES.some(r => r.id === id)) state.selected = id;
@@ -2514,7 +2687,6 @@
         const { data: { session } } = await supa.auth.getSession();
         currentUser = session ? session.user : null;
         await loadProfile();
-        await loadMyKitchenNames();
       } catch (err) {
         console.error("Supabase auth init failed:", err);
         currentUser = null;
@@ -2524,9 +2696,10 @@
         if (event === "PASSWORD_RECOVERY") { renderPasswordRecoveryWidget(); return; }
         currentUser = newSession ? newSession.user : null;
         await loadProfile();
-        await loadMyKitchenNames();
         renderAuthWidget();
         await refreshRecipes();
+        computeMyKitchenNames();
+        reshuffleRecommended();
         render();
         if (!document.getElementById("view-submit").hidden) renderStepCard();
       });
@@ -2535,6 +2708,8 @@
 
     await refreshRecipes();
     state.shuffledOrder = shuffleArray(RECIPES.map(r => r.id));
+    computeMyKitchenNames();
+    reshuffleRecommended();
     if (location.hash) {
       const id = location.hash.slice(1);
       if (RECIPES.some(r => r.id === id)) state.selected = id;
@@ -3853,9 +4028,10 @@
           ${ingredientHintsHtml}
           ${templateGroups}
           ${isEditingStep ? `<div class="editing-flag">✎ ${t("btnEdit")} — ${t("step")} ${editingStepIndex + 1}</div>` : ""}
-          <div class="field" style="margin-top:16px;">
+          <div class="field autocomplete-wrap" style="margin-top:16px;">
             <label for="step-text">${t("lblStepText")}</label>
             <textarea id="step-text" placeholder="${t("placeholderStepText")}">${isEditingStep ? esc(wiz.instructions[editingStepIndex]) : ""}</textarea>
+            <div class="suggestion-list" id="step-ingredient-suggest" hidden></div>
           </div>
           <label class="key-step-toggle"><input type="checkbox" id="step-keyphoto" ${isEditingStep && wiz.keySteps[editingStepIndex] ? "checked" : ""}> ${t("keyStepToggleLbl")}</label>
           <div>
@@ -3883,6 +4059,55 @@
     });
     textArea.addEventListener("input", () => { if (!manualOverride) keyBox.checked = looksLikeKeyStep(textArea.value); });
     keyBox.addEventListener("change", () => { manualOverride = true; });
+
+    // Autofill for the ingredients already added to this recipe (not the
+    // whole reference database — see ingredientAutocomplete() for that)
+    // while typing a free-text step, so "dice the ch…" can complete to
+    // the exact ingredient name already on the list.
+    const stepIngredientNames = Array.from(new Set(
+      wiz.ingredients.map(ing => displayIngredientName(ing.name)).filter(Boolean)
+    ));
+    const stepSuggestBox = document.getElementById("step-ingredient-suggest");
+    function currentWordAtCursor(text, cursor) {
+      const upto = text.slice(0, cursor);
+      const m = upto.match(/[\p{L}\p{N}'-]+$/u);
+      if (!m) return null;
+      return { start: cursor - m[0].length, end: cursor, word: m[0] };
+    }
+    function showStepIngredientSuggestions() {
+      if (!stepIngredientNames.length) return;
+      const cursor = textArea.selectionStart;
+      const bounds = currentWordAtCursor(textArea.value, cursor);
+      if (!bounds || bounds.word.length < 2) { stepSuggestBox.hidden = true; return; }
+      const q = bounds.word.toLowerCase();
+      let matches = stepIngredientNames.filter(n => n.toLowerCase().startsWith(q));
+      if (!matches.length) matches = stepIngredientNames.filter(n => n.toLowerCase().includes(q));
+      if (!matches.length) { stepSuggestBox.hidden = true; return; }
+      stepSuggestBox.innerHTML = matches.slice(0, 6)
+        .map(n => `<div class="suggestion-item" data-pick="${esc(n)}"><span>${esc(n)}</span></div>`).join("");
+      stepSuggestBox.dataset.wordStart = bounds.start;
+      stepSuggestBox.dataset.wordEnd = bounds.end;
+      stepSuggestBox.hidden = false;
+    }
+    textArea.addEventListener("input", showStepIngredientSuggestions);
+    textArea.addEventListener("keyup", (e) => {
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") showStepIngredientSuggestions();
+    });
+    textArea.addEventListener("blur", () => setTimeout(() => { stepSuggestBox.hidden = true; }, 150));
+    stepSuggestBox.addEventListener("mousedown", (e) => {
+      const item = e.target.closest("[data-pick]");
+      if (!item) return;
+      e.preventDefault();
+      const start = parseInt(stepSuggestBox.dataset.wordStart, 10);
+      const end = parseInt(stepSuggestBox.dataset.wordEnd, 10);
+      const name = item.dataset.pick;
+      textArea.value = textArea.value.slice(0, start) + name + textArea.value.slice(end);
+      const newCursor = start + name.length;
+      stepSuggestBox.hidden = true;
+      textArea.focus();
+      textArea.setSelectionRange(newCursor, newCursor);
+      if (!manualOverride) keyBox.checked = looksLikeKeyStep(textArea.value);
+    });
 
     document.getElementById("step-add").onclick = () => {
       const text = textArea.value.trim();
